@@ -9,7 +9,6 @@ namespace WebApiTemplate.WebApi.Controllers
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
-
         private readonly IProductService _productService;
 
         public ProductController(IProductService productService)
