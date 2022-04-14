@@ -15,7 +15,7 @@ namespace WebApiTemplate.Persistence
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new ProductDbConfiguration());
+            builder.ApplyConfigurationsFromAssembly(typeof(ProductDbConfiguration).Assembly);
 
             base.OnModelCreating(builder);
         }
