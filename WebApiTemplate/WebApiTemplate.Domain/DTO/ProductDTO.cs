@@ -1,6 +1,6 @@
 ﻿using WebApiTemplate.Domain.Entities;
 
-namespace WebApiTemplate.Domain.DTO
+namespace WebApiTemplate.Domain.Dto
 {
     public class ProductDto
     {

@@ -1,5 +1,5 @@
 using Xunit;
-using WebApiTemplate.Domain.DTO;
+using WebApiTemplate.Domain.Dto;
 using System.Collections.Generic;
 using WebApiTemplate.Application.Interfaces;
 using WebApiTemplate.Application.Services;

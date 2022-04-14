@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApiTemplate.Domain.DTO;
+using WebApiTemplate.Domain.Dto;
 using WebApiTemplate.Application.Interfaces;
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Domain.Entities;
