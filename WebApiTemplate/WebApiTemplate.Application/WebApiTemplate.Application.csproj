@@ -15,4 +15,8 @@
     <ProjectReference Include="..\WebApiTemplate.Persistence\WebApiTemplate.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

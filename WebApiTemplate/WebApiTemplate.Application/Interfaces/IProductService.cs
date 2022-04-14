@@ -1,4 +1,4 @@
-﻿using WebApiTemplate.Application.Models.DTO;
+﻿using WebApiTemplate.Domain.DTO;
 
 namespace WebApiTemplate.Application.Interfaces
 {

@@ -20,4 +20,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebApiTemplate.Application\WebApiTemplate.Application.csproj" />
+    <ProjectReference Include="..\WebApiTemplate.Domain\WebApiTemplate.Domain.csproj" />
+    <ProjectReference Include="..\WebApiTemplate.Persistence\WebApiTemplate.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
