@@ -2,6 +2,7 @@ using WebApiTemplate.Persistence;
 using WebApiTemplate.Application.Interfaces;
 using WebApiTemplate.Application.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 const string BaseDirectory = "[BaseDirectory]";
 
@@ -25,6 +26,11 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(c
 
 builder.Services
     .AddScoped<IProductService, ProductService>();
+
+builder.Host.UseSerilog((context, config) => 
+{
+    config.WriteTo.File("logs.log", rollingInterval: RollingInterval.Day);
+});
 
 var app = builder.Build();
 
