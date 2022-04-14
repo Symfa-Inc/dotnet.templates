@@ -11,7 +11,7 @@ namespace WebApiTemplate.Persistence
             : base(options)
         { }
 
-        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

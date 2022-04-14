@@ -31,7 +31,11 @@ builder.Services
 
 builder.Host.UseSerilog((context, config) =>
 {
-    config.WriteTo.File("logs.log", rollingInterval: RollingInterval.Day);
+    string logPath = builder.Configuration["Settings:LogPath"];
+    string logName = builder.Configuration["Settings:LogName"];
+    string logPathFull = Path.Combine(logPath, logName);
+
+    config.WriteTo.File(logPathFull, rollingInterval: RollingInterval.Day);
 });
 
 var app = builder.Build();
