@@ -1,4 +1,4 @@
-﻿namespace WebApiTemplate.Domain.Models
+﻿namespace WebApiTemplate.Domain.Entities
 {
     public class Product
     {

@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebApiTemplate.Domain\WebApiTemplate.Domain.csproj" />
+    <ProjectReference Include="..\WebApiTemplate.Persistence\WebApiTemplate.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

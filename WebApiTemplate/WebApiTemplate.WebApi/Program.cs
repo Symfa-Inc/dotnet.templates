@@ -1,25 +1,40 @@
+using WebApiTemplate.Persistence;
+using WebApiTemplate.Application.Interfaces;
+using WebApiTemplate.Application.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
+builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services
+    .AddScoped<IProductService, ProductService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
+
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(x =>
+    {
+        x.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
+    });
+    app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+}
+else
+{
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
