@@ -28,5 +28,7 @@ namespace WebApiTemplate.WebApi.Controllers
                                Response: '{JsonConvert.SerializeObject(vm)}'");
             return Ok(vm);
         }
+
+        // TODO: add post, put, delete
     }
 }

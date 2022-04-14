@@ -2,7 +2,7 @@
 
 namespace WebApiTemplate.Domain.DTO
 {
-    public class ProductDTO
+    public class ProductDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -10,9 +10,9 @@ namespace WebApiTemplate.Domain.DTO
 
     public static class ProductDTOExtension
     {
-        public static ProductDTO ToDTO(this Product product)
+        public static ProductDto ToDTO(this Product product)
         {
-            return new ProductDTO
+            return new ProductDto
             {
                 Id = product.Id,
                 Name = product.Name,

@@ -18,7 +18,7 @@ namespace WebApiTemplate.Application.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             List<Product> products = await _context.Products
                 .AsNoTracking()

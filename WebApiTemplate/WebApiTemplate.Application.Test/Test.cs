@@ -27,7 +27,7 @@ namespace WebApiTemplate.Application.Integration.Test
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
                 IProductService productService = new ProductService(context);
-                IEnumerable<ProductDTO> products = await productService.GetProductsAsync();
+                IEnumerable<ProductDto> products = await productService.GetProductsAsync();
                 Assert.True(products != null && products.Any());
             }
         }
