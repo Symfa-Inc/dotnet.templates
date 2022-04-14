@@ -11,8 +11,6 @@ namespace WebApiTemplate.Persistence.Migrations
         {
             var stringBuilder = new StringBuilder();
 
-            // === 1. Interests
-
             stringBuilder.AppendLine(@"INSERT INTO Products(Name) 
                 VALUES 
                 ('Ball'),
