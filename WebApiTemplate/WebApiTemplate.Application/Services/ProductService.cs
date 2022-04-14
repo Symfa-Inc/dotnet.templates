@@ -9,23 +9,22 @@ namespace WebApiTemplate.Application.Services
     public class ProductService : IProductService
     {
 
-        //private readonly DatabaseContext _context;
+        private readonly DatabaseContext _context;
 
         public ProductService(
-            //DatabaseContext context
+            DatabaseContext context
             )
         {
-            //_context = context;
+            _context = context;
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProductsAsync()
         {
-            return null;
-            //List<Product> products = await _context.Products
-            //    .AsNoTracking()
-            //    .ToListAsync();
+            List<Product> products = await _context.Products
+                .AsNoTracking()
+                .ToListAsync();
 
-            //return products.Select(x => x.ToDTO());
+            return products.Select(x => x.ToDTO());
         }
     }
 }

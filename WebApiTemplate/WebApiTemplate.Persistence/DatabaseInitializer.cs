@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace WebApiTemplate.Persistence
 {
@@ -10,8 +6,10 @@ namespace WebApiTemplate.Persistence
     {
         public static void Initialize(DatabaseContext context)
         {
-            // Create database if not exists
-            context.Database.EnsureCreated();
+            if (!context.Database.CanConnect())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }

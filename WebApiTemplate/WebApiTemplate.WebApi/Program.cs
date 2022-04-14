@@ -1,6 +1,9 @@
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Application.Interfaces;
 using WebApiTemplate.Application.Services;
+using Microsoft.EntityFrameworkCore;
+
+const string BaseDirectory = "[BaseDirectory]";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,12 +14,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 string connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-//builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
+
+if (connectionString.Contains(BaseDirectory))
+{
+    string contentRootPath = Directory.GetCurrentDirectory();
+    connectionString = connectionString.Replace(BaseDirectory, contentRootPath);
+}
+
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services
     .AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    DatabaseContext databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    DatabaseInitializer.Initialize(databaseContext);
+}
 
 if (app.Environment.IsDevelopment())
 {
