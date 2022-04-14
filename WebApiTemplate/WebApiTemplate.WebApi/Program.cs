@@ -8,8 +8,6 @@ const string BaseDirectory = "[BaseDirectory]";
 
 var builder = WebApplication.CreateBuilder(args);
 
-// TODO add appsettings.json with env logic
-
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
 builder.Services.AddCors();
