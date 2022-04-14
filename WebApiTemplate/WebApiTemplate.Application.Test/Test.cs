@@ -11,18 +11,14 @@ namespace WebApiTemplate.Application.Integration.Test
 {
     public class Test
     {
-        const string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=[BaseDirectory]\\App_Data\\WebApiTemplate.mdf;Initial Catalog=WebApiTemplate;Trusted_Connection=True;";
-        const string BaseDirectory = "[BaseDirectory]";
-        const string BaseDirectoryPath = "C:\\Kovaluk\\projects\\ais.dotnet.templates\\WebApiTemplate\\WebApiTemplate.WebApi";
+        const string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Kovaluk\\projects\\ais.dotnet.templates\\WebApiTemplate\\WebApiTemplate.WebApi\\App_Data\\WebApiTemplate.mdf;Initial Catalog=WebApiTemplate;Trusted_Connection=True;";
 
         [Fact]
         public async void TestProducts()
         {
-            string connectionString = GetConnectionString();
-
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(ConnectionString);
 
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
@@ -31,21 +27,5 @@ namespace WebApiTemplate.Application.Integration.Test
                 Assert.True(products != null && products.Any());
             }
         }
-
-        #region PrivateMethods
-
-        private string GetConnectionString()
-        {
-            var connectionString = ConnectionString;
-
-            if (connectionString.Contains(BaseDirectory))
-            {
-                connectionString = connectionString.Replace(BaseDirectory, BaseDirectoryPath);
-            }
-
-            return connectionString;
-        }
-
-        #endregion
     }
 }
