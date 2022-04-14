@@ -31,7 +31,6 @@ builder.Services
 
 builder.Host.UseSerilog((context, config) =>
 {
-    // TODO: logs to server folder - logs folder
     config.WriteTo.File("logs.log", rollingInterval: RollingInterval.Day);
 });
 
