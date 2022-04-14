@@ -8,6 +8,8 @@ const string BaseDirectory = "[BaseDirectory]";
 
 var builder = WebApplication.CreateBuilder(args);
 
+// TODO add appsettings.json with env logic
+
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
 builder.Services.AddCors();
@@ -27,7 +29,7 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(c
 builder.Services
     .AddScoped<IProductService, ProductService>();
 
-builder.Host.UseSerilog((context, config) => 
+builder.Host.UseSerilog((context, config) =>
 {
     // TODO: logs to server folder - logs folder
     config.WriteTo.File("logs.log", rollingInterval: RollingInterval.Day);
