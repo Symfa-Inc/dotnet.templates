@@ -8,12 +8,9 @@ namespace WebApiTemplate.Application.Services
 {
     public class ProductService : IProductService
     {
-
         private readonly DatabaseContext _context;
 
-        public ProductService(
-            DatabaseContext context
-            )
+        public ProductService(DatabaseContext context)
         {
             _context = context;
         }
