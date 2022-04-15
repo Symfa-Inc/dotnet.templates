@@ -10,7 +10,7 @@ namespace WebApiTemplate.Application.Models.Product
 
     public static class ProductViewExtension
     {
-        public static ProductView ToView(this ProductDto productDto)
+        public static ProductView ToView(this ProductDtoq productDto)
         {
             return new ProductView
             {
