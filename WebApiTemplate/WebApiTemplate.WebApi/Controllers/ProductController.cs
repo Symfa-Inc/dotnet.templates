@@ -47,7 +47,7 @@ namespace WebApiTemplate.WebApi.Controllers
             return null;
         }
 
-        [HttpPut]
+        [HttpDelete]
         [Route("delete-product")]
         public async Task<IActionResult> DeleteProductAsync(int productId)
         {
