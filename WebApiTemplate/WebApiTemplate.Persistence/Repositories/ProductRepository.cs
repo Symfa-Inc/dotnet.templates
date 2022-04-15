@@ -13,7 +13,7 @@ namespace WebApiTemplate.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductDtoq>> GetProductsAsync()
+        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
             var products = await _context.Products
                 .AsNoTracking()
