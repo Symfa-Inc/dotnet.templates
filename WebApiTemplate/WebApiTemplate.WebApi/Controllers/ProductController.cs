@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Application.Interfaces;
 using Serilog;
 using Newtonsoft.Json;
+using WebApiTemplate.Application.Models.Product;
 
 namespace WebApiTemplate.WebApi.Controllers
 {
@@ -28,6 +29,32 @@ namespace WebApiTemplate.WebApi.Controllers
             return Ok(vm);
         }
 
-        // TODO: add post, put, delete
+        [HttpPost]
+        [Route("create-product")]
+        public async Task<IActionResult> CreateProductAsync(ProductInput productInput)
+        {
+            //var vm = await _productService.CreateProductAsync(productInput);
+            //return Ok(vm);
+            return null;
+        }
+
+        [HttpPut]
+        [Route("update-product")]
+        public async Task<IActionResult> UpdateProductAsync(ProductInput productInput)
+        {
+            //var vm = await _productService.UpdateProductAsync(productInput);
+            //return Ok(vm);
+            return null;
+        }
+
+        [HttpPut]
+        [Route("delete-product")]
+        public async Task<IActionResult> DeleteProductAsync(int productId)
+        {
+            //await _productService.DeleteProductAsync(productId);
+            //return Ok();
+            return null;
+        }
+
     }
 }

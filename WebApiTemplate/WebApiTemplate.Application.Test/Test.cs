@@ -6,6 +6,8 @@ using WebApiTemplate.Application.Services;
 using System.Linq;
 using WebApiTemplate.Persistence;
 using Microsoft.EntityFrameworkCore;
+using WebApiTemplate.Persistence.Repositories;
+using WebApiTemplate.Application.Models.Product;
 
 namespace WebApiTemplate.Application.Integration.Test
 {
@@ -22,8 +24,9 @@ namespace WebApiTemplate.Application.Integration.Test
 
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
-                IProductService productService = new ProductService(context);
-                IEnumerable<ProductDto> products = await productService.GetProductsAsync();
+                IProductRepository productRepository = new ProductRepository(context);
+                IProductService productService = new ProductService(productRepository);
+                IEnumerable<ProductView> products = await productService.GetProductsAsync();
                 Assert.True(products != null && products.Any());
             }
         }

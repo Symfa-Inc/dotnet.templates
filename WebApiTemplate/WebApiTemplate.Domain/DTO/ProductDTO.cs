@@ -8,9 +8,9 @@ namespace WebApiTemplate.Domain.Dto
         public string Name { get; set; }
     }
 
-    public static class ProductDTOExtension
+    public static class ProductDtoExtension
     {
-        public static ProductDto ToDTO(this Product product)
+        public static ProductDto ToDto(this Product product)
         {
             return new ProductDto
             {

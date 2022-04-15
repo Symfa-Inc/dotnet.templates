@@ -1,9 +1,9 @@
-﻿using WebApiTemplate.Domain.Dto;
+﻿using WebApiTemplate.Application.Models.Product;
 
 namespace WebApiTemplate.Application.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetProductsAsync();
+        Task<IEnumerable<ProductView>> GetProductsAsync();
     }
 }

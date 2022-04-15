@@ -1,27 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApiTemplate.Domain.Dto;
 using WebApiTemplate.Application.Interfaces;
-using WebApiTemplate.Persistence;
-using WebApiTemplate.Domain.Entities;
+using WebApiTemplate.Persistence.Repositories;
+using WebApiTemplate.Application.Models.Product;
 
 namespace WebApiTemplate.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly DatabaseContext _context;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(DatabaseContext context)
+        public ProductService(IProductRepository productRepository)
         {
-            _context = context;
+            _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+        public async Task<IEnumerable<ProductView>> GetProductsAsync()
         {
-            List<Product> products = await _context.Products
-                .AsNoTracking()
-                .ToListAsync();
-
-            return products.Select(x => x.ToDTO());
+            var productsDto = await _productRepository.GetProductsAsync();
+            return productsDto.Select(x => x.ToView());
         }
     }
 }
