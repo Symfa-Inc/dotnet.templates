@@ -40,9 +40,9 @@ namespace WebApiTemplate.WebApi.Controllers
 
         [HttpPut]
         [Route("update-product")]
-        public async Task<IActionResult> UpdateProductAsync(ProductInput productInput)
+        public async Task<IActionResult> UpdateProductAsync(int productId, ProductInput productInput)
         {
-            //var vm = await _productService.UpdateProductAsync(productInput);
+            //var vm = await _productService.UpdateProductAsync(productId, productInput);
             //return Ok(vm);
             return null;
         }
