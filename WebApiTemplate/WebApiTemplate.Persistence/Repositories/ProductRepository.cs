@@ -22,19 +22,29 @@ namespace WebApiTemplate.Persistence.Repositories
             return products.Select(x => x.ToDto());
         }
 
-        public async Task CreateProductAsync(Product product)
+        public async Task<ProductDto> CreateProductAsync(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return product.ToDto();
         }
 
-        public async Task UpdateProductAsync(Product product)
+        public async Task<ProductDto> UpdateProductAsync(int productId, Product product)
         {
-            throw new NotImplementedException();
+            var productBase = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            if (productBase == null) return null;
+            productBase.Name = product.Name;
+            await _context.SaveChangesAsync();
+            return productBase.ToDto();
         }
 
-        public async Task DeleteProductAsync(int id)
+        public async Task<bool> DeleteProductAsync(int productId)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            if (product == null) return false;
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

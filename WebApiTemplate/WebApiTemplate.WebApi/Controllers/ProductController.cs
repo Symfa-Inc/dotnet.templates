@@ -33,27 +33,24 @@ namespace WebApiTemplate.WebApi.Controllers
         [Route("create-product")]
         public async Task<IActionResult> CreateProductAsync(ProductInput productInput)
         {
-            //var vm = await _productService.CreateProductAsync(productInput);
-            //return Ok(vm);
-            return null;
+            var vm = await _productService.CreateProductAsync(productInput);
+            return Ok(vm);
         }
 
         [HttpPut]
         [Route("update-product")]
         public async Task<IActionResult> UpdateProductAsync(int productId, ProductInput productInput)
         {
-            //var vm = await _productService.UpdateProductAsync(productId, productInput);
-            //return Ok(vm);
-            return null;
+            var vm = await _productService.UpdateProductAsync(productId, productInput);
+            return Ok(vm);
         }
 
         [HttpDelete]
         [Route("delete-product")]
         public async Task<IActionResult> DeleteProductAsync(int productId)
         {
-            //await _productService.DeleteProductAsync(productId);
-            //return Ok();
-            return null;
+            var vm = await _productService.DeleteProductAsync(productId);
+            return Ok(vm);
         }
 
     }

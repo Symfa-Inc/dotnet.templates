@@ -6,8 +6,8 @@ namespace WebApiTemplate.Persistence.Repositories
     public interface IProductRepository
     {
         Task<IEnumerable<ProductDto>> GetProductsAsync();
-        Task CreateProductAsync(Product product);
-        Task UpdateProductAsync(Product product);
-        Task DeleteProductAsync(int id);
+        Task<ProductDto> CreateProductAsync(Product product);
+        Task<ProductDto> UpdateProductAsync(int productId, Product product);
+        Task<bool> DeleteProductAsync(int productId);
     }
 }
