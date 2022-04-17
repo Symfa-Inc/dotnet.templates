@@ -4,22 +4,22 @@ namespace IdentityService;
 
 public static class Config
 {
-    public static IEnumerable<IdentityResource> IdentityResources =>
-        new IdentityResource[]
+    public static IEnumerable<IdentityResource> IdentityResources
+        => new IdentityResource[]
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile()
         };
 
-    public static IEnumerable<ApiScope> ApiScopes =>
-        new[]
+    public static IEnumerable<ApiScope> ApiScopes
+        => new[]
         {
             new ApiScope("scope1"),
             new ApiScope("scope2")
         };
 
-    public static IEnumerable<Client> Clients =>
-        new[]
+    public static IEnumerable<Client> Clients
+        => new[]
         {
             // m2m client credentials flow client
             new Client
