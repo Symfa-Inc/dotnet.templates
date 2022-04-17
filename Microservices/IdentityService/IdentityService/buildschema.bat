@@ -1,0 +1,2 @@
+dotnet ef migrations add PersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/PersistedGrantDb
+dotnet ef migrations add ConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/ConfigurationDb
