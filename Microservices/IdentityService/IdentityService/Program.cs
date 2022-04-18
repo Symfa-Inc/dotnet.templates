@@ -6,9 +6,9 @@ builder.ConfigureServices();
 
 var app = builder.Build();
 app.ConfigurePipeline();
-if (args.Contains("init-database"))
+if (args.Contains("fill-tables"))
 {
-    DataSeed.InitializeDatabase(app);
+    DataSeed.FillTables(app);
 }
 
 app.Run();
