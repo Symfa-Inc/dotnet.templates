@@ -34,7 +34,9 @@ namespace IdentityService.Extensions
 
                         // interval in seconds (default is 3600)
                         options.TokenCleanupInterval = 3600;
-                    });
+                    })
+                // only for dev purposes (https://identityserver4.readthedocs.io/en/latest/topics/startup.html#key-material)
+                .AddDeveloperSigningCredential();
         }
 
         public static void ConfigurePipeline(this WebApplication app)
