@@ -6,7 +6,7 @@ builder.ConfigureServices();
 
 var app = builder.Build();
 app.ConfigurePipeline();
-if (args[0] == "init-database")
+if (args.Contains("init-database"))
 {
     DataSeed.InitializeDatabase(app);
 }
