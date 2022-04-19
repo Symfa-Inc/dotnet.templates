@@ -3,14 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A28CA2CF-10BD-4850-BF07-668B9829362D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{87A57AC5-09B6-4EB7-BF35-3EC35904785B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{695AB8DF-18D8-4D8E-82A3-73AA54E09B31}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{959BD6C9-39A0-4A2C-8AA7-94C7A8D51385}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTemplate.Domain", "WebApiTemplate.Domain\WebApiTemplate.Domain.csproj", "{E7E94627-72CF-4B15-95BC-0A6B38382F11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTemplate.Application", "WebApiTemplate.Application\WebApiTemplate.Application.csproj", "{64D1284B-84D4-41C4-AEB1-8AE922F2F2BA}"
@@ -19,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTemplate.Persistence"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTemplate.WebApi", "WebApiTemplate.WebApi\WebApiTemplate.WebApi.csproj", "{CBE9AC30-9B13-4052-88F8-B5566120C6A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTemplate.Application.Integration.Test", "WebApiTemplate.Application.Test\WebApiTemplate.Application.Integration.Test.csproj", "{47EA7BA7-3BA3-46A5-B58D-1D9FA9431C7C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D4251AC9-696A-483C-A40E-FFABA6420496}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTemplate.Application.Integration.Test", "Tests\WebApiTemplate.Application.Test\WebApiTemplate.Application.Integration.Test.csproj", "{E0897267-D726-4921-AB84-2B00941BEC8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,20 +37,16 @@ Global
 		{CBE9AC30-9B13-4052-88F8-B5566120C6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBE9AC30-9B13-4052-88F8-B5566120C6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBE9AC30-9B13-4052-88F8-B5566120C6A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{47EA7BA7-3BA3-46A5-B58D-1D9FA9431C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47EA7BA7-3BA3-46A5-B58D-1D9FA9431C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47EA7BA7-3BA3-46A5-B58D-1D9FA9431C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47EA7BA7-3BA3-46A5-B58D-1D9FA9431C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0897267-D726-4921-AB84-2B00941BEC8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0897267-D726-4921-AB84-2B00941BEC8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0897267-D726-4921-AB84-2B00941BEC8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0897267-D726-4921-AB84-2B00941BEC8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E7E94627-72CF-4B15-95BC-0A6B38382F11} = {A28CA2CF-10BD-4850-BF07-668B9829362D}
-		{64D1284B-84D4-41C4-AEB1-8AE922F2F2BA} = {A28CA2CF-10BD-4850-BF07-668B9829362D}
-		{58B99218-A861-4A22-B000-CDB662BC18AC} = {87A57AC5-09B6-4EB7-BF35-3EC35904785B}
-		{CBE9AC30-9B13-4052-88F8-B5566120C6A8} = {695AB8DF-18D8-4D8E-82A3-73AA54E09B31}
-		{47EA7BA7-3BA3-46A5-B58D-1D9FA9431C7C} = {959BD6C9-39A0-4A2C-8AA7-94C7A8D51385}
+		{E0897267-D726-4921-AB84-2B00941BEC8E} = {D4251AC9-696A-483C-A40E-FFABA6420496}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BD9371E-34DA-4303-8848-6CB022924D63}
