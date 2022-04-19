@@ -20,7 +20,7 @@ namespace WebApiTemplate.WebApi.Controllers
         public async Task<IActionResult> GetAsync()
         {
             var vm = await _productService.GetProductsAsync();
-            Log.Information($@"REQUEST. ProductsNumber: @ProductsNumber", vm.Count);
+            Log.Information("REQUEST. ProductsNumber: {@ProductsNumber}", vm.Count);
             return Ok(vm);
         }
 
