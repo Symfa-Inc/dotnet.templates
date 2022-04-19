@@ -6,7 +6,5 @@ namespace WebApiTemplate.Persistence.Interfaces
     public interface IDatabaseContext
     {
         DbSet<Product> Products { get; set; }
-
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
