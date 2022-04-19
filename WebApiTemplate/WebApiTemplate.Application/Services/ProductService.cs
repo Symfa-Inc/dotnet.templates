@@ -38,12 +38,7 @@ namespace WebApiTemplate.Application.Services
         public async Task<ProductUpdateModelView> UpdateProductAsync(int productId, ProductUpdateModel productUpdateModel)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
-
-            if (product == null)
-            {
-                throw new ProductNotFoundException();
-            }
-
+            if (product == null) throw new ProductNotFoundException();
             product.Name = productUpdateModel.Name;
             await _context.SaveChangesAsync();
             return product.ToProductUpdateView();
@@ -52,12 +47,7 @@ namespace WebApiTemplate.Application.Services
         public async Task DeleteProductAsync(int productId)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
-
-            if (product == null)
-            {
-                throw new ProductNotFoundException();
-            }
-
+            if (product == null) throw new ProductNotFoundException();
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
         }
