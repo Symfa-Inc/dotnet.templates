@@ -67,6 +67,9 @@ void AddLogging()
 {
     string logPath = _builder.Configuration["Settings:LogPath"];
     string logName = _builder.Configuration["Settings:LogName"];
+
+    if (string.IsNullOrEmpty(logPath)) logPath = "Logs";
+
     string logPathFull = Path.Combine(logPath, logName);
 
     _builder.Host.UseSerilog((context, config) =>
