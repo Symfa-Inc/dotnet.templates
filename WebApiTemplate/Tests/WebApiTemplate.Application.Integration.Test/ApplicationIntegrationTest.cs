@@ -1,11 +1,11 @@
 using Xunit;
 using System.Collections.Generic;
-using WebApiTemplate.Application.Interfaces;
-using WebApiTemplate.Application.Services;
+using WebApiTemplate.Application.Product.Interfaces;
+using WebApiTemplate.Application.Product.Services;
 using System.Linq;
 using WebApiTemplate.Persistence;
 using Microsoft.EntityFrameworkCore;
-using WebApiTemplate.Application.Models.Product;
+using WebApiTemplate.Application.Product.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace WebApiTemplate.Application.Integration.Test

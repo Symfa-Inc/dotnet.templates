@@ -1,6 +1,6 @@
 using WebApiTemplate.Persistence;
-using WebApiTemplate.Application.Interfaces;
-using WebApiTemplate.Application.Services;
+using WebApiTemplate.Application.Product.Interfaces;
+using WebApiTemplate.Application.Product.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 

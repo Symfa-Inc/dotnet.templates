@@ -1,6 +1,6 @@
 ﻿using Entities = WebApiTemplate.Domain.Entities;
 
-namespace WebApiTemplate.Application.Models.Product
+namespace WebApiTemplate.Application.Product.Models
 {
     public class ProductGetModelView
     {

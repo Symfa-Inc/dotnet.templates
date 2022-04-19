@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApiTemplate.Application.Interfaces;
-using WebApiTemplate.Application.Models.Product;
-using WebApiTemplate.Domain.Entities;
+using WebApiTemplate.Application.Product.Interfaces;
+using WebApiTemplate.Application.Product.Models;
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Domain.Errors.Product;
+using Entities = WebApiTemplate.Domain.Entities;
 
-namespace WebApiTemplate.Application.Services
+namespace WebApiTemplate.Application.Product.Services
 {
     public class ProductService : IProductService
     {
@@ -29,7 +29,7 @@ namespace WebApiTemplate.Application.Services
 
         public async Task<ProductCreateModelView> CreateProductAsync(ProductCreateModel productCreateModel)
         {
-            var product = new Product { Name = productCreateModel.Name };
+            var product = new Entities.Product { Name = productCreateModel.Name };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return product.ToProductCreateView();

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApiTemplate.Application.Interfaces;
+using WebApiTemplate.Application.Product.Interfaces;
 using Serilog;
-using WebApiTemplate.Application.Models.Product;
+using WebApiTemplate.Application.Product.Models;
 
 namespace WebApiTemplate.WebApi.Controllers
 {
@@ -17,35 +17,30 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("get-products")]
-        public async Task<IActionResult> GetProductsAsync()
+        public async Task<IActionResult> GetAsync()
         {
             var vm = await _productService.GetProductsAsync();
-            Log.Information($@"REQUEST. 
-                               Controller: '{nameof(ProductController)}'. 
-                               Endpoint: '{nameof(GetProductsAsync)}'.");
+            Log.Information($@"REQUEST. ProductsNumber: @ProductsNumber", vm.Count);
             return Ok(vm);
         }
 
         [HttpPost]
-        [Route("create-product")]
-        public async Task<IActionResult> CreateProductAsync(ProductCreateModel productCreateModel)
+        public async Task<IActionResult> CreateAsync(ProductCreateModel productCreateModel)
         {
             var vm = await _productService.CreateProductAsync(productCreateModel);
             return Ok(vm);
         }
 
         [HttpPut]
-        [Route("update-product")]
-        public async Task<IActionResult> UpdateProductAsync(int productId, ProductUpdateModel productUpdateModel)
+        [Route("{productId}")]
+        public async Task<IActionResult> UpdateAsync([FromRoute] int productId, ProductUpdateModel productUpdateModel)
         {
             var vm = await _productService.UpdateProductAsync(productId, productUpdateModel);
             return Ok(vm);
         }
 
         [HttpDelete]
-        [Route("delete-product")]
-        public async Task<IActionResult> DeleteProductAsync(int productId)
+        public async Task<IActionResult> DeleteAsync(int productId)
         {
             await _productService.DeleteProductAsync(productId);
             return Ok();

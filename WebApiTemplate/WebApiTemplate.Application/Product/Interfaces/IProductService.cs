@@ -1,6 +1,6 @@
-﻿using WebApiTemplate.Application.Models.Product;
+﻿using WebApiTemplate.Application.Product.Models;
 
-namespace WebApiTemplate.Application.Interfaces
+namespace WebApiTemplate.Application.Product.Interfaces
 {
     public interface IProductService
     {
