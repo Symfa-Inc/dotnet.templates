@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Application.Product.Interfaces;
-using Serilog;
 using WebApiTemplate.Application.Product.Models;
 
 namespace WebApiTemplate.WebApi.Controllers
@@ -10,17 +9,19 @@ namespace WebApiTemplate.WebApi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ILogger _logger;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
             _productService = productService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             var vm = await _productService.GetProductsAsync();
-            Log.Information("REQUEST. ProductsNumber: {@ProductsNumber}", vm.Count);
+            _logger.LogInformation("REQUEST. ProductsNumber: {@ProductsNumber}", vm.Count);
             return Ok(vm);
         }
 

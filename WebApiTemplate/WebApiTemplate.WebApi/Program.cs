@@ -65,11 +65,12 @@ void AddServices()
 
 void AddLogging()
 {
+    string logPath = _builder.Configuration["Settings:LogPath"];
+    string logName = _builder.Configuration["Settings:LogName"];
+    string logPathFull = Path.Combine(logPath, logName);
+
     _builder.Host.UseSerilog((context, config) =>
     {
-        string logPath = _builder.Configuration["Settings:LogPath"];
-        string logName = _builder.Configuration["Settings:LogName"];
-        string logPathFull = Path.Combine(logPath, logName);
         config.WriteTo.File(logPathFull, rollingInterval: RollingInterval.Day);
     });
 }
