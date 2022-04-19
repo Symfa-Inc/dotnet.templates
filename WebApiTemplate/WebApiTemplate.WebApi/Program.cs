@@ -1,7 +1,6 @@
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Application.Interfaces;
 using WebApiTemplate.Application.Services;
-using WebApiTemplate.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -62,7 +61,6 @@ void AddServices()
 {
     _builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(_connectionString));
     _builder.Services.AddScoped<IProductService, ProductService>();
-    _builder.Services.AddScoped<IProductRepository, ProductRepository>();
 }
 
 void AddLogging()

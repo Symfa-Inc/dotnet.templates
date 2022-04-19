@@ -1,43 +1,65 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Application.Interfaces;
-using WebApiTemplate.Persistence.Repositories;
 using WebApiTemplate.Application.Models.Product;
 using WebApiTemplate.Domain.Entities;
+using WebApiTemplate.Persistence;
+using WebApiTemplate.Domain.Errors.Product;
 
 namespace WebApiTemplate.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _productRepository;
+        private readonly DatabaseContext _context;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(DatabaseContext context)
         {
-            _productRepository = productRepository;
+            _context = context;
         }
 
-        public async Task<IEnumerable<ProductView>> GetProductsAsync()
+        public async Task<IReadOnlyCollection<ProductGetModelView>> GetProductsAsync()
         {
-            var productsDto = await _productRepository.GetProductsAsync();
-            return productsDto.Select(x => x.ToView());
+            var products = await _context.Products
+                .AsNoTracking()
+                .ToListAsync();
+
+            return products.Select(x => x.ToProductGetView())
+                .ToList()
+                .AsReadOnly();
         }
 
-        public async Task<ProductView> CreateProductAsync(ProductInput productInput)
+        public async Task<ProductCreateModelView> CreateProductAsync(ProductCreateModel productCreateModel)
         {
-            var product = new Product { Name = productInput.Name };
-            var productNew = await _productRepository.CreateProductAsync(product);
-            return productNew.ToView();
+            var product = new Product { Name = productCreateModel.Name };
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return product.ToProductCreateView();
         }
 
-        public async Task<ProductView> UpdateProductAsync(int productId, ProductInput productInput)
+        public async Task<ProductUpdateModelView> UpdateProductAsync(int productId, ProductUpdateModel productUpdateModel)
         {
-            var product = new Product { Name = productInput.Name };
-            var productUpdated = await _productRepository.UpdateProductAsync(productId, product);
-            return productUpdated.ToView();
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+
+            if (product == null)
+            {
+                throw new ProductNotFoundException();
+            }
+
+            product.Name = productUpdateModel.Name;
+            await _context.SaveChangesAsync();
+            return product.ToProductUpdateView();
         }
 
-        public async Task<bool> DeleteProductAsync(int productId)
+        public async Task DeleteProductAsync(int productId)
         {
-            return await _productRepository.DeleteProductAsync(productId);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+
+            if (product == null)
+            {
+                throw new ProductNotFoundException();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

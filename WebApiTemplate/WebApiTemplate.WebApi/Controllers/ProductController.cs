@@ -29,17 +29,17 @@ namespace WebApiTemplate.WebApi.Controllers
 
         [HttpPost]
         [Route("create-product")]
-        public async Task<IActionResult> CreateProductAsync(ProductInput productInput)
+        public async Task<IActionResult> CreateProductAsync(ProductCreateModel productCreateModel)
         {
-            var vm = await _productService.CreateProductAsync(productInput);
+            var vm = await _productService.CreateProductAsync(productCreateModel);
             return Ok(vm);
         }
 
         [HttpPut]
         [Route("update-product")]
-        public async Task<IActionResult> UpdateProductAsync(int productId, ProductInput productInput)
+        public async Task<IActionResult> UpdateProductAsync(int productId, ProductUpdateModel productUpdateModel)
         {
-            var vm = await _productService.UpdateProductAsync(productId, productInput);
+            var vm = await _productService.UpdateProductAsync(productId, productUpdateModel);
             return Ok(vm);
         }
 
@@ -47,8 +47,8 @@ namespace WebApiTemplate.WebApi.Controllers
         [Route("delete-product")]
         public async Task<IActionResult> DeleteProductAsync(int productId)
         {
-            var vm = await _productService.DeleteProductAsync(productId);
-            return Ok(vm);
+            await _productService.DeleteProductAsync(productId);
+            return Ok();
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿namespace WebApiTemplate.Application.Models.Product
 {
-    public class ProductInput
+    public class ProductUpdateModel
     {
         public string Name { get; set; }
     }
