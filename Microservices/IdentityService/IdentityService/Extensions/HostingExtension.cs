@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityService.Data;
+using IdentityService.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityService.Extensions
 {
@@ -8,8 +11,16 @@ namespace IdentityService.Extensions
         {
             const string connectionStringName = "DefaultConnection";
             var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+
+            // Add identity configuration
+            builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(connectionString));
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<UserDbContext>()
+                .AddDefaultTokenProviders();
+
+            // IdentityServer configuration
             builder.Services.AddIdentityServer()
-                // this adds the config data from DB (clients, resources, CORS)
+                // This adds the config data from DB (clients, resources, CORS)
                 .AddConfigurationStore(
                     options =>
                     {
@@ -18,9 +29,9 @@ namespace IdentityService.Extensions
                                 connectionString,
                                 optionsBuilder => optionsBuilder.MigrationsAssembly(typeof(Program).Assembly.FullName));
                     })
-                // this is something you will want in production to reduce load on and requests to the DB
+                // This is something you will want in production to reduce load on and requests to the DB
                 .AddConfigurationStoreCache()
-                // this adds the operational data from DB (codes, tokens, consents)
+                // This adds the operational data from DB (codes, tokens, consents)
                 .AddOperationalStore(
                     options =>
                     {
@@ -35,13 +46,16 @@ namespace IdentityService.Extensions
                         // interval in seconds (default is 3600)
                         options.TokenCleanupInterval = 3600;
                     })
-                // only for dev purposes (https://identityserver4.readthedocs.io/en/latest/topics/startup.html#key-material)
+                .AddAspNetIdentity<ApplicationUser>()
+                // Only for dev purposes (https://identityserver4.readthedocs.io/en/latest/topics/startup.html#key-material)
                 .AddDeveloperSigningCredential();
+        builder.Services.AddControllers();
         }
 
         public static void ConfigurePipeline(this WebApplication app)
         {
             app.UseIdentityServer();
+            app.MapControllers();
         }
     }
 }
