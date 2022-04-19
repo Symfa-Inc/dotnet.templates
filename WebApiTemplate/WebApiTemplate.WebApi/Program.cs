@@ -18,7 +18,7 @@ configuration.SetBasePath(environment.ContentRootPath)
     .AddEnvironmentVariables()
     .Build();
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers();
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
 builder.Services.AddCors();
 builder.Services.AddEndpointsApiExplorer();

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Application.Interfaces;
 using Serilog;
-using Newtonsoft.Json;
 using WebApiTemplate.Application.Models.Product;
 
 namespace WebApiTemplate.WebApi.Controllers
@@ -24,8 +23,7 @@ namespace WebApiTemplate.WebApi.Controllers
             var vm = await _productService.GetProductsAsync();
             Log.Information($@"REQUEST. 
                                Controller: '{nameof(ProductController)}'. 
-                               Endpoint: '{nameof(GetProductsAsync)}'.
-                               Response: '{JsonConvert.SerializeObject(vm)}'");
+                               Endpoint: '{nameof(GetProductsAsync)}'.");
             return Ok(vm);
         }
 
