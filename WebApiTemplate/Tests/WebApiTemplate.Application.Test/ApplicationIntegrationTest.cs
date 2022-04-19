@@ -1,5 +1,4 @@
 using Xunit;
-using WebApiTemplate.Domain.Dto;
 using System.Collections.Generic;
 using WebApiTemplate.Application.Interfaces;
 using WebApiTemplate.Application.Services;
@@ -8,19 +7,31 @@ using WebApiTemplate.Persistence;
 using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Persistence.Repositories;
 using WebApiTemplate.Application.Models.Product;
+using Microsoft.Extensions.Configuration;
 
 namespace WebApiTemplate.Application.Integration.Test
 {
-    public class Test
+    public class ApplicationIntegrationTest
     {
-        const string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Kovaluk\\projects\\ais.dotnet.templates\\WebApiTemplate\\WebApiTemplate.WebApi\\App_Data\\WebApiTemplate.mdf;Initial Catalog=WebApiTemplate;Trusted_Connection=True;";
+        private readonly IConfiguration _configuration;
+        private readonly string _connectionString;
+
+        public ApplicationIntegrationTest()
+        {
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.test.json")
+                .AddEnvironmentVariables()
+                .Build();
+
+            _connectionString = _configuration.GetConnectionString("ConnectionString");
+        }
 
         [Fact]
-        public async void TestProducts()
+        public async void TestProductsAsync()
         {
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
 
-            optionsBuilder.UseSqlServer(ConnectionString);
+            optionsBuilder.UseSqlServer(_connectionString);
 
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
