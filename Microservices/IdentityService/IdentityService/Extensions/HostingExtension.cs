@@ -49,13 +49,16 @@ namespace IdentityService.Extensions
                 .AddAspNetIdentity<ApplicationUser>()
                 // Only for dev purposes (https://identityserver4.readthedocs.io/en/latest/topics/startup.html#key-material)
                 .AddDeveloperSigningCredential();
-        builder.Services.AddControllers();
+        builder.Services.AddControllersWithViews();
         }
 
         public static void ConfigurePipeline(this WebApplication app)
         {
+            app.UseStaticFiles();
+            app.UseRouting();
             app.UseIdentityServer();
-            app.MapControllers();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
         }
     }
 }
