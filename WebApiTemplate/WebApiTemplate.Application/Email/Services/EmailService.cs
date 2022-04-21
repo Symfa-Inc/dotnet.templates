@@ -1,0 +1,65 @@
+﻿using WebApiTemplate.Application.Email.Interfaces;
+using Microsoft.Extensions.Configuration;
+using System.Net;
+using System.Net.Mail;
+using WebApiTemplate.Domain.Errors.Email;
+
+namespace WebApiTemplate.Application.Email.Services
+{
+    public class EmailService : IEmailService
+    {
+        private readonly IConfiguration _configuration;
+
+        public EmailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public async Task SendEmail(string email, string name, string subject, string body)
+        {
+            if (!IsEnabled())
+            {
+                throw new EmailServiceException("EmailService is disabled");
+            }
+
+            var websiteEmailName = _configuration["MailSettings:Name"];
+            var websiteEmail = _configuration["MailSettings:Email"];
+            var websiteEmailPassword = _configuration["MailSettings:Password"];
+            var smtpHost = _configuration["MailSettings:SmtpHost"];
+            var smtpPort = int.Parse(_configuration["MailSettings:SmtpPort"]);
+
+            var fromAddress = new MailAddress(websiteEmail, websiteEmailName);
+            var toAddress = new MailAddress(email, name);
+
+            var smtp = new SmtpClient
+            {
+                Host = smtpHost,
+                Port = smtpPort,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, websiteEmailPassword)
+            };
+
+            var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            };
+
+            await smtp.SendMailAsync(message);
+        }
+
+        private bool IsEnabled()
+        {
+            var isEnabled = _configuration["MailSettings:IsEnabled"];
+
+            if (!bool.TryParse(isEnabled, out bool value))
+            {
+                throw new EmailServiceException($"Config value '{nameof(isEnabled)}' has incorrect type");
+            }
+
+            return value;
+        }
+    }
+}

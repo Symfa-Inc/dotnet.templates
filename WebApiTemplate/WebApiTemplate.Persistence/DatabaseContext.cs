@@ -12,6 +12,7 @@ namespace WebApiTemplate.Persistence
         { }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
