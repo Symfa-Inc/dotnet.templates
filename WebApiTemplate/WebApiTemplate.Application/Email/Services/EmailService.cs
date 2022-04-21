@@ -15,7 +15,7 @@ namespace WebApiTemplate.Application.Email.Services
             _configuration = configuration;
         }
 
-        public async Task SendEmail(string email, string subject, string body)
+        public async Task SendEmail(string email, string subject, string body, bool isBodyHtml)
         {
             if (!IsEnabled())
             {
@@ -44,7 +44,8 @@ namespace WebApiTemplate.Application.Email.Services
             var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = body
+                Body = body,
+                IsBodyHtml = isBodyHtml,
             };
 
             await smtp.SendMailAsync(message);

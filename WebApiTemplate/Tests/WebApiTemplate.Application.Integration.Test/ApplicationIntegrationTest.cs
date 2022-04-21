@@ -59,7 +59,7 @@ namespace WebApiTemplate.Application.Integration.Test
                 IEmailService emailService = new EmailService(_configuration);
                 IEmailTemplateService emailTemplateService = new EmailTemplateService(context, emailService);
 
-                string email = "testmail@gmail.com";
+                string email = "[myemail@gmail.com]";
                 var paramDict = new Dictionary<string, string>
                 {
                     { EmailTemplateRegistration.RegistrationCode, "58735" }

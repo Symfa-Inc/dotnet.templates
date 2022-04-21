@@ -33,11 +33,11 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
             {
                 foreach (var keyValue in paramDict)
                 {
-                    emailTemplate.Body.Replace(keyValue.Key, keyValue.Value);
+                    emailTemplate.Body = emailTemplate.Body.Replace(keyValue.Key, keyValue.Value);
                 }
             }
 
-            await _emailService.SendEmail(email, emailTemplate.Subject, emailTemplate.Body);
+            await _emailService.SendEmail(email, emailTemplate.Subject, emailTemplate.Body, true);
         }
     }
 }
