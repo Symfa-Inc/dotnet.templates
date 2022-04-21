@@ -18,16 +18,26 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
             _emailService = emailService;
         }
 
-        public async Task SendEmailTemplateAsync(string email, string name, EmailTemplateType type)
+        public async Task SendEmailTemplateAsync(string email, EmailTemplateType type, Dictionary<string, string> paramDict = null)
         {
-            var emailTemplate = await _context.EmailTemplates.FirstOrDefaultAsync(x => x.Type == type);
+            var emailTemplate = await _context.EmailTemplates
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Type == type);
 
             if (emailTemplate == null)
             {
                 throw new EmailTemplateNotFoundException();
             }
 
-            await _emailService.SendEmail(email, name, emailTemplate.Subject, emailTemplate.Body);
+            if (paramDict != null)
+            {
+                foreach (var keyValue in paramDict)
+                {
+                    emailTemplate.Body.Replace(keyValue.Key, keyValue.Value);
+                }
+            }
+
+            await _emailService.SendEmail(email, emailTemplate.Subject, emailTemplate.Body);
         }
     }
 }

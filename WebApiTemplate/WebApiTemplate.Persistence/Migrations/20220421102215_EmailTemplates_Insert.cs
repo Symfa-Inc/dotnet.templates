@@ -361,6 +361,7 @@ namespace WebApiTemplate.Persistence.Migrations
                     <tr>
                       <td>
                         <p>Hi!</p>
+                        <p>Your registration code: ""{{RegistrationCode}}""</p>
                         <p>To complete the registration, follow the link by clicking the ""Login"" button</p>
                         <table role=""presentation"" border=""0"" cellpadding=""0"" cellspacing=""0"" class=""btn btn-primary"">
                           <tbody>

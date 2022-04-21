@@ -15,7 +15,7 @@ namespace WebApiTemplate.Application.Email.Services
             _configuration = configuration;
         }
 
-        public async Task SendEmail(string email, string name, string subject, string body)
+        public async Task SendEmail(string email, string subject, string body)
         {
             if (!IsEnabled())
             {
@@ -29,7 +29,7 @@ namespace WebApiTemplate.Application.Email.Services
             var smtpPort = int.Parse(_configuration["MailSettings:SmtpPort"]);
 
             var fromAddress = new MailAddress(websiteEmail, websiteEmailName);
-            var toAddress = new MailAddress(email, name);
+            var toAddress = new MailAddress(email);
 
             var smtp = new SmtpClient
             {
