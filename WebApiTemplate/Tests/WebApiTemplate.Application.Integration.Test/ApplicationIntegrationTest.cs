@@ -64,16 +64,7 @@ namespace WebApiTemplate.Application.Integration.Test
                 {
                     { EmailTemplateDataChanged.DataTitle, "test" }
                 };
-
-                try
-                {
-                    await emailTemplateService.SendEmailTemplateAsync(email, EmailTemplateType.DataChanged, paramDict);
-                }
-                catch (Exception)
-                {
-                    Assert.True(false);
-                }
-
+                await emailTemplateService.SendEmailTemplateAsync(email, EmailTemplateType.DataChanged, paramDict);
                 Assert.True(true);
             }
         }
