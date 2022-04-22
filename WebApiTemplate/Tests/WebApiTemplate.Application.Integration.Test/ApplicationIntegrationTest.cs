@@ -59,17 +59,17 @@ namespace WebApiTemplate.Application.Integration.Test
                 IEmailService emailService = new EmailService(_configuration);
                 IEmailTemplateService emailTemplateService = new EmailTemplateService(context, emailService);
 
-                string email = "[mail@gmail.com]";
+                string email = "@gmail.com";
                 var paramDict = new Dictionary<string, string>
                 {
-                    { EmailTemplateRegistration.RegistrationCode, "58735" }
+                    { EmailTemplateDataChanged.DataTitle, "test" }
                 };
 
                 try
                 {
-                    await emailTemplateService.SendEmailTemplateAsync(email, EmailTemplateType.Registration, paramDict);
+                    await emailTemplateService.SendEmailTemplateAsync(email, EmailTemplateType.DataChanged, paramDict);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Assert.True(false);
                 }

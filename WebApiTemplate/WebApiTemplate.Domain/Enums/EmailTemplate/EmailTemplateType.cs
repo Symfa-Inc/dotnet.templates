@@ -2,6 +2,8 @@
 {
     public enum EmailTemplateType
     {
-        Registration = 0,
+        DataChanged = 1,
+        PasswordReset = 2,
+        LoginAttemptsFail = 3,
     }
 }
