@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Domain.Errors.EmailTemplate;
 using WebApiTemplate.Application.Email.Interfaces;
+using System.Text;
 
 namespace WebApiTemplate.Application.EmailTemplate.Services
 {
@@ -29,15 +30,17 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
                 throw new EmailTemplateNotFoundException();
             }
 
+            var stringBuilderEmailBody = new StringBuilder(emailTemplate.Body);
+
             if (paramDict != null)
             {
                 foreach (var keyValue in paramDict)
                 {
-                    emailTemplate.Body = emailTemplate.Body.Replace(keyValue.Key, keyValue.Value);
+                    stringBuilderEmailBody.Replace(keyValue.Key, keyValue.Value);
                 }
             }
 
-            await _emailService.SendEmail(email, emailTemplate.Subject, emailTemplate.Body, true);
+            await _emailService.SendEmail(email, emailTemplate.Subject, stringBuilderEmailBody.ToString(), true);
         }
     }
 }
