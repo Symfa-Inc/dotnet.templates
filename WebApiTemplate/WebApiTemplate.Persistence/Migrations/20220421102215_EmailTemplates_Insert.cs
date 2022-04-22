@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using WebApiTemplate.Domain.Enums.EmailTemplate;
+using WebApiTemplate.Domain.Consts.EmailTemplate;
 
 #nullable disable
 
@@ -9,37 +10,37 @@ namespace WebApiTemplate.Persistence.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            string dataChangedBody = @"
+            string dataChangedBody = @$"
 <!DOCTYPE html>
 <html>
 <body>
   <div>
     <h2 style=""color:green;"">DataChanged</h2>
-    <p>EmailTemplate test: {{DataTitle}}</p>
+    <p>EmailTemplate test: {EmailTemplateDataChanged.DataTitle}</p>
   </div>
 </body>
 </html>
 ";
 
-            string passwordResetBody = @"
+            string passwordResetBody = @$"
 <!DOCTYPE html>
 <html>
 <body>
   <div>
     <h2 style=""color:green;"">PasswordReset</h2>
-    <p>EmailTemplate test: {{Code}}</p>
+    <p>EmailTemplate test: {EmailTemplatePasswordReset.Code}</p>
   </div>
 </body>
 </html>
 ";
 
-            string loginAttemptsFailBody = @"
+            string loginAttemptsFailBody = @$"
 <!DOCTYPE html>
 <html>
 <body>
   <div>
     <h2 style=""color:green;"">LoginAttemptsFail</h2>
-    <p>EmailTemplate test: {{AttemptsNumber}}</p>
+    <p>EmailTemplate test: {EmailTemplateLoginAttemptsFail.AttemptsNumber}</p>
   </div>
 </body>
 </html>
