@@ -79,7 +79,7 @@ builder.Services.AddOpenIddict()
                 .EnableTokenEndpointPassthrough();
         });
 
-// Register the test hosted service
+// Register the service to seeding the data to DB
 builder.Services.AddHostedService<SeedDataService>();
 
 var app = builder.Build();
