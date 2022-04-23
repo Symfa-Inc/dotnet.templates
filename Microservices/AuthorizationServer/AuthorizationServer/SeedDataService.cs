@@ -5,13 +5,13 @@ namespace AuthorizationServer
 {
     public class SeedDataService : IHostedService
     {
-        private readonly IServiceProvider _services;
+        private readonly IServiceProvider _serviceProvider;
 
-        public SeedDataService(IServiceProvider services) => _services = services;
+        public SeedDataService(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = _services.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
 
             // Create database if needed
             var userDbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
