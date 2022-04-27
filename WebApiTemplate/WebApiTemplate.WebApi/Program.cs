@@ -1,6 +1,10 @@
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Services;
+using WebApiTemplate.Application.EmailTemplate.Interfaces;
+using WebApiTemplate.Application.EmailTemplate.Services;
+using WebApiTemplate.Application.Email.Interfaces;
+using WebApiTemplate.Application.Email.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -61,6 +65,8 @@ void AddServices()
 {
     _builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(_connectionString));
     _builder.Services.AddScoped<IProductService, ProductService>();
+    _builder.Services.AddScoped<IEmailService, EmailService>();
+    _builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 }
 
 void AddLogging()
