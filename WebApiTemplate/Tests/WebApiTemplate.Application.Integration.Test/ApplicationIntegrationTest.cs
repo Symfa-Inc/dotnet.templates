@@ -1,12 +1,19 @@
 using Xunit;
-using System.Collections.Generic;
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Services;
+using WebApiTemplate.Application.EmailTemplate.Interfaces;
+using WebApiTemplate.Application.EmailTemplate.Services;
+using WebApiTemplate.Application.Email.Interfaces;
+using WebApiTemplate.Application.Email.Services;
 using System.Linq;
 using WebApiTemplate.Persistence;
 using Microsoft.EntityFrameworkCore;
-using WebApiTemplate.Application.Product.Models;
 using Microsoft.Extensions.Configuration;
+using WebApiTemplate.Domain.Enums.EmailTemplate;
+using System.Collections.Generic;
+using WebApiTemplate.Domain.Consts.EmailTemplate;
+using System;
+
 
 namespace WebApiTemplate.Application.Integration.Test
 {
@@ -37,6 +44,28 @@ namespace WebApiTemplate.Application.Integration.Test
                 IProductService productService = new ProductService(context);
                 var products = await productService.GetProductsAsync();
                 Assert.True(products != null && products.Any());
+            }
+        }
+
+        [Fact]
+        public async void TestEmailtemplateAsync()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
+
+            optionsBuilder.UseSqlServer(_connectionString);
+
+            using (var context = new DatabaseContext(optionsBuilder.Options))
+            {
+                IEmailService emailService = new EmailService(_configuration);
+                IEmailTemplateService emailTemplateService = new EmailTemplateService(context, emailService);
+
+                string email = "@gmail.com";
+                var paramDict = new Dictionary<string, string>
+                {
+                    { EmailTemplateDataChanged.DataTitle, "test" }
+                };
+                await emailTemplateService.SendEmailTemplateAsync(email, EmailTemplateType.DataChanged, paramDict);
+                Assert.True(true);
             }
         }
     }
