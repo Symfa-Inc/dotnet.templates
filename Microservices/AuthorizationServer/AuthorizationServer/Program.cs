@@ -69,7 +69,8 @@ builder.Services.AddOpenIddict()
             // On production, using a X.509 certificate stored in the machine store is recommended.
             // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
             options.AddEphemeralEncryptionKey()
-                .AddEphemeralSigningKey();
+                .AddEphemeralSigningKey()
+                .DisableAccessTokenEncryption();
 
             options.SetAccessTokenLifetime(TimeSpan.FromDays(1));
             options.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
