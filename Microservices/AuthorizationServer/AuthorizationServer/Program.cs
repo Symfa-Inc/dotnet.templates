@@ -63,7 +63,15 @@ builder.Services.AddOpenIddict()
                 .AllowRefreshTokenFlow();
 
             // Setting up URIs
-            options.SetTokenEndpointUris("/connect/token");
+            options.SetTokenEndpointUris("/connect/token")
+                // Allows the resource server using token validation by sending a request to this server instead of local validation.
+                // This feature can be turn on on the resource server side:
+                // services.AddOpenIddict()
+                //    .AddValidation(options =>
+                //    {
+                //        options.UseIntrospection();
+                //    });
+                .SetIntrospectionEndpointUris("/introspection");
 
             // Encryption and signing of tokens
             // On production, using a X.509 certificate stored in the machine store is recommended.
@@ -74,6 +82,9 @@ builder.Services.AddOpenIddict()
 
             options.SetAccessTokenLifetime(TimeSpan.FromDays(1));
             options.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
+
+            // Make refresh token invalid after refresh
+            options.SetRefreshTokenReuseLeeway(TimeSpan.Zero);
 
             // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
             options.UseAspNetCore()
