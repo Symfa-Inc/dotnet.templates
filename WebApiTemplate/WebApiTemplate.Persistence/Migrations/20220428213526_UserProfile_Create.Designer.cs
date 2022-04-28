@@ -12,7 +12,7 @@ using WebApiTemplate.Persistence;
 namespace WebApiTemplate.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220428170203_UserProfile_Create")]
+    [Migration("20220428213526_UserProfile_Create")]
     partial class UserProfile_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,9 @@ namespace WebApiTemplate.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("District")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
