@@ -20,13 +20,13 @@ namespace AuthorizationServer
             // Register new clients
             var applicationManager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-            // You can register your own client. SPA app, for instance
-            await AddPostmanClientAsync(applicationManager, cancellationToken);
+            // You can register your own client(s). SPA app, for instance
+            await AddSpaClientAsync(applicationManager, cancellationToken);
         }
 
-        private async Task AddPostmanClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
+        private async Task AddSpaClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
         {
-            const string clientId = "client";
+            const string clientId = "spaClient";
             if (await applicationManager.FindByClientIdAsync(clientId, cancellationToken) == null)
             {
                 await applicationManager.CreateAsync(
@@ -37,8 +37,7 @@ namespace AuthorizationServer
                                 {
                                     OpenIddictConstants.Permissions.Endpoints.Token,
                                     OpenIddictConstants.Permissions.GrantTypes.Password,
-                                    OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-                                    OpenIddictConstants.Permissions.Prefixes.Scope + "api",
+                                    OpenIddictConstants.Permissions.GrantTypes.RefreshToken
                                 }
                         },
                     cancellationToken);
