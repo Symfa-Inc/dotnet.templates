@@ -40,7 +40,7 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
                 }
             }
 
-            await _emailService.SendEmail(email, emailTemplate.Subject, stringBuilderEmailBody.ToString(), true);
+            await _emailService.SendEmailAsync(email, emailTemplate.Subject, stringBuilderEmailBody.ToString(), true);
         }
     }
 }
