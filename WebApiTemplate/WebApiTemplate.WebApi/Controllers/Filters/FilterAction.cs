@@ -7,11 +7,9 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
     public class FilterAction : IActionFilter
     {
         private readonly IErrorService _errorService;
-        private readonly ILogger _logger;
+        private readonly ILogger<FilterAction> _logger;
 
-        public FilterAction(
-            IErrorService errorService,
-            ILogger<FilterAction> logger)
+        public FilterAction(IErrorService errorService, ILogger<FilterAction> logger)
         {
             _errorService = errorService;
             _logger = logger;
