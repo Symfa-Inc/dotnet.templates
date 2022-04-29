@@ -23,7 +23,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileCreateModelView> CreateUserProfileAsync(UserProfileCreateModel userProfileCreateModel) 
         {
-            if (userProfileCreateModel == null || _userContext.UserId == 0)
+            if (userProfileCreateModel == null || _userContext.UserId == null)
             {
                 _errorService.Add(ErrorCode.MODEL_IS_INVALID);
                 return null;

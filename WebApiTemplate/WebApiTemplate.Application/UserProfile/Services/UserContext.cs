@@ -17,18 +17,19 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return _contextAccessor.HttpContext.User != null;
         }
 
-        public int UserId
+        public string UserId
         {
             get
             {
                 var user = _contextAccessor.HttpContext.User;
-                if (user != null && !string.IsNullOrEmpty(user.Identity.Name))
+
+                if (user != null)
                 {
-                    return int.Parse(user.Identity.Name);
+                    return user.Identity.Name;
                 }
                 else
                 {
-                    return 0;
+                    return null;
                 }
             }
         }
