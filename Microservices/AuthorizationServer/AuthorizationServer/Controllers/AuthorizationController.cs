@@ -9,7 +9,7 @@ using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Controllers;
 
-public class AuthorizationController : Controller
+public class AuthorizationController : ControllerBase
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
@@ -27,11 +27,11 @@ public class AuthorizationController : Controller
         var request = HttpContext.GetOpenIddictServerRequest()
             ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
         return request.GrantType switch
-            {
-                OpenIddictConstants.GrantTypes.Password => await HandlePasswordGrantTypeAsync(request),
-                OpenIddictConstants.GrantTypes.RefreshToken => await HandleRefreshTokenGrantTypeAsync(),
-                _ => throw new NotImplementedException("The specified grant is not implemented.")
-            };
+        {
+            OpenIddictConstants.GrantTypes.Password => await HandlePasswordGrantTypeAsync(request),
+            OpenIddictConstants.GrantTypes.RefreshToken => await HandleRefreshTokenGrantTypeAsync(),
+            _ => throw new NotImplementedException("The specified grant is not implemented.")
+        };
     }
 
     private async Task<IActionResult> HandleRefreshTokenGrantTypeAsync()
@@ -47,10 +47,10 @@ public class AuthorizationController : Controller
         {
             var properties = new AuthenticationProperties(
                 new Dictionary<string, string>
-                    {
-                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The refresh token is no longer valid."
-                    });
+                {
+                    { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
+                    { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "The refresh token is no longer valid." }
+                });
 
             return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
@@ -60,10 +60,10 @@ public class AuthorizationController : Controller
         {
             var properties = new AuthenticationProperties(
                 new Dictionary<string, string>
-                    {
-                        [OpenIddictServerAspNetCoreConstants.Properties.Error] = OpenIddictConstants.Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The user is no longer allowed to sign in."
-                    });
+                {
+                    { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
+                    { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "The user is no longer allowed to sign in." }
+                });
 
             return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
@@ -85,10 +85,10 @@ public class AuthorizationController : Controller
         {
             var properties = new AuthenticationProperties(
                 new Dictionary<string, string>
-                    {
-                        { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
-                        { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "The username/password couple is invalid." }
-                    });
+                {
+                    { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
+                    { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "The username/password couple is invalid." }
+                });
             return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
@@ -112,18 +112,18 @@ public class AuthorizationController : Controller
         // Set the list of scopes granted to the client application.
         // Note: the offline_access scope must be granted
         // to allow OpenIddict to return a refresh token.
-        principal.SetScopes(
-            new[]
-                {
-                    OpenIddictConstants.Scopes.OpenId,
-                    OpenIddictConstants.Scopes.Email,
-                    OpenIddictConstants.Scopes.Profile,
-                    OpenIddictConstants.Scopes.OfflineAccess,
-                    OpenIddictConstants.Scopes.Roles
-                }.Intersect(request.GetScopes()));
+        principal.SetScopes(GetDefaultAllowedScope().Intersect(request.GetScopes()));
         SetClaimsDestination(principal);
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
+
+    private static string[] GetDefaultAllowedScope() => new[]
+    {
+        OpenIddictConstants.Scopes.OpenId,
+        OpenIddictConstants.Scopes.OfflineAccess,
+        OpenIddictConstants.Scopes.Profile,
+        OpenIddictConstants.Scopes.Email
+    };
 
     private static void SetClaimsDestination(ClaimsPrincipal principal)
     {

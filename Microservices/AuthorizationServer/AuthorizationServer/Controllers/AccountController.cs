@@ -1,6 +1,5 @@
 ﻿using AuthorizationServer.Models;
 using AuthorizationServer.Models.Account;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +18,6 @@ public class AccountController : ControllerBase
 
     [Route("register")]
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Register(RegistrationModel model)
     {
         if (!ModelState.IsValid)
