@@ -20,8 +20,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public bool IsAuthorized()
         {
-            var user = _contextAccessor.HttpContext.User;
-            return user != null;
+            return _contextAccessor.HttpContext.User != null;
         }
 
         public int UserId
