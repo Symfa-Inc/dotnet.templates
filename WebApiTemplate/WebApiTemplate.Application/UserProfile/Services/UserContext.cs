@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebApiTemplate.Application.UserProfile.Interfaces;
-using System.Security.Claims;
+﻿using WebApiTemplate.Application.UserProfile.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace WebApiTemplate.Application.UserProfile.Services
