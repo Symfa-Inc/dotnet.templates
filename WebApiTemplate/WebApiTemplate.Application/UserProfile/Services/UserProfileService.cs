@@ -82,7 +82,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
                 return null;
             }
 
-            userProfile.Email = userProfileUpdateModel.Email;
             userProfile.Name = userProfileUpdateModel.Name;
             userProfile.Surname = userProfileUpdateModel.Surname;
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
