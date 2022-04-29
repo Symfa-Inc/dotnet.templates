@@ -12,7 +12,7 @@ using WebApiTemplate.Persistence;
 namespace WebApiTemplate.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220428213526_UserProfile_Create")]
+    [Migration("20220429082343_UserProfile_Create")]
     partial class UserProfile_Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,7 +103,13 @@ namespace WebApiTemplate.Persistence.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserProfiles");
                 });

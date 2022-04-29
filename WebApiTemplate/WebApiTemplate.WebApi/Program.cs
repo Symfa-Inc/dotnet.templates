@@ -7,6 +7,9 @@ using WebApiTemplate.Application.Email.Interfaces;
 using WebApiTemplate.Application.Email.Services;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Services;
+using WebApiTemplate.Application.Error.Interfaces;
+using WebApiTemplate.Application.Error.Services;
+using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -51,6 +54,10 @@ void InitServices()
     _builder.Services.AddCors();
     _builder.Services.AddEndpointsApiExplorer();
     _builder.Services.AddSwaggerGen();
+    _builder.Services.AddMvc(options =>
+    {
+        options.Filters.Add(typeof(FilterAction));
+    });
 }
 
 void InitConnectionString()
@@ -72,7 +79,8 @@ void AddServices()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
         .AddScoped<IUserProfileService, UserProfileService>()
         .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
-        .AddScoped<IUserContext, UserContext>();
+        .AddScoped<IUserContext, UserContext>()
+        .AddScoped<IErrorService, ErrorService>();
 }
 
 void AddLogging()
