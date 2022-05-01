@@ -1,4 +1,5 @@
-﻿using AuthorizationServer.Data;
+﻿using AuthorizationServer.Constants;
+using AuthorizationServer.Data;
 using OpenIddict.Abstractions;
 
 namespace AuthorizationServer
@@ -19,27 +20,51 @@ namespace AuthorizationServer
 
             // Register new clients
             var applicationManager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+            await RegisterClientsAsync(cancellationToken, applicationManager);
+        }
 
+        private async Task RegisterClientsAsync(CancellationToken cancellationToken, IOpenIddictApplicationManager applicationManager)
+        {
             // You can register your own client(s). SPA app, for instance
             await AddSpaClientAsync(applicationManager, cancellationToken);
+            await AddBackendClientAsync(applicationManager, cancellationToken);
         }
 
         private async Task AddSpaClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
         {
-            const string clientId = "spaClient";
-            if (await applicationManager.FindByClientIdAsync(clientId, cancellationToken) == null)
+            if (await applicationManager.FindByClientIdAsync(ClientNames.SpaClient, cancellationToken) == null)
             {
                 await applicationManager.CreateAsync(
                     new OpenIddictApplicationDescriptor
+                    {
+                        ClientId = ClientNames.SpaClient,
+                        Permissions =
                         {
-                            ClientId = clientId,
-                            Permissions =
-                                {
-                                    OpenIddictConstants.Permissions.Endpoints.Token,
-                                    OpenIddictConstants.Permissions.GrantTypes.Password,
-                                    OpenIddictConstants.Permissions.GrantTypes.RefreshToken
-                                }
-                        },
+                            OpenIddictConstants.Permissions.Endpoints.Token,
+                            OpenIddictConstants.Permissions.GrantTypes.Password,
+                            OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
+                            OpenIddictConstants.Permissions.Scopes.Profile,
+                            OpenIddictConstants.Permissions.Scopes.Email
+                        }
+                    },
+                    cancellationToken);
+            }
+        }
+
+        private async Task AddBackendClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
+        {
+            if (await applicationManager.FindByClientIdAsync(ClientNames.BackendClient, cancellationToken) == null)
+            {
+                await applicationManager.CreateAsync(
+                    new OpenIddictApplicationDescriptor
+                    {
+                        ClientId = ClientNames.BackendClient,
+                        ClientSecret = "secret",
+                        Permissions =
+                        {
+                            OpenIddictConstants.Permissions.Endpoints.Introspection
+                        }
+                    },
                     cancellationToken);
             }
         }

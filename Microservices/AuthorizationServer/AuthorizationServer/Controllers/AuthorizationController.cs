@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using AuthorizationServer.Constants;
+using AuthorizationServer.Helpers;
 using AuthorizationServer.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
@@ -71,11 +73,7 @@ public class AuthorizationController : ControllerBase
         // Create a new ClaimsPrincipal containing the claims that
         // will be used to create an id_token, a token or a code.
         var principal = await _signInManager.CreateUserPrincipalAsync(user);
-        foreach (var claim in principal.Claims)
-        {
-            claim.SetDestinations(GetDestinations(claim, principal));
-        }
-
+        ClaimsDestinationHelper.SetClaimsDestination(principal);
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
@@ -105,15 +103,7 @@ public class AuthorizationController : ControllerBase
             return GetForbidResult();
         }
 
-        // Create a new ClaimsPrincipal containing the claims that
-        // will be used to create an id_token, a token or a code.
-        var principal = await _signInManager.CreateUserPrincipalAsync(user);
-
-        // Set the list of scopes granted to the client application.
-        // Note: the offline_access scope must be granted
-        // to allow OpenIddict to return a refresh token.
-        principal.SetScopes(GetDefaultAllowedScope().Intersect(request.GetScopes()));
-        SetClaimsDestination(principal);
+        var principal = await CreateUserPrincipalAsync(request, user);
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
@@ -125,51 +115,18 @@ public class AuthorizationController : ControllerBase
         OpenIddictConstants.Scopes.Email
     };
 
-    private static void SetClaimsDestination(ClaimsPrincipal principal)
+    private async Task<ClaimsPrincipal> CreateUserPrincipalAsync(OpenIddictRequest request, ApplicationUser user)
     {
-        foreach (var claim in principal.Claims)
-        {
-            claim.SetDestinations(GetDestinations(claim, principal));
-        }
-    }
+        // Create a new ClaimsPrincipal containing the claims that
+        // will be used to create an id_token, a token or a code.
+        var principal = await _signInManager.CreateUserPrincipalAsync(user);
+        principal.SetAudiences(ClientNames.BackendClient);
 
-    private static IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal principal)
-    {
-        // Note: by default, claims are NOT automatically included in the access and identity tokens.
-        // To allow OpenIddict to serialize them, you must attach them a destination, that specifies
-        // whether they should be included in access tokens, in identity tokens or in both.
-        switch (claim.Type)
-        {
-            case OpenIddictConstants.Claims.Name:
-                yield return OpenIddictConstants.Destinations.AccessToken;
-                if (principal.HasScope(OpenIddictConstants.Permissions.Scopes.Profile))
-                {
-                    yield return OpenIddictConstants.Destinations.IdentityToken;
-                }
-
-                yield break;
-            case OpenIddictConstants.Claims.Email:
-                yield return OpenIddictConstants.Destinations.AccessToken;
-                if (principal.HasScope(OpenIddictConstants.Permissions.Scopes.Email))
-                {
-                    yield return OpenIddictConstants.Destinations.IdentityToken;
-                }
-
-                yield break;
-            case OpenIddictConstants.Claims.Role:
-                yield return OpenIddictConstants.Destinations.AccessToken;
-                if (principal.HasScope(OpenIddictConstants.Permissions.Scopes.Roles))
-                {
-                    yield return OpenIddictConstants.Destinations.IdentityToken;
-                }
-
-                yield break;
-            // Never include the security stamp in the access and identity tokens, as it's a secret value.
-            case "AspNet.Identity.SecurityStamp":
-                yield break;
-            default:
-                yield return OpenIddictConstants.Destinations.AccessToken;
-                yield break;
-        }
+        // Set the list of scopes granted to the client application.
+        // Note: the offline_access scope must be granted
+        // to allow OpenIddict to return a refresh token.
+        principal.SetScopes(GetDefaultAllowedScope().Intersect(request.GetScopes()));
+        ClaimsDestinationHelper.SetClaimsDestination(principal);
+        return principal;
     }
 }
