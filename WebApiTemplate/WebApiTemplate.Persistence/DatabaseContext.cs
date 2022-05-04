@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Domain.Entities;
-using WebApiTemplate.Persistence.Interfaces;
 using WebApiTemplate.Persistence.EntityTypeConfigurations;
 
 namespace WebApiTemplate.Persistence
 {
-    public class DatabaseContext : DbContext, IDatabaseContext
+    public class DatabaseContext : DbContext
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
             : base(options)
