@@ -2,7 +2,7 @@
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Models;
 using WebApiTemplate.Persistence;
-using WebApiTemplate.Domain.Errors.Product;
+using WebApiTemplate.Domain.Errors.Common;
 using Entities = WebApiTemplate.Domain.Entities;
 
 namespace WebApiTemplate.Application.Product.Services
@@ -41,7 +41,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new ProductNotFoundException();
+                throw new EntityNotFoundException();
             }
 
             product.Name = productUpdateModel.Name;
@@ -55,7 +55,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new ProductNotFoundException();
+                throw new EntityNotFoundException();
             }
 
             _context.Products.Remove(product);

@@ -1,17 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using WebApiTemplate.Application.Error.Interfaces;
+using WebApiTemplate.Domain.Errors;
 
 namespace WebApiTemplate.WebApi.Controllers.Filters
 {
     public class FilterAction : IActionFilter
     {
-        private readonly IErrorService _errorService;
         private readonly ILogger<FilterAction> _logger;
 
-        public FilterAction(IErrorService errorService, ILogger<FilterAction> logger)
+        public FilterAction(ILogger<FilterAction> logger)
         {
-            _errorService = errorService;
             _logger = logger;
         }
 
@@ -23,14 +21,26 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
         {
             if (context.Exception != null)
             {
-                _logger.LogError(context.Exception.ToString());
-                return;
-            }
+                if (context.Exception is BaseException)
+                {
+                    _logger.LogError(context.Exception.ToString());
 
-            if (_errorService.HasErrors)
-            {
-                context.Result = new BadRequestObjectResult(_errorService);
-                return;
+                    context.Result = new ObjectResult(context.Exception)
+                    {
+                        StatusCode = StatusCodes.Status400BadRequest
+                    };
+                }
+                else
+                {
+                    _logger.LogCritical(context.Exception.ToString());
+
+                    context.Result = new ObjectResult(context.Exception)
+                    {
+                        StatusCode = StatusCodes.Status500InternalServerError
+                    };
+                }
+
+                context.ExceptionHandled = true;
             }
         }
     }

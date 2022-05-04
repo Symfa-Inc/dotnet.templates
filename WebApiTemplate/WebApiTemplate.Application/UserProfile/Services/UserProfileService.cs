@@ -3,8 +3,7 @@ using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Models;
 using WebApiTemplate.Persistence;
 using Entities = WebApiTemplate.Domain.Entities;
-using WebApiTemplate.Application.Error.Interfaces;
-using WebApiTemplate.Domain.Enums.Error;
+using WebApiTemplate.Domain.Errors.Common;
 
 namespace WebApiTemplate.Application.UserProfile.Services
 {
@@ -12,21 +11,18 @@ namespace WebApiTemplate.Application.UserProfile.Services
     {
         private readonly DatabaseContext _context;
         private readonly IUserContext _userContext;
-        private readonly IErrorService _errorService;
 
-        public UserProfileService(DatabaseContext context, IUserContext userContext, IErrorService errorService)
+        public UserProfileService(DatabaseContext context, IUserContext userContext)
         {
             _context = context;
             _userContext = userContext;
-            _errorService = errorService;
         }
 
         public async Task<UserProfileCreateModelView> Create(UserProfileCreateModel userProfileCreateModel) 
         {
-            if (userProfileCreateModel == null || _userContext.UserId == null)
+            if (_userContext.UserId != userProfileCreateModel.UserId)
             {
-                _errorService.Add(ErrorCode.MODEL_IS_INVALID);
-                return null;
+                throw new UserIdNotMatchException();
             }
 
             var userProfile = new Entities.UserProfile
@@ -59,8 +55,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             if (userProfile == null)
             {
-                _errorService.Add(ErrorCode.DATA_NOT_FOUND);
-                return null;
+                throw new EntityNotFoundException();
             }
 
             return userProfile.ToUserProfileGetView();
@@ -68,18 +63,16 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileUpdateModelView> Update(UserProfileUpdateModel userProfileUpdateModel)
         {
-            if (userProfileUpdateModel == null)
+            if (_userContext.UserId != userProfileUpdateModel.UserId)
             {
-                _errorService.Add(ErrorCode.MODEL_IS_INVALID);
-                return null;
+                throw new UserIdNotMatchException();
             }
 
             var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == _userContext.UserId);
 
             if (userProfile == null)
             {
-                _errorService.Add(ErrorCode.DATA_NOT_FOUND);
-                return null;
+                throw new EntityNotFoundException();
             }
 
             userProfile.Name = userProfileUpdateModel.Name;

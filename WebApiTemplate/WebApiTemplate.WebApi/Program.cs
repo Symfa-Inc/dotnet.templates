@@ -7,8 +7,6 @@ using WebApiTemplate.Application.Email.Interfaces;
 using WebApiTemplate.Application.Email.Services;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Services;
-using WebApiTemplate.Application.Error.Interfaces;
-using WebApiTemplate.Application.Error.Services;
 using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -79,8 +77,7 @@ void AddServices()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
         .AddScoped<IUserProfileService, UserProfileService>()
         .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
-        .AddScoped<IUserContext, UserContext>()
-        .AddScoped<IErrorService, ErrorService>();
+        .AddScoped<IUserContext, UserContext>();
 }
 
 void AddLogging()
