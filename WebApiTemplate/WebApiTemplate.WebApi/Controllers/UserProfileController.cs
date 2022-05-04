@@ -18,25 +18,25 @@ namespace WebApiTemplate.WebApi.Controllers
 
         [HttpPost]
         // TODO [Authorize]
-        public async Task<IActionResult> CreateAsync(UserProfileCreateModel userProfileCreateModel)
+        public async Task<IActionResult> Create(UserProfileCreateModel userProfileCreateModel)
         {
-            var vm = await _userProfileService.CreateUserProfileAsync(userProfileCreateModel);
+            var vm = await _userProfileService.CreateUserProfile(userProfileCreateModel);
             return Ok(vm);
         }
 
         [HttpGet]
         // TODO [Authorize]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> Get()
         {
-            var vm = await _userProfileService.GetUserProfileAsync();
+            var vm = await _userProfileService.GetUserProfile();
             return Ok(vm);
         }
 
         [HttpPut]
         // TODO [Authorize]
-        public async Task<IActionResult> UpdateAsync(UserProfileUpdateModel userProfileUpdateModel)
+        public async Task<IActionResult> Update(UserProfileUpdateModel userProfileUpdateModel)
         {
-            var vm = await _userProfileService.UpdateUserProfileAsync(userProfileUpdateModel);
+            var vm = await _userProfileService.UpdateUserProfile(userProfileUpdateModel);
             return Ok(vm);
         }
     }

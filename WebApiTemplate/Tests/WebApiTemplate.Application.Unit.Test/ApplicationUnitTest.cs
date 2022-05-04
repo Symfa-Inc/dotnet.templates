@@ -11,7 +11,7 @@ namespace WebApiTemplate.Application.Unit.Test
     public class ApplicationUnitTest
     {
         [Fact]
-        public async void TestProductsAsync()
+        public async void TestProducts()
         {
             var options = new DbContextOptionsBuilder<DatabaseContext>()
                 .UseInMemoryDatabase(databaseName: "WebApiTemplate")
@@ -22,10 +22,10 @@ namespace WebApiTemplate.Application.Unit.Test
                 context.Products.Add(new Entities.Product { Id = 1, Name = "Ball" });
                 context.Products.Add(new Entities.Product { Id = 2, Name = "Table" });
                 context.Products.Add(new Entities.Product { Id = 3, Name = "Chair" });
-                context.SaveChanges();
+                context.SaveChangesAsync();
 
                 IProductService productService = new ProductService(context);
-                var products = await productService.GetProductsAsync();
+                var products = await productService.GetProducts();
                 Assert.True(products != null && products.Any());
             }
         }

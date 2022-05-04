@@ -18,32 +18,32 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> Get()
         {
-            var vm = await _productService.GetProductsAsync();
+            var vm = await _productService.GetProducts();
             _logger.LogInformation("REQUEST. ProductsNumber: {@ProductsNumber}", vm.Count);
             return Ok(vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(ProductCreateModel productCreateModel)
+        public async Task<IActionResult> Create(ProductCreateModel productCreateModel)
         {
-            var vm = await _productService.CreateProductAsync(productCreateModel);
+            var vm = await _productService.CreateProduct(productCreateModel);
             return Ok(vm);
         }
 
         [HttpPut]
         [Route("{productId}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] int productId, ProductUpdateModel productUpdateModel)
+        public async Task<IActionResult> Update([FromRoute] int productId, ProductUpdateModel productUpdateModel)
         {
-            var vm = await _productService.UpdateProductAsync(productId, productUpdateModel);
+            var vm = await _productService.UpdateProduct(productId, productUpdateModel);
             return Ok(vm);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteAsync(int productId)
+        public async Task<IActionResult> Delete(int productId)
         {
-            await _productService.DeleteProductAsync(productId);
+            await _productService.DeleteProduct(productId);
             return Ok();
         }
 

@@ -19,7 +19,7 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
             _emailService = emailService;
         }
 
-        public async Task SendEmailTemplateAsync(string email, EmailTemplateType type, Dictionary<string, string> paramDict = null)
+        public async Task SendEmailTemplate(string email, EmailTemplateType type, Dictionary<string, string> paramDict = null)
         {
             var emailTemplate = await _context.EmailTemplates
                 .AsNoTracking()
@@ -40,7 +40,7 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
                 }
             }
 
-            await _emailService.SendEmailAsync(email, emailTemplate.Subject, stringBuilderEmailBody.ToString(), true);
+            await _emailService.SendEmail(email, emailTemplate.Subject, stringBuilderEmailBody.ToString(), true);
         }
     }
 }

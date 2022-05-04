@@ -5,6 +5,6 @@ namespace WebApiTemplate.Application.EmailTemplate.Interfaces
 {
     public interface IEmailTemplateService
     {
-        Task SendEmailTemplateAsync(string email, EmailTemplateType type, Dictionary<string, string> paramDict = null);
+        Task SendEmailTemplate(string email, EmailTemplateType type, Dictionary<string, string> paramDict = null);
     }
 }

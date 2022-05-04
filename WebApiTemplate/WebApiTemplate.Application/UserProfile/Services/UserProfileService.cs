@@ -21,7 +21,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
             _errorService = errorService;
         }
 
-        public async Task<UserProfileCreateModelView> CreateUserProfileAsync(UserProfileCreateModel userProfileCreateModel) 
+        public async Task<UserProfileCreateModelView> CreateUserProfile(UserProfileCreateModel userProfileCreateModel) 
         {
             if (userProfileCreateModel == null || _userContext.UserId == null)
             {
@@ -51,7 +51,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileCreateView();
         }
 
-        public async Task<UserProfileGetModelView> GetUserProfileAsync()
+        public async Task<UserProfileGetModelView> GetUserProfile()
         {
             var userProfile = await _context.UserProfiles
                 .AsNoTracking()
@@ -66,7 +66,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileGetView();
         }
 
-        public async Task<UserProfileUpdateModelView> UpdateUserProfileAsync(UserProfileUpdateModel userProfileUpdateModel)
+        public async Task<UserProfileUpdateModelView> UpdateUserProfile(UserProfileUpdateModel userProfileUpdateModel)
         {
             if (userProfileUpdateModel == null)
             {
