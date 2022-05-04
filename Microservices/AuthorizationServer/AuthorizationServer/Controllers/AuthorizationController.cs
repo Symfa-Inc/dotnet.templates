@@ -11,6 +11,7 @@ using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Controllers;
 
+[ApiController]
 public class AuthorizationController : ControllerBase
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
@@ -22,12 +23,10 @@ public class AuthorizationController : ControllerBase
         _userManager = userManager;
     }
 
-    [HttpPost("~/connect/token")]
-    [Produces("application/json")]
+    [HttpPost("/connect/token")]
     public async Task<IActionResult> Exchange()
     {
-        var request = HttpContext.GetOpenIddictServerRequest()
-            ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+        var request = GetOpenIddictRequest();
         return request.GrantType switch
         {
             OpenIddictConstants.GrantTypes.Password => await HandlePasswordGrantTypeAsync(request),
@@ -35,6 +34,18 @@ public class AuthorizationController : ControllerBase
             _ => throw new NotImplementedException("The specified grant is not implemented.")
         };
     }
+
+    private static string[] GetDefaultAllowedScope() => new[]
+    {
+        OpenIddictConstants.Scopes.OpenId,
+        OpenIddictConstants.Scopes.OfflineAccess,
+        OpenIddictConstants.Scopes.Profile,
+        OpenIddictConstants.Scopes.Email
+    };
+
+    private OpenIddictRequest GetOpenIddictRequest()
+        => HttpContext.GetOpenIddictServerRequest()
+            ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
     private async Task<IActionResult> HandleRefreshTokenGrantTypeAsync()
     {
@@ -106,14 +117,6 @@ public class AuthorizationController : ControllerBase
         var principal = await CreateUserPrincipalAsync(request, user);
         return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
-
-    private static string[] GetDefaultAllowedScope() => new[]
-    {
-        OpenIddictConstants.Scopes.OpenId,
-        OpenIddictConstants.Scopes.OfflineAccess,
-        OpenIddictConstants.Scopes.Profile,
-        OpenIddictConstants.Scopes.Email
-    };
 
     private async Task<ClaimsPrincipal> CreateUserPrincipalAsync(OpenIddictRequest request, ApplicationUser user)
     {
