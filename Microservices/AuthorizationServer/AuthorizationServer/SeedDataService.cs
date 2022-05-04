@@ -41,6 +41,7 @@ namespace AuthorizationServer
                         Permissions =
                         {
                             OpenIddictConstants.Permissions.Endpoints.Token,
+                            OpenIddictConstants.Permissions.Endpoints.Revocation,
                             OpenIddictConstants.Permissions.GrantTypes.Password,
                             OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
                             OpenIddictConstants.Permissions.Scopes.Profile,

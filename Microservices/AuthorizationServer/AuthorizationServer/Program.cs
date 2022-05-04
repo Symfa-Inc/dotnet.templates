@@ -71,7 +71,8 @@ builder.Services.AddOpenIddict()
                 //    {
                 //        options.UseIntrospection();
                 //    });
-                .SetIntrospectionEndpointUris("/introspection");
+                .SetIntrospectionEndpointUris("/connect/introspection")
+                .SetRevocationEndpointUris("/connect/revoke");
 
             // Encryption and signing of tokens
             // On production, using a X.509 certificate stored in the machine store is recommended.
