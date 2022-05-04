@@ -1,8 +1,11 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace WebApiTemplate.Application.UserProfile.Models
 {
     public class UserProfileUpdateModel
     {
+        [Required]
+        public string UserId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime DateOfBirth { get; set; }
