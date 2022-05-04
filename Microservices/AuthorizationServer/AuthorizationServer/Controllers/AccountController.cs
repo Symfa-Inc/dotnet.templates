@@ -1,6 +1,5 @@
-﻿using AuthorizationServer.Models;
-using AuthorizationServer.Models.Account;
-using Microsoft.AspNetCore.Identity;
+﻿using AuthorizationServer.Models.Account;
+using AuthorizationServer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationServer.Controllers;
@@ -9,11 +8,11 @@ namespace AuthorizationServer.Controllers;
 [Route("account")]
 public class AccountController : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUserService _userService;
 
-    public AccountController(UserManager<ApplicationUser> userManager)
+    public AccountController(IUserService userService)
     {
-        _userManager = userManager;
+        _userService = userService;
     }
 
     [Route("register")]
@@ -25,8 +24,7 @@ public class AccountController : ControllerBase
             return BadRequest(model);
         }
 
-        var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
-        var result = await _userManager.CreateAsync(user, model.Password);
+        var result = await _userService.CreateUserAsync(model.Username, model.Email, model.Password);
         if (result.Succeeded)
         {
             return Ok();
