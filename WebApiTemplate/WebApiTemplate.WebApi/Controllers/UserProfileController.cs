@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebApiTemplate.WebApi.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UserProfileController : ControllerBase
     {
@@ -17,7 +18,6 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpPost]
-        // TODO [Authorize]
         public async Task<IActionResult> Create(UserProfileCreateModel userProfileCreateModel)
         {
             var vm = await _userProfileService.CreateUserProfile(userProfileCreateModel);
@@ -25,7 +25,6 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpGet]
-        // TODO [Authorize]
         public async Task<IActionResult> Get()
         {
             var vm = await _userProfileService.GetUserProfile();
@@ -33,7 +32,6 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpPut]
-        // TODO [Authorize]
         public async Task<IActionResult> Update(UserProfileUpdateModel userProfileUpdateModel)
         {
             var vm = await _userProfileService.UpdateUserProfile(userProfileUpdateModel);
