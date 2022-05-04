@@ -4,9 +4,9 @@ namespace WebApiTemplate.Application.Product.Interfaces
 {
     public interface IProductService
     {
-        Task<IReadOnlyCollection<ProductGetModelView>> GetProducts();
-        Task<ProductCreateModelView> CreateProduct(ProductCreateModel productCreateModel);
-        Task<ProductUpdateModelView> UpdateProduct(int productId, ProductUpdateModel productUpdateModel);
-        Task DeleteProduct(int productId);
+        Task<IReadOnlyCollection<ProductGetModelView>> Get();
+        Task<ProductCreateModelView> Create(ProductCreateModel productCreateModel);
+        Task<ProductUpdateModelView> Update(int productId, ProductUpdateModel productUpdateModel);
+        Task Delete(int productId);
     }
 }

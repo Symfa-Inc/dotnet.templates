@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiTemplate.WebApi.Controllers
 {
@@ -20,21 +20,21 @@ namespace WebApiTemplate.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserProfileCreateModel userProfileCreateModel)
         {
-            var vm = await _userProfileService.CreateUserProfile(userProfileCreateModel);
+            var vm = await _userProfileService.Create(userProfileCreateModel);
             return Ok(vm);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var vm = await _userProfileService.GetUserProfile();
+            var vm = await _userProfileService.Get();
             return Ok(vm);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(UserProfileUpdateModel userProfileUpdateModel)
         {
-            var vm = await _userProfileService.UpdateUserProfile(userProfileUpdateModel);
+            var vm = await _userProfileService.Update(userProfileUpdateModel);
             return Ok(vm);
         }
     }

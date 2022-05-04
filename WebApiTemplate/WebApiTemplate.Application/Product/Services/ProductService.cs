@@ -16,7 +16,7 @@ namespace WebApiTemplate.Application.Product.Services
             _context = context;
         }
 
-        public async Task<IReadOnlyCollection<ProductGetModelView>> GetProducts()
+        public async Task<IReadOnlyCollection<ProductGetModelView>> Get()
         {
             var products = await _context.Products
                 .AsNoTracking()
@@ -27,7 +27,7 @@ namespace WebApiTemplate.Application.Product.Services
                 .AsReadOnly();
         }
 
-        public async Task<ProductCreateModelView> CreateProduct(ProductCreateModel productCreateModel)
+        public async Task<ProductCreateModelView> Create(ProductCreateModel productCreateModel)
         {
             var product = new Entities.Product { Name = productCreateModel.Name };
             _context.Products.Add(product);
@@ -35,7 +35,7 @@ namespace WebApiTemplate.Application.Product.Services
             return product.ToProductCreateView();
         }
 
-        public async Task<ProductUpdateModelView> UpdateProduct(int productId, ProductUpdateModel productUpdateModel)
+        public async Task<ProductUpdateModelView> Update(int productId, ProductUpdateModel productUpdateModel)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 
@@ -49,7 +49,7 @@ namespace WebApiTemplate.Application.Product.Services
             return product.ToProductUpdateView();
         }
 
-        public async Task DeleteProduct(int productId)
+        public async Task Delete(int productId)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 

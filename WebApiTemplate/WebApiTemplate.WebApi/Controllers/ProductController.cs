@@ -20,7 +20,7 @@ namespace WebApiTemplate.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var vm = await _productService.GetProducts();
+            var vm = await _productService.Get();
             _logger.LogInformation("REQUEST. ProductsNumber: {@ProductsNumber}", vm.Count);
             return Ok(vm);
         }
@@ -28,7 +28,7 @@ namespace WebApiTemplate.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProductCreateModel productCreateModel)
         {
-            var vm = await _productService.CreateProduct(productCreateModel);
+            var vm = await _productService.Create(productCreateModel);
             return Ok(vm);
         }
 
@@ -36,14 +36,14 @@ namespace WebApiTemplate.WebApi.Controllers
         [Route("{productId}")]
         public async Task<IActionResult> Update([FromRoute] int productId, ProductUpdateModel productUpdateModel)
         {
-            var vm = await _productService.UpdateProduct(productId, productUpdateModel);
+            var vm = await _productService.Update(productId, productUpdateModel);
             return Ok(vm);
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int productId)
         {
-            await _productService.DeleteProduct(productId);
+            await _productService.Delete(productId);
             return Ok();
         }
 

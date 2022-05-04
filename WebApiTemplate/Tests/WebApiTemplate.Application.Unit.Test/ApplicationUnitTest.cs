@@ -25,7 +25,7 @@ namespace WebApiTemplate.Application.Unit.Test
                 context.SaveChangesAsync();
 
                 IProductService productService = new ProductService(context);
-                var products = await productService.GetProducts();
+                var products = await productService.Get();
                 Assert.True(products != null && products.Any());
             }
         }

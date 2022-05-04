@@ -4,8 +4,8 @@ namespace WebApiTemplate.Application.UserProfile.Interfaces
 {
     public interface IUserProfileService
     {
-        Task<UserProfileCreateModelView> CreateUserProfile(UserProfileCreateModel userProfileCreateModel);
-        Task<UserProfileGetModelView> GetUserProfile();
-        Task<UserProfileUpdateModelView> UpdateUserProfile(UserProfileUpdateModel userProfileUpdateModel);
+        Task<UserProfileCreateModelView> Create(UserProfileCreateModel userProfileCreateModel);
+        Task<UserProfileGetModelView> Get();
+        Task<UserProfileUpdateModelView> Update(UserProfileUpdateModel userProfileUpdateModel);
     }
 }

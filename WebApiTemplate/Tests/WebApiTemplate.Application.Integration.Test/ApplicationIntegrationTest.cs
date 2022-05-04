@@ -42,7 +42,7 @@ namespace WebApiTemplate.Application.Integration.Test
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
                 IProductService productService = new ProductService(context);
-                var products = await productService.GetProducts();
+                var products = await productService.Get();
                 Assert.True(products != null && products.Any());
             }
         }
