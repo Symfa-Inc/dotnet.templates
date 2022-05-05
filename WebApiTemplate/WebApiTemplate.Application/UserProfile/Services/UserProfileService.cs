@@ -20,14 +20,11 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileCreateModelView> Create(UserProfileCreateModel userProfileCreateModel) 
         {
-            if (_userContext.UserId != userProfileCreateModel.UserId)
-            {
-                throw new UserIdNotMatchException();
-            }
+            CheckUserId(userProfileCreateModel.UserId);
 
             var userProfile = new Entities.UserProfile
             {
-                UserId = _userContext.UserId,
+                UserId = userProfileCreateModel.UserId,
                 Email = userProfileCreateModel.Email,
                 Name = userProfileCreateModel.Name,
                 Surname = userProfileCreateModel.Surname,
@@ -47,11 +44,13 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileCreateView();
         }
 
-        public async Task<UserProfileGetModelView> Get()
+        public async Task<UserProfileGetModelView> Get(string userId)
         {
+            CheckUserId(userId);
+
             var userProfile = await _context.UserProfiles
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.UserId == _userContext.UserId);
+                .FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (userProfile == null)
             {
@@ -63,12 +62,9 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileUpdateModelView> Update(UserProfileUpdateModel userProfileUpdateModel)
         {
-            if (_userContext.UserId != userProfileUpdateModel.UserId)
-            {
-                throw new UserIdNotMatchException();
-            }
+            CheckUserId(userProfileUpdateModel.UserId);
 
-            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == _userContext.UserId);
+            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userProfileUpdateModel.UserId);
 
             if (userProfile == null)
             {
@@ -88,6 +84,14 @@ namespace WebApiTemplate.Application.UserProfile.Services
             await _context.SaveChangesAsync();
 
             return userProfile.ToUserProfileUpdateView();
+        }
+
+        private void CheckUserId(string userId)
+        {
+            if (_userContext.UserId != userId)
+            {
+                throw new UserIdNotMatchException();
+            }
         }
     }
 }

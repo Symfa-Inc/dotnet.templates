@@ -26,9 +26,10 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("{userId}")]
+        public async Task<IActionResult> Get([FromRoute][Required] string userId)
         {
-            var vm = await _userProfileService.Get();
+            var vm = await _userProfileService.Get(userId);
             return Ok(vm);
         }
 
