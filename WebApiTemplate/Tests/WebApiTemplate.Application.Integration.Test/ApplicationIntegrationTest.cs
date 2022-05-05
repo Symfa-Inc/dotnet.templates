@@ -33,7 +33,7 @@ namespace WebApiTemplate.Application.Integration.Test
         }
 
         [Fact]
-        public async void TestProductsAsync()
+        public async void TestProducts()
         {
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
 
@@ -42,13 +42,13 @@ namespace WebApiTemplate.Application.Integration.Test
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
                 IProductService productService = new ProductService(context);
-                var products = await productService.GetProductsAsync();
+                var products = await productService.Get();
                 Assert.True(products != null && products.Any());
             }
         }
 
         [Fact]
-        public async void TestEmailtemplateAsync()
+        public async void TestEmailtemplate()
         {
             var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
 
@@ -64,7 +64,7 @@ namespace WebApiTemplate.Application.Integration.Test
                 {
                     { EmailTemplateDataChanged.DataTitle, "test" }
                 };
-                await emailTemplateService.SendEmailTemplateAsync(email, EmailTemplateType.DataChanged, paramDict);
+                await emailTemplateService.SendEmailTemplate(email, EmailTemplateType.DataChanged, paramDict);
                 Assert.True(true);
             }
         }

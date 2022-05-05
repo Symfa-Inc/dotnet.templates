@@ -2,7 +2,7 @@
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Models;
 using WebApiTemplate.Persistence;
-using WebApiTemplate.Domain.Errors.Product;
+using WebApiTemplate.Domain.Errors.Common;
 using Entities = WebApiTemplate.Domain.Entities;
 
 namespace WebApiTemplate.Application.Product.Services
@@ -16,7 +16,7 @@ namespace WebApiTemplate.Application.Product.Services
             _context = context;
         }
 
-        public async Task<IReadOnlyCollection<ProductGetModelView>> GetProductsAsync()
+        public async Task<IReadOnlyCollection<ProductGetModelView>> Get()
         {
             var products = await _context.Products
                 .AsNoTracking()
@@ -27,7 +27,7 @@ namespace WebApiTemplate.Application.Product.Services
                 .AsReadOnly();
         }
 
-        public async Task<ProductCreateModelView> CreateProductAsync(ProductCreateModel productCreateModel)
+        public async Task<ProductCreateModelView> Create(ProductCreateModel productCreateModel)
         {
             var product = new Entities.Product { Name = productCreateModel.Name };
             _context.Products.Add(product);
@@ -35,13 +35,13 @@ namespace WebApiTemplate.Application.Product.Services
             return product.ToProductCreateView();
         }
 
-        public async Task<ProductUpdateModelView> UpdateProductAsync(int productId, ProductUpdateModel productUpdateModel)
+        public async Task<ProductUpdateModelView> Update(int productId, ProductUpdateModel productUpdateModel)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 
             if (product == null)
             {
-                throw new ProductNotFoundException();
+                throw new EntityNotFoundException();
             }
 
             product.Name = productUpdateModel.Name;
@@ -49,13 +49,13 @@ namespace WebApiTemplate.Application.Product.Services
             return product.ToProductUpdateView();
         }
 
-        public async Task DeleteProductAsync(int productId)
+        public async Task Delete(int productId)
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 
             if (product == null)
             {
-                throw new ProductNotFoundException();
+                throw new EntityNotFoundException();
             }
 
             _context.Products.Remove(product);

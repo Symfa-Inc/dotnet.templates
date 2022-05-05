@@ -5,6 +5,9 @@ using WebApiTemplate.Application.EmailTemplate.Interfaces;
 using WebApiTemplate.Application.EmailTemplate.Services;
 using WebApiTemplate.Application.Email.Interfaces;
 using WebApiTemplate.Application.Email.Services;
+using WebApiTemplate.Application.UserProfile.Interfaces;
+using WebApiTemplate.Application.UserProfile.Services;
+using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -49,6 +52,10 @@ void InitServices()
     _builder.Services.AddCors();
     _builder.Services.AddEndpointsApiExplorer();
     _builder.Services.AddSwaggerGen();
+    _builder.Services.AddMvc(options =>
+    {
+        options.Filters.Add(typeof(FilterAction));
+    });
 }
 
 void InitConnectionString()
@@ -63,10 +70,14 @@ void InitConnectionString()
 
 void AddServices()
 {
-    _builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(_connectionString));
-    _builder.Services.AddScoped<IProductService, ProductService>();
-    _builder.Services.AddScoped<IEmailService, EmailService>();
-    _builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+    _builder.Services
+        .AddDbContext<DatabaseContext>(options => options.UseSqlServer(_connectionString))
+        .AddScoped<IProductService, ProductService>()
+        .AddScoped<IEmailService, EmailService>()
+        .AddScoped<IEmailTemplateService, EmailTemplateService>()
+        .AddScoped<IUserProfileService, UserProfileService>()
+        .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
+        .AddScoped<IUserContext, UserContext>();
 }
 
 void AddLogging()
