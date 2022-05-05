@@ -15,8 +15,6 @@ public static class StartupExtensions
     /// <summary>
     /// Add the database context
     /// </summary>
-    /// <param name="services"></param>
-    /// <param name="connectionString"></param>
     public static void AddDbContext(this IServiceCollection services, string connectionString)
     {
         services.AddDbContext<UserDbContext>(
@@ -58,7 +56,6 @@ public static class StartupExtensions
     /// <summary>
     /// Register the OpenIddict components
     /// </summary>
-    /// <param name="services"></param>
     public static void AddOpeniddict(this IServiceCollection services)
     {
         services.AddOpenIddict()
