@@ -8,7 +8,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddIdentity();
-builder.Services.AddOpeniddict(builder.Configuration);
+builder.Services.AddOpeniddict(builder.Configuration, builder.Environment.IsDevelopment());
 builder.Services.AddCustomDependencies();
 
 // Register the service to seeding the data to DB
