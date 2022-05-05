@@ -9,6 +9,7 @@ using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Services;
 using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
+using OpenIddict.Validation.AspNetCore;
 using Serilog;
 
 const string BaseDirectory = "[BaseDirectory]";
@@ -24,6 +25,7 @@ AddConfig();
 InitServices();
 InitConnectionString();
 AddServices();
+ConfigureOpeniddictValidation();
 AddLogging();
 BuildWebApplication();
 InitDatabaseMigrations();
@@ -125,7 +127,35 @@ void ConfigureWebApplication()
     }
 
     _app.UseHttpsRedirection();
+    _app.UseAuthentication();
     _app.UseAuthorization();
     _app.MapControllers();
     _app.Run();
+}
+
+void ConfigureOpeniddictValidation()
+{
+    _builder.Services.AddOpenIddict()
+        .AddValidation(
+            options =>
+            {
+                // Note: the validation handler uses OpenID Connect discovery
+                // to retrieve the address of the introspection endpoint.
+                options.SetIssuer(_builder.Configuration["OpenId:Issuer"])
+                    .AddAudiences(_builder.Configuration["OpenId:ClientId"])
+
+                    // Configure the validation handler to use introspection and register the client
+                    // credentials used when communicating with the remote introspection endpoint.
+                    .UseIntrospection()
+                    .SetClientId(_builder.Configuration["OpenId:ClientId"])
+                    .SetClientSecret(_builder.Configuration["OpenId:Secret"]);
+
+                // Register the System.Net.Http integration.
+                options.UseSystemNetHttp();
+
+                // Register the ASP.NET Core host.
+                options.UseAspNetCore();
+            });
+    _builder.Services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+    _builder.Services.AddAuthorization();
 }
