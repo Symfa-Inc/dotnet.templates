@@ -21,20 +21,22 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
         {
             if (context.Exception != null)
             {
+                string exception = context.Exception.ToString();
+
                 if (context.Exception is BaseException)
                 {
-                    _logger.LogError(context.Exception.ToString());
+                    _logger.LogError(exception);
 
-                    context.Result = new ObjectResult(context.Exception)
+                    context.Result = new ObjectResult(exception)
                     {
                         StatusCode = StatusCodes.Status400BadRequest
                     };
                 }
                 else
                 {
-                    _logger.LogCritical(context.Exception.ToString());
+                    _logger.LogCritical(exception);
 
-                    context.Result = new ObjectResult(context.Exception)
+                    context.Result = new ObjectResult(exception)
                     {
                         StatusCode = StatusCodes.Status500InternalServerError
                     };
