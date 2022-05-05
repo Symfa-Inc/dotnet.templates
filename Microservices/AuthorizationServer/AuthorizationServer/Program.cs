@@ -6,11 +6,9 @@ builder.Services.AddCors();
 builder.Services.AddControllers()
     .AddNewtonsoftJson();
 
-const string connectionStringName = "DefaultConnection";
-var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
-builder.Services.AddDbContext(connectionString);
+builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddIdentity();
-builder.Services.AddOpeniddict();
+builder.Services.AddOpeniddict(builder.Configuration);
 builder.Services.AddCustomDependencies();
 
 // Register the service to seeding the data to DB

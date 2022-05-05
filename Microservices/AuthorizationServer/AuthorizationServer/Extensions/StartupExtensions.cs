@@ -15,13 +15,13 @@ public static class StartupExtensions
     /// <summary>
     /// Add the database context
     /// </summary>
-    public static void AddDbContext(this IServiceCollection services, string connectionString)
+    public static void AddDbContext(this IServiceCollection services, ConfigurationManager configurationManager)
     {
         services.AddDbContext<UserDbContext>(
             options =>
             {
                 // Configure the context to use a store.
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(configurationManager.GetConnectionString("DefaultConnection"));
 
                 // Register the entity sets needed by OpenIddict.
                 options.UseOpenIddict();
@@ -56,7 +56,7 @@ public static class StartupExtensions
     /// <summary>
     /// Register the OpenIddict components
     /// </summary>
-    public static void AddOpeniddict(this IServiceCollection services)
+    public static void AddOpeniddict(this IServiceCollection services, ConfigurationManager configurationManager)
     {
         services.AddOpenIddict()
 
@@ -89,10 +89,18 @@ public static class StartupExtensions
                         .SetRevocationEndpointUris("/connect/revoke");
 
                     // Encryption and signing of tokens
-                    // On production, using a X.509 certificate stored in the machine store is recommended.
+                    // On production, you can using a X.509 certificate stored in the machine store is recommended.
                     // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
-                    options.AddEphemeralSigningKey()
-                        .AddEphemeralEncryptionKey();
+                    options.AddSigningCertificate(
+                            new FileStream(
+                                configurationManager["Token:SigningCertificate:Path"],
+                                FileMode.Open),
+                            configurationManager["Token:SigningCertificate:Password"])
+                        .AddEncryptionCertificate(
+                            new FileStream(
+                                configurationManager["Token:EncryptionCertificate:Path"],
+                                FileMode.Open),
+                            configurationManager["Token:EncryptionCertificate:Password"]);
 
                     options.SetAccessTokenLifetime(TimeSpan.FromDays(1));
                     options.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
