@@ -22,7 +22,7 @@ namespace WebApiTemplate.Application.Unit.Test
                 context.Products.Add(new Entities.Product { Id = 1, Name = "Ball" });
                 context.Products.Add(new Entities.Product { Id = 2, Name = "Table" });
                 context.Products.Add(new Entities.Product { Id = 3, Name = "Chair" });
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
 
                 IProductService productService = new ProductService(context);
                 var products = await productService.Get();
