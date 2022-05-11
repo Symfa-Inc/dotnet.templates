@@ -73,7 +73,9 @@ public static class StartupExtensions
             .AddServer(
                 options =>
                 {
-                    options.AllowPasswordFlow()
+                    options.AllowAuthorizationCodeFlow()
+                        .RequireProofKeyForCodeExchange()
+                        .AllowPasswordFlow()
                         .AllowRefreshTokenFlow();
 
                     // Setting up URIs
@@ -86,7 +88,8 @@ public static class StartupExtensions
                         //        options.UseIntrospection();
                         //    });
                         .SetIntrospectionEndpointUris("/connect/introspection")
-                        .SetRevocationEndpointUris("/connect/revoke");
+                        .SetRevocationEndpointUris("/connect/revoke")
+                        .SetAuthorizationEndpointUris("/connect/authorize");
 
                     // Encryption and signing of tokens
                     // On production, you can using a X.509 certificate stored in the machine store is recommended.
@@ -118,6 +121,7 @@ public static class StartupExtensions
 
                     // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                     options.UseAspNetCore()
+                        .EnableAuthorizationEndpointPassthrough()
                         .EnableTokenEndpointPassthrough();
                 });
     }
@@ -129,7 +133,17 @@ public static class StartupExtensions
     {
         services.AddScoped<IPasswordGrantTypeHandler, PasswordGrantTypeHandler>();
         services.AddScoped<IRefreshTokenGrantTypeHandler, RefreshTokenGrantTypeHandler>();
+        services.AddScoped<IAuthorizationCodeGrantTypeHandler, AuthorizationCodeGrantTypeHandler>();
         services.AddScoped<ITokenIssueService, TokenIssueService>();
-        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IExternalProviderService, ExternalProviderService>();
+        services.AddScoped<IUserCreatorService, UserCreatorService>();
+    }
+
+    public static void AddSocialLogins(this IServiceCollection services, ConfigurationManager configurationManager)
+    {
+        services.AddAuthentication()
+            .AddGoogle(options => configurationManager.GetSection("Google").Bind(options))
+            .AddFacebook(options => configurationManager.GetSection("Facebook").Bind(options))
+            .AddTwitter(options => configurationManager.GetSection("Twitter").Bind(options));
     }
 }

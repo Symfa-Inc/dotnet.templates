@@ -28,6 +28,7 @@ public class TokenIssueService : ITokenIssueService
         {
             OpenIddictConstants.GrantTypes.Password => _serviceProvider.GetService<IPasswordGrantTypeHandler>(),
             OpenIddictConstants.GrantTypes.RefreshToken => _serviceProvider.GetService<IRefreshTokenGrantTypeHandler>(),
+            OpenIddictConstants.GrantTypes.AuthorizationCode => _serviceProvider.GetService<IAuthorizationCodeGrantTypeHandler>(),
             _ => throw new NotImplementedException("The specified grant is not implemented.")
         };
     }

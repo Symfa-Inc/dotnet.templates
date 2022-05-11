@@ -8,15 +8,14 @@ namespace AuthorizationServer.Controllers;
 [Route("account")]
 public class AccountController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IUserCreatorService _userCreatorService;
 
-    public AccountController(IUserService userService)
+    public AccountController(IUserCreatorService userCreatorService)
     {
-        _userService = userService;
+        _userCreatorService = userCreatorService;
     }
 
-    [Route("register")]
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegistrationModel model)
     {
         if (!ModelState.IsValid)
@@ -24,7 +23,7 @@ public class AccountController : ControllerBase
             return BadRequest(model);
         }
 
-        var result = await _userService.CreateUserAsync(model.Username, model.Email, model.Password);
+        var result = await _userCreatorService.CreateUserAsync(model.Username, model.Email, model.Password);
         if (result.Succeeded)
         {
             return Ok();

@@ -28,27 +28,15 @@ public class RefreshTokenGrantTypeHandler : IRefreshTokenGrantTypeHandler
         var user = await _signInManager.ValidateSecurityStampAsync(info.Principal);
         if (user == null)
         {
-            var properties = new AuthenticationProperties(
-                new Dictionary<string, string>
-                {
-                    { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
-                    { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "The refresh token is no longer valid." }
-                });
-
-            await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
+            await ForbidAsync(context, "The refresh token is no longer valid.");
+            return;
         }
 
         // Ensure the user is still allowed to sign in.
         if (!await _signInManager.CanSignInAsync(user))
         {
-            var properties = new AuthenticationProperties(
-                new Dictionary<string, string>
-                {
-                    { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
-                    { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "The user is no longer allowed to sign in." }
-                });
-
-            await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
+            await ForbidAsync(context, "The user is no longer allowed to sign in.");
+            return;
         }
 
         // Create a new ClaimsPrincipal containing the claims that
@@ -56,5 +44,17 @@ public class RefreshTokenGrantTypeHandler : IRefreshTokenGrantTypeHandler
         var principal = await _signInManager.CreateUserPrincipalAsync(user);
         ClaimsDestinationHelper.SetClaimsDestination(principal);
         await context.SignInAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, principal);
+    }
+
+    private static async Task ForbidAsync(HttpContext context, string message)
+    {
+        var properties = new AuthenticationProperties(
+            new Dictionary<string, string>
+            {
+                { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
+                { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, message }
+            });
+
+        await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
     }
 }
