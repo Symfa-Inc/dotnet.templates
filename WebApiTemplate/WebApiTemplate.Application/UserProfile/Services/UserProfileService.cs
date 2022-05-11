@@ -26,8 +26,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
             {
                 UserId = userProfileCreateModel.UserId,
                 Email = userProfileCreateModel.Email,
-                Name = userProfileCreateModel.Name,
-                Surname = userProfileCreateModel.Surname,
+                UserName = userProfileCreateModel.UserName,
                 DateOfBirth = userProfileCreateModel.DateOfBirth,
                 Country = userProfileCreateModel.Country,
                 City = userProfileCreateModel.City,
@@ -71,8 +70,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
                 throw new EntityNotFoundException();
             }
 
-            userProfile.Name = userProfileUpdateModel.Name;
-            userProfile.Surname = userProfileUpdateModel.Surname;
+            userProfile.UserName = userProfileUpdateModel.UserName;
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
             userProfile.Country = userProfileUpdateModel.Country;
             userProfile.City = userProfileUpdateModel.City;
