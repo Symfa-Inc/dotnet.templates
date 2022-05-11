@@ -1,9 +1,11 @@
 using AuthorizationServer.Data;
-using AuthorizationServer.Handlers;
-using AuthorizationServer.Handlers.Interfaces;
+using AuthorizationServer.Handlers.Actions;
+using AuthorizationServer.Handlers.GrantTypes;
+using AuthorizationServer.Interfaces.Handlers.Actions;
+using AuthorizationServer.Interfaces.Handlers.GrantTypes;
+using AuthorizationServer.Interfaces.Services;
 using AuthorizationServer.Models;
 using AuthorizationServer.Services;
-using AuthorizationServer.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
@@ -134,8 +136,8 @@ public static class StartupExtensions
         services.AddScoped<IPasswordGrantTypeHandler, PasswordGrantTypeHandler>();
         services.AddScoped<IRefreshTokenGrantTypeHandler, RefreshTokenGrantTypeHandler>();
         services.AddScoped<IAuthorizationCodeGrantTypeHandler, AuthorizationCodeGrantTypeHandler>();
-        services.AddScoped<ITokenIssueService, TokenIssueService>();
-        services.AddScoped<IExternalProviderService, ExternalProviderService>();
+        services.AddScoped<ITokenIssueHandler, TokenIssueHandler>();
+        services.AddScoped<IExternalProviderHandler, ExternalProviderHandler>();
         services.AddScoped<IUserCreatorService, UserCreatorService>();
     }
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace AuthorizationServer.Services.Interfaces;
+namespace AuthorizationServer.Interfaces.Services;
 
 public interface IUserCreatorService
 {

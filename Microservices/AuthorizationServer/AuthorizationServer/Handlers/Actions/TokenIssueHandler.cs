@@ -1,15 +1,15 @@
-using AuthorizationServer.Handlers.Interfaces;
-using AuthorizationServer.Services.Interfaces;
+using AuthorizationServer.Interfaces.Handlers.Actions;
+using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using Microsoft.AspNetCore;
 using OpenIddict.Abstractions;
 
-namespace AuthorizationServer.Services;
+namespace AuthorizationServer.Handlers.Actions;
 
-public class TokenIssueService : ITokenIssueService
+public class TokenIssueHandler : ITokenIssueHandler
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public TokenIssueService(IServiceProvider serviceProvider)
+    public TokenIssueHandler(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }

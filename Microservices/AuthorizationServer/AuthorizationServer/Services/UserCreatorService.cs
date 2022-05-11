@@ -1,5 +1,5 @@
+using AuthorizationServer.Interfaces.Services;
 using AuthorizationServer.Models;
-using AuthorizationServer.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace AuthorizationServer.Services;

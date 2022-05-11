@@ -1,5 +1,5 @@
-﻿using AuthorizationServer.Models.Account;
-using AuthorizationServer.Services.Interfaces;
+﻿using AuthorizationServer.Interfaces.Services;
+using AuthorizationServer.Models.Account;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationServer.Controllers;

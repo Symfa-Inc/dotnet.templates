@@ -1,12 +1,12 @@
-using AuthorizationServer.Handlers.Interfaces;
 using AuthorizationServer.Helpers;
+using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using AuthorizationServer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
-namespace AuthorizationServer.Handlers;
+namespace AuthorizationServer.Handlers.GrantTypes;
 
 public class RefreshTokenGrantTypeHandler : IRefreshTokenGrantTypeHandler
 {

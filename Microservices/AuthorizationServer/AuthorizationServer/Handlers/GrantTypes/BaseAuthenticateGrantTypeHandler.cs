@@ -5,7 +5,7 @@ using AuthorizationServer.Models;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 
-namespace AuthorizationServer.Handlers;
+namespace AuthorizationServer.Handlers.GrantTypes;
 
 public abstract class BaseAuthenticateGrantTypeHandler
 {

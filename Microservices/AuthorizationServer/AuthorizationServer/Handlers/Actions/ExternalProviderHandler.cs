@@ -1,21 +1,22 @@
 using System.Security.Authentication;
 using AuthorizationServer.Helpers;
+using AuthorizationServer.Interfaces.Handlers.Actions;
+using AuthorizationServer.Interfaces.Services;
 using AuthorizationServer.Models;
-using AuthorizationServer.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
-namespace AuthorizationServer.Services;
+namespace AuthorizationServer.Handlers.Actions;
 
-public class ExternalProviderService : IExternalProviderService
+public class ExternalProviderHandler : IExternalProviderHandler
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IUserCreatorService _userCreatorService;
 
-    public ExternalProviderService(
+    public ExternalProviderHandler(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IUserCreatorService userCreatorService)
