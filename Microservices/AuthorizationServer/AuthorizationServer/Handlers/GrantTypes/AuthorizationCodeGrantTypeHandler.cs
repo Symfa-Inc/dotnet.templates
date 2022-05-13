@@ -7,7 +7,7 @@ using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Handlers.GrantTypes;
 
-public class AuthorizationCodeGrantTypeHandler : BaseAuthenticateGrantTypeHandler,  IAuthorizationCodeGrantTypeHandler
+public class AuthorizationCodeGrantTypeHandler : BaseGrantTypeHandler,  IAuthorizationCodeGrantTypeHandler
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
@@ -19,7 +19,6 @@ public class AuthorizationCodeGrantTypeHandler : BaseAuthenticateGrantTypeHandle
 
     public async Task HandleAsync(HttpContext context)
     {
-        var request = context.GetOpenIddictServerRequest();
         var result = await context.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         if (!result.Succeeded)
         {
@@ -34,7 +33,7 @@ public class AuthorizationCodeGrantTypeHandler : BaseAuthenticateGrantTypeHandle
 
         var userName = result.Principal!.Identity!.Name;
         var user = await _userManager.FindByNameAsync(userName);
-        var principal = await CreateUserPrincipalAsync(request, user);
+        var principal = await CreateUserPrincipalAsync(context.GetOpenIddictServerRequest(), user);
         await context.SignInAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, principal);
     }
 }

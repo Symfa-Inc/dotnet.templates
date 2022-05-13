@@ -7,11 +7,11 @@ using OpenIddict.Abstractions;
 
 namespace AuthorizationServer.Handlers.GrantTypes;
 
-public abstract class BaseAuthenticateGrantTypeHandler
+public abstract class BaseGrantTypeHandler
 {
     protected readonly SignInManager<ApplicationUser> SignInManager;
 
-    protected BaseAuthenticateGrantTypeHandler(SignInManager<ApplicationUser> signInManager)
+    protected BaseGrantTypeHandler(SignInManager<ApplicationUser> signInManager)
     {
         SignInManager = signInManager;
     }
@@ -34,7 +34,6 @@ public abstract class BaseAuthenticateGrantTypeHandler
     private static string[] GetDefaultAllowedScope()
         => new[]
         {
-            OpenIddictConstants.Scopes.OpenId,
             OpenIddictConstants.Scopes.OfflineAccess,
             OpenIddictConstants.Scopes.Profile,
             OpenIddictConstants.Scopes.Email
