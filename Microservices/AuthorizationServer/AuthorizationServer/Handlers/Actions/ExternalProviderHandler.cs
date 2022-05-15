@@ -29,7 +29,7 @@ public class ExternalProviderHandler : IExternalProviderHandler
     public async Task SignInAsync(HttpContext context, string provider, string redirectUrl)
     {
         var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
-        if (externalLoginInfo == null)
+        if (externalLoginInfo == null || externalLoginInfo.LoginProvider != provider)
         {
             var existingProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).Select(x => x.Name);
             if (!existingProviders.Contains(provider, StringComparer.OrdinalIgnoreCase))
