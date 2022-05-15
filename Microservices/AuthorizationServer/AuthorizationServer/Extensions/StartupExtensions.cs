@@ -80,6 +80,8 @@ public static class StartupExtensions
                         .AllowPasswordFlow()
                         .AllowRefreshTokenFlow();
 
+                    options.RegisterScopes(OpenIddictConstants.Scopes.Email);
+
                     // Setting up URIs
                     options.SetTokenEndpointUris("/connect/token")
                         // Allows the resource server using token validation by sending a request to this server instead of local validation.

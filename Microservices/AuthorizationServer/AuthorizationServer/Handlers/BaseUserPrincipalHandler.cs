@@ -5,13 +5,13 @@ using AuthorizationServer.Models;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 
-namespace AuthorizationServer.Handlers.GrantTypes;
+namespace AuthorizationServer.Handlers;
 
-public abstract class BaseGrantTypeHandler
+public abstract class BaseUserPrincipalHandler
 {
     protected readonly SignInManager<ApplicationUser> SignInManager;
 
-    protected BaseGrantTypeHandler(SignInManager<ApplicationUser> signInManager)
+    protected BaseUserPrincipalHandler(SignInManager<ApplicationUser> signInManager)
     {
         SignInManager = signInManager;
     }
@@ -35,7 +35,6 @@ public abstract class BaseGrantTypeHandler
         => new[]
         {
             OpenIddictConstants.Scopes.OfflineAccess,
-            OpenIddictConstants.Scopes.Profile,
             OpenIddictConstants.Scopes.Email
         };
 }

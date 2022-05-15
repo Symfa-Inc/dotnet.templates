@@ -1,52 +1,48 @@
 using System.Security.Authentication;
-using AuthorizationServer.Helpers;
 using AuthorizationServer.Interfaces.Handlers.Actions;
 using AuthorizationServer.Interfaces.Services;
 using AuthorizationServer.Models;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Handlers.Actions;
 
-public class ExternalProviderHandler : IExternalProviderHandler
+public class ExternalProviderHandler : BaseUserPrincipalHandler, IExternalProviderHandler
 {
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly IUserCreatorService _userCreatorService;
 
     public ExternalProviderHandler(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IUserCreatorService userCreatorService)
+        : base(signInManager)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
         _userCreatorService = userCreatorService;
     }
 
     public async Task SignInAsync(HttpContext context, string provider, string redirectUrl)
     {
-        var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
+        var externalLoginInfo = await SignInManager.GetExternalLoginInfoAsync();
         if (externalLoginInfo == null || externalLoginInfo.LoginProvider != provider)
         {
-            var existingProviders = (await _signInManager.GetExternalAuthenticationSchemesAsync()).Select(x => x.Name);
+            var existingProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Select(x => x.Name);
             if (!existingProviders.Contains(provider, StringComparer.OrdinalIgnoreCase))
             {
                 await ForbidAsync(context, "Required provider is not specified.");
                 return;
             }
 
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             await context.ChallengeAsync(provider, properties);
             return;
         }
 
         var user = await CreateUserIfNotExist(externalLoginInfo);
-        var principal = await _signInManager.CreateUserPrincipalAsync(user);
-        principal.SetScopes(OpenIddictConstants.Scopes.OfflineAccess);
-        ClaimsDestinationHelper.SetClaimsDestination(principal);
+        var principal = await CreateUserPrincipalAsync(context.GetOpenIddictServerRequest(), user);
         await context.SignInAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, principal);
     }
 
