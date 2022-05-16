@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Models;
 using System.ComponentModel.DataAnnotations;
+using WebApiTemplate.WebApi.Extensions;
 
 namespace WebApiTemplate.WebApi.Controllers
 {
@@ -21,22 +22,21 @@ namespace WebApiTemplate.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Required] UserProfileCreateModel userProfileCreateModel)
         {
-            var vm = await _userProfileService.Create(userProfileCreateModel);
+            var vm = await _userProfileService.Create(User.GetId(), userProfileCreateModel);
             return Ok(vm);
         }
 
         [HttpGet]
-        [Route("{userId}")]
-        public async Task<IActionResult> Get([FromRoute][Required] string userId)
+        public async Task<IActionResult> Get()
         {
-            var vm = await _userProfileService.Get(userId);
+            var vm = await _userProfileService.Get(User.GetId());
             return Ok(vm);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update([Required] UserProfileUpdateModel userProfileUpdateModel)
         {
-            var vm = await _userProfileService.Update(userProfileUpdateModel);
+            var vm = await _userProfileService.Update(User.GetId(), userProfileUpdateModel);
             return Ok(vm);
         }
     }

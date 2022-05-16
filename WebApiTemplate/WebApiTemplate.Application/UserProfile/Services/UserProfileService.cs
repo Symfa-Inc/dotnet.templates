@@ -11,26 +11,22 @@ namespace WebApiTemplate.Application.UserProfile.Services
     public class UserProfileService : IUserProfileService
     {
         private readonly DatabaseContext _context;
-        private readonly IUserContext _userContext;
 
-        public UserProfileService(DatabaseContext context, IUserContext userContext)
+        public UserProfileService(DatabaseContext context)
         {
             _context = context;
-            _userContext = userContext;
         }
 
-        public async Task<UserProfileCreateModelView> Create(UserProfileCreateModel userProfileCreateModel) 
+        public async Task<UserProfileCreateModelView> Create(string userId, UserProfileCreateModel userProfileCreateModel) 
         {
-            CheckUserId(userProfileCreateModel.UserId);
-
-            if (await IsUserProfileExists())
+            if (await IsUserProfileExists(userId))
             {
                 throw new EntityAlreadyExistsException();
             }
 
             var userProfile = new Entities.UserProfile
             {
-                UserId = userProfileCreateModel.UserId,
+                UserId = userId,
                 Email = userProfileCreateModel.Email,
                 UserName = userProfileCreateModel.UserName,
                 DateOfBirth = userProfileCreateModel.DateOfBirth,
@@ -51,8 +47,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileGetModelView> Get(string userId)
         {
-            CheckUserId(userId);
-
             var userProfile = await _context.UserProfiles
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.UserId == userId);
@@ -65,11 +59,9 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileGetView();
         }
 
-        public async Task<UserProfileUpdateModelView> Update(UserProfileUpdateModel userProfileUpdateModel)
+        public async Task<UserProfileUpdateModelView> Update(string userId, UserProfileUpdateModel userProfileUpdateModel)
         {
-            CheckUserId(userProfileUpdateModel.UserId);
-
-            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userProfileUpdateModel.UserId);
+            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (userProfile == null)
             {
@@ -90,17 +82,9 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileUpdateView();
         }
 
-        private void CheckUserId(string userId)
+        private async Task<bool> IsUserProfileExists(string userId)
         {
-            if (_userContext.UserId != userId)
-            {
-                throw new UserIdNotMatchException();
-            }
-        }
-
-        private async Task<bool> IsUserProfileExists()
-        {
-            return await _context.UserProfiles.AnyAsync(x => x.UserId == _userContext.UserId);
+            return await _context.UserProfiles.AnyAsync(x => x.UserId == userId);
         }
     }
 }
