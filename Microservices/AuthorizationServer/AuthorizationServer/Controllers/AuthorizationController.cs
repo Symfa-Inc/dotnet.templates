@@ -35,7 +35,7 @@ public class AuthorizationController : ControllerBase
     // External provider redirects to this endpoint after the authorization process
     [HttpGet("authorize/callback")]
     [HttpPost("authorize/callback")]
-    public virtual IActionResult ExternalCallback(string originalQuery)
+    public IActionResult ExternalCallback(string originalQuery)
     {
         // Redirect back to the authorize endpoint
         return LocalRedirect($"{Url.Action(nameof(Authorize))}{originalQuery}");
