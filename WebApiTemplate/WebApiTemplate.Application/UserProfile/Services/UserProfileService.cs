@@ -88,7 +88,9 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         private async Task<bool> IsUserProfileExists(UserProfileInfoModel userProfileInfoModel)
         {
-            return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId || x.UserName == userProfileInfoModel.UserName);
+            return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId 
+            || x.UserName == userProfileInfoModel.UserName
+            || x.Email == userProfileInfoModel.Email);
         }
     }
 }
