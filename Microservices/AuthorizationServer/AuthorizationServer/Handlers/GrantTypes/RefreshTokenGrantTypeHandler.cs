@@ -8,11 +8,11 @@ using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Handlers.GrantTypes;
 
-public class RefreshTokenUserPrincipalHandler : BaseUserPrincipalHandler, IRefreshTokenGrantTypeHandler
+public class RefreshTokenGrantTypeHandler : BaseUserPrincipalHandler, IRefreshTokenGrantTypeHandler
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public RefreshTokenUserPrincipalHandler(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+    public RefreshTokenGrantTypeHandler(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         : base(signInManager)
     {
         _userManager = userManager;

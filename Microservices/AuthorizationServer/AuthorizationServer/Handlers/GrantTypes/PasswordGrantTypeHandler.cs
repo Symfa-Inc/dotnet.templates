@@ -8,11 +8,11 @@ using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Handlers.GrantTypes;
 
-public class PasswordUserPrincipalHandler : BaseUserPrincipalHandler, IPasswordGrantTypeHandler
+public class PasswordGrantTypeHandler : BaseUserPrincipalHandler, IPasswordGrantTypeHandler
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public PasswordUserPrincipalHandler(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+    public PasswordGrantTypeHandler(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         : base(signInManager)
     {
         _userManager = userManager;
