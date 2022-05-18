@@ -17,18 +17,23 @@ namespace WebApiTemplate.Application.UserProfile.Services
             _context = context;
         }
 
-        public async Task<UserProfileCreateModelView> Create(string userId, UserProfileCreateModel userProfileCreateModel) 
+        public async Task<UserProfileCreateModelView> Create(UserProfileInfoModel userProfileInfoModel, UserProfileCreateModel userProfileCreateModel) 
         {
-            if (await IsUserProfileExists(userId))
+            if (await IsUserProfileExists(userProfileInfoModel))
             {
                 throw new EntityAlreadyExistsException();
             }
 
+            if (userProfileInfoModel.UserId == null || userProfileInfoModel.UserName == null || userProfileInfoModel.Email == null)
+            {
+                throw new EntityInvalidColumnsException();
+            }
+
             var userProfile = new Entities.UserProfile
             {
-                UserId = userId,
-                Email = userProfileCreateModel.Email,
-                UserName = userProfileCreateModel.UserName,
+                UserId = userProfileInfoModel.UserId,
+                Email = userProfileInfoModel.Email,
+                UserName = userProfileInfoModel.UserName,
                 DateOfBirth = userProfileCreateModel.DateOfBirth,
                 Country = userProfileCreateModel.Country,
                 City = userProfileCreateModel.City,
@@ -68,7 +73,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
                 throw new UserProfileNotFoundException();
             }
 
-            userProfile.UserName = userProfileUpdateModel.UserName;
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
             userProfile.Country = userProfileUpdateModel.Country;
             userProfile.City = userProfileUpdateModel.City;
@@ -82,9 +86,9 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileUpdateView();
         }
 
-        private async Task<bool> IsUserProfileExists(string userId)
+        private async Task<bool> IsUserProfileExists(UserProfileInfoModel userProfileInfoModel)
         {
-            return await _context.UserProfiles.AnyAsync(x => x.UserId == userId);
+            return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId || x.UserName == userProfileInfoModel.UserName);
         }
     }
 }
