@@ -135,9 +135,9 @@ public static class StartupExtensions
     /// </summary>
     public static void AddCustomDependencies(this IServiceCollection services)
     {
-        services.AddScoped<IPasswordGrantTypeHandler, PasswordUserPrincipalHandler>();
-        services.AddScoped<IRefreshTokenGrantTypeHandler, RefreshTokenUserPrincipalHandler>();
-        services.AddScoped<IAuthorizationCodeGrantTypeHandler, AuthorizationCodeUserPrincipalHandler>();
+        services.AddScoped<IPasswordGrantTypeHandler, PasswordGrantTypeHandler>();
+        services.AddScoped<IRefreshTokenGrantTypeHandler, RefreshTokenGrantTypeHandler>();
+        services.AddScoped<IAuthorizationCodeGrantTypeHandler, AuthorizationCodeGrantTypeHandler>();
         services.AddScoped<ITokenIssueHandler, TokenIssueHandler>();
         services.AddScoped<IExternalProviderHandler, ExternalProviderHandler>();
         services.AddScoped<IUserCreatorService, UserCreatorService>();
