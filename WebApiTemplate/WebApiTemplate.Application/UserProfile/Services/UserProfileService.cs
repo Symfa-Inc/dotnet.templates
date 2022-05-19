@@ -4,6 +4,7 @@ using WebApiTemplate.Application.UserProfile.Models;
 using WebApiTemplate.Persistence;
 using Entities = WebApiTemplate.Domain.Entities;
 using WebApiTemplate.Domain.Errors.Common;
+using WebApiTemplate.Domain.Errors.UserProfile;
 
 namespace WebApiTemplate.Application.UserProfile.Services
 {
@@ -22,12 +23,16 @@ namespace WebApiTemplate.Application.UserProfile.Services
         {
             CheckUserId(userProfileCreateModel.UserId);
 
+            if (await IsUserProfileExists())
+            {
+                throw new EntityAlreadyExistsException();
+            }
+
             var userProfile = new Entities.UserProfile
             {
                 UserId = userProfileCreateModel.UserId,
                 Email = userProfileCreateModel.Email,
-                Name = userProfileCreateModel.Name,
-                Surname = userProfileCreateModel.Surname,
+                UserName = userProfileCreateModel.UserName,
                 DateOfBirth = userProfileCreateModel.DateOfBirth,
                 Country = userProfileCreateModel.Country,
                 City = userProfileCreateModel.City,
@@ -54,7 +59,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             if (userProfile == null)
             {
-                throw new EntityNotFoundException();
+                throw new UserProfileNotFoundException();
             }
 
             return userProfile.ToUserProfileGetView();
@@ -68,11 +73,10 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             if (userProfile == null)
             {
-                throw new EntityNotFoundException();
+                throw new UserProfileNotFoundException();
             }
 
-            userProfile.Name = userProfileUpdateModel.Name;
-            userProfile.Surname = userProfileUpdateModel.Surname;
+            userProfile.UserName = userProfileUpdateModel.UserName;
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
             userProfile.Country = userProfileUpdateModel.Country;
             userProfile.City = userProfileUpdateModel.City;
@@ -92,6 +96,11 @@ namespace WebApiTemplate.Application.UserProfile.Services
             {
                 throw new UserIdNotMatchException();
             }
+        }
+
+        private async Task<bool> IsUserProfileExists()
+        {
+            return await _context.UserProfiles.AnyAsync(x => x.UserId == _userContext.UserId);
         }
     }
 }

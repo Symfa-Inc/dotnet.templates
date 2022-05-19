@@ -7,8 +7,7 @@ namespace WebApiTemplate.Application.UserProfile.Models
         public int Id { get; set; }
         public string UserId { get; set; }
         public string Email { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public string UserName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
@@ -27,8 +26,7 @@ namespace WebApiTemplate.Application.UserProfile.Models
                 Id = userProfile.Id,
                 UserId = userProfile.UserId,
                 Email = userProfile.Email,
-                Name = userProfile.Name,
-                Surname = userProfile.Surname,
+                UserName = userProfile.UserName,
                 DateOfBirth = userProfile.DateOfBirth,
                 Country = userProfile.Country,
                 City = userProfile.City,
