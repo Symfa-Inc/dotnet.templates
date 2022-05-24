@@ -1,6 +1,10 @@
 ﻿using AuthorizationServer.Interfaces.Services;
+using AuthorizationServer.Models;
 using AuthorizationServer.Models.Account;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Validation.AspNetCore;
 
 namespace AuthorizationServer.Controllers;
 
@@ -9,10 +13,12 @@ namespace AuthorizationServer.Controllers;
 public class AccountController : ControllerBase
 {
     private readonly IUserCreatorService _userCreatorService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(IUserCreatorService userCreatorService)
+    public AccountController(IUserCreatorService userCreatorService, UserManager<ApplicationUser> userManager)
     {
         _userCreatorService = userCreatorService;
+        _userManager = userManager;
     }
 
     [HttpPost("register")]
@@ -30,5 +36,19 @@ public class AccountController : ControllerBase
         }
 
         return BadRequest(result.ToString());
+    }
+
+    [HttpGet("userinfo")]
+    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        return Ok(
+            new
+            {
+                user.UserName,
+                user.Email,
+                user.TwoFactorEnabled
+            });
     }
 }

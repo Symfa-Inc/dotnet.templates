@@ -1,3 +1,4 @@
+using AuthorizationServer.Constants;
 using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using AuthorizationServer.Models;
 using Microsoft.AspNetCore;
@@ -33,6 +34,14 @@ public class PasswordGrantTypeHandler : BaseUserPrincipalHandler, IPasswordGrant
         if (!result.Succeeded)
         {
             await ForbidAsync(context);
+            return;
+        }
+
+        if (user.TwoFactorEnabled)
+        {
+            // Set information about the user id that passed credential verification
+            context.Session.SetString(SessionKeys.TwoFactorAuthentication, user.Id);
+            await context.Response.WriteAsync("Two-factor authentication is required.");
             return;
         }
 

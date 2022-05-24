@@ -1,3 +1,4 @@
+using AuthorizationServer.Constants;
 using AuthorizationServer.Interfaces.Handlers.Actions;
 using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using Microsoft.AspNetCore;
@@ -29,6 +30,7 @@ public class TokenIssueHandler : ITokenIssueHandler
             OpenIddictConstants.GrantTypes.Password => _serviceProvider.GetService<IPasswordGrantTypeHandler>(),
             OpenIddictConstants.GrantTypes.RefreshToken => _serviceProvider.GetService<IRefreshTokenGrantTypeHandler>(),
             OpenIddictConstants.GrantTypes.AuthorizationCode => _serviceProvider.GetService<IAuthorizationCodeGrantTypeHandler>(),
+            CustomGrantTypes.TwoFactorAuthentication => _serviceProvider.GetService<ITwoFactorAuthenticationGrantTypeHandler>(),
             _ => throw new NotImplementedException("The specified grant is not implemented.")
         };
     }

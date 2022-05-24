@@ -52,7 +52,11 @@ public static class StartupExtensions
                     options.ClaimsIdentity.RoleClaimType = OpenIddictConstants.Claims.Role;
                     options.ClaimsIdentity.EmailClaimType = OpenIddictConstants.Claims.Email;
                 })
-            .AddEntityFrameworkStores<UserDbContext>();
+            .AddEntityFrameworkStores<UserDbContext>()
+            .AddDefaultTokenProviders();
+
+        services.AddDistributedMemoryCache();
+        services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(5));
     }
 
     /// <summary>
@@ -78,7 +82,9 @@ public static class StartupExtensions
                     options.AllowAuthorizationCodeFlow()
                         .RequireProofKeyForCodeExchange()
                         .AllowPasswordFlow()
-                        .AllowRefreshTokenFlow();
+                        .AllowRefreshTokenFlow()
+                        // Add a custom code flow to check a verification code entered by user after a credential verification
+                        .AllowCustomFlow("2fa_code");
 
                     options.RegisterScopes(OpenIddictConstants.Scopes.Email);
 
@@ -93,7 +99,8 @@ public static class StartupExtensions
                         //    });
                         .SetIntrospectionEndpointUris("/connect/introspection")
                         .SetRevocationEndpointUris("/connect/revoke")
-                        .SetAuthorizationEndpointUris("/connect/authorize");
+                        .SetAuthorizationEndpointUris("/connect/authorize")
+                        .SetUserinfoEndpointUris("/account/userinfo");
 
                     // Encryption and signing of tokens
                     // On production, you can using a X.509 certificate stored in the machine store is recommended.
@@ -126,7 +133,19 @@ public static class StartupExtensions
                     // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                     options.UseAspNetCore()
                         .EnableAuthorizationEndpointPassthrough()
-                        .EnableTokenEndpointPassthrough();
+                        .EnableTokenEndpointPassthrough()
+                        .EnableUserinfoEndpointPassthrough();
+                })
+
+            // Validation is necessary because some endpoints have to be protected
+            .AddValidation(
+                options =>
+                {
+                    // Import the configuration from the local OpenIddict server instance.
+                    options.UseLocalServer();
+
+                    // Register the ASP.NET Core host.
+                    options.UseAspNetCore();
                 });
     }
 
@@ -138,12 +157,13 @@ public static class StartupExtensions
         services.AddScoped<IPasswordGrantTypeHandler, PasswordGrantTypeHandler>();
         services.AddScoped<IRefreshTokenGrantTypeHandler, RefreshTokenGrantTypeHandler>();
         services.AddScoped<IAuthorizationCodeGrantTypeHandler, AuthorizationCodeGrantTypeHandler>();
+        services.AddScoped<ITwoFactorAuthenticationGrantTypeHandler, TwoFactorAuthenticationGrantTypeHandler>();
         services.AddScoped<ITokenIssueHandler, TokenIssueHandler>();
         services.AddScoped<IExternalProviderHandler, ExternalProviderHandler>();
         services.AddScoped<IUserCreatorService, UserCreatorService>();
     }
 
-    public static void AddSocialLogins(this IServiceCollection services, ConfigurationManager configurationManager)
+    public static void AddExternalProviders(this IServiceCollection services, ConfigurationManager configurationManager)
     {
         services.AddAuthentication()
             .AddGoogle(options => configurationManager.GetSection("Google").Bind(options))

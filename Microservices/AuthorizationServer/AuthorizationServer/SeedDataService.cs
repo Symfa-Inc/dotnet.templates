@@ -57,6 +57,7 @@ namespace AuthorizationServer
                             OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                             OpenIddictConstants.Permissions.GrantTypes.Password,
                             OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
+                            OpenIddictConstants.Permissions.Prefixes.GrantType + CustomGrantTypes.TwoFactorAuthentication,
                             OpenIddictConstants.Permissions.Scopes.Email
                         }
                     },
