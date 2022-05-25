@@ -1,20 +1,20 @@
-﻿
-namespace WebApiTemplate.Domain.Errors
+﻿namespace WebApiTemplate.Domain.Errors
 {
     public class CommonException : Exception
     {
-        public ErrorCode Error { get; set; }
-        public object Value { get; set; }
+        public List<ErrorCode> Errors { get; set; }
 
         public CommonException(ErrorCode error)
         {
-            Error = error;
+            Errors = new List<ErrorCode>
+            {
+                error
+            };
         }
 
-        public CommonException(ErrorCode error, object value)
+        public CommonException(List<ErrorCode> errors)
         {
-            Error = error;
-            Value = value;
+            Errors = new List<ErrorCode>(errors);
         }
     }
 }

@@ -2,9 +2,8 @@
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Models;
 using WebApiTemplate.Persistence;
-using WebApiTemplate.Domain.Errors.Common;
-using Entities = WebApiTemplate.Domain.Entities;
 using WebApiTemplate.Domain.Errors;
+using Entities = WebApiTemplate.Domain.Entities;
 
 namespace WebApiTemplate.Application.Product.Services
 {
@@ -19,8 +18,6 @@ namespace WebApiTemplate.Application.Product.Services
 
         public async Task<IReadOnlyCollection<ProductGetModelView>> Get()
         {
-            throw new CommonException(ErrorCode.EntityNotFound);
-
             var products = await _context.Products
                 .AsNoTracking()
                 .ToListAsync();
@@ -44,7 +41,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new EntityNotFoundException();
+                throw new CommonException(ErrorCode.EntityNotFound);
             }
 
             product.Name = productUpdateModel.Name;
@@ -58,7 +55,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new EntityNotFoundException();
+                throw new CommonException(ErrorCode.EntityNotFound);
             }
 
             _context.Products.Remove(product);

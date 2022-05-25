@@ -2,6 +2,11 @@
 {
     public enum ErrorCode
     {
-        EntityNotFound = 1,
+        EntityAlreadyExists = 1,
+        EntityInvalidColumns,
+        EntityNotFound,
+        EmailServiceDisabled,
+        EmailServiceInvalidConfig,
+        UserProfileNotFound,
     }
 }
