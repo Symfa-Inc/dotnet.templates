@@ -4,6 +4,7 @@ using WebApiTemplate.Application.Product.Models;
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Domain.Errors.Common;
 using Entities = WebApiTemplate.Domain.Entities;
+using WebApiTemplate.Domain.Errors;
 
 namespace WebApiTemplate.Application.Product.Services
 {
@@ -18,6 +19,8 @@ namespace WebApiTemplate.Application.Product.Services
 
         public async Task<IReadOnlyCollection<ProductGetModelView>> Get()
         {
+            throw new CommonException(ErrorCode.EntityNotFound);
+
             var products = await _context.Products
                 .AsNoTracking()
                 .ToListAsync();

@@ -23,11 +23,16 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
             {
                 string exception = context.Exception.ToString();
 
-                if (context.Exception is BaseException)
+                if (context.Exception is CommonException commonException)
                 {
                     _logger.LogError(exception);
 
-                    context.Result = new ObjectResult(exception)
+                    context.Result = new ObjectResult(new 
+                    {
+                        Error = commonException.Error.ToString("G"),
+                        Code = commonException.Error.ToString("D"),
+                        commonException.Value,
+                    })
                     {
                         StatusCode = StatusCodes.Status400BadRequest
                     };
