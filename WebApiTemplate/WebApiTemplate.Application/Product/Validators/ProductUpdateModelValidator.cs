@@ -18,7 +18,9 @@ namespace WebApiTemplate.Application.Product.Validators
 
         public ProductUpdateModelValidator()
         {
-            RuleFor(x => x.Name).NotNull().NotEmpty();
+            RuleFor(x => x.Name)
+                .NotNull()
+                .MinimumLength(5);
         }
     }
 }

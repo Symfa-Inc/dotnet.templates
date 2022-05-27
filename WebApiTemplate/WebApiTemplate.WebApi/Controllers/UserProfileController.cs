@@ -20,7 +20,7 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Required] UserProfileCreateModel userProfileCreateModel)
+        public async Task<IActionResult> Create(UserProfileCreateModel userProfileCreateModel)
         {
             var userProfileInfoModel = new UserProfileInfoModel 
             {
@@ -41,7 +41,7 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([Required] UserProfileUpdateModel userProfileUpdateModel)
+        public async Task<IActionResult> Update(UserProfileUpdateModel userProfileUpdateModel)
         {
             var vm = await _userProfileService.Update(User.GetId(), userProfileUpdateModel);
             return Ok(vm);

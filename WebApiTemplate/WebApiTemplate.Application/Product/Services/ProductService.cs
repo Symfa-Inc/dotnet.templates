@@ -52,6 +52,13 @@ namespace WebApiTemplate.Application.Product.Services
 
         public async Task<ProductUpdateModelView> Update(int productId, ProductUpdateModel productUpdateModel)
         {
+            var validation = _productUpdateModelValidator.Validate(productUpdateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 
             if (product == null)

@@ -4,20 +4,36 @@ using WebApiTemplate.Application.UserProfile.Models;
 using WebApiTemplate.Persistence;
 using Entities = WebApiTemplate.Domain.Entities;
 using WebApiTemplate.Domain.Errors;
+using FluentValidation;
+using WebApiTemplate.Application.Extensions;
 
 namespace WebApiTemplate.Application.UserProfile.Services
 {
     public class UserProfileService : IUserProfileService
     {
         private readonly DatabaseContext _context;
+        private readonly IValidator<UserProfileCreateModel> _userProfileCreateModelValidator;
+        private readonly IValidator<UserProfileUpdateModel> _userProfileUpdateModelValidator;
 
-        public UserProfileService(DatabaseContext context)
+        public UserProfileService(
+            DatabaseContext context,
+            IValidator<UserProfileCreateModel> userProfileCreateModelValidator,
+            IValidator<UserProfileUpdateModel> userProfileUpdateModelValidator)
         {
             _context = context;
+            _userProfileCreateModelValidator = userProfileCreateModelValidator;
+            _userProfileUpdateModelValidator = userProfileUpdateModelValidator;
         }
 
         public async Task<UserProfileCreateModelView> Create(UserProfileInfoModel userProfileInfoModel, UserProfileCreateModel userProfileCreateModel) 
         {
+            var validation = _userProfileCreateModelValidator.Validate(userProfileCreateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             if (await IsUserProfileExists(userProfileInfoModel))
             {
                 throw new CustomException(ErrorCode.EntityAlreadyExists);
@@ -65,6 +81,13 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileUpdateModelView> Update(string userId, UserProfileUpdateModel userProfileUpdateModel)
         {
+            var validation = _userProfileUpdateModelValidator.Validate(userProfileUpdateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (userProfile == null)
