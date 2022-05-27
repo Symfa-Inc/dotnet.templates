@@ -27,7 +27,7 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
 
             if (emailTemplate == null)
             {
-                throw new CommonException(ErrorCode.EntityNotFound);
+                throw new CustomException(ErrorCode.EntityNotFound);
             }
 
             var stringBuilderEmailBody = new StringBuilder(emailTemplate.Body);

@@ -23,7 +23,7 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
             {
                 string exception = context.Exception.ToString();
 
-                if (context.Exception is CommonException commonException)
+                if (context.Exception is CustomException commonException)
                 {
                     _logger.LogError(exception);
 

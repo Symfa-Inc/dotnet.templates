@@ -41,7 +41,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new CommonException(ErrorCode.EntityNotFound);
+                throw new CustomException(ErrorCode.EntityNotFound);
             }
 
             product.Name = productUpdateModel.Name;
@@ -55,7 +55,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new CommonException(ErrorCode.EntityNotFound);
+                throw new CustomException(ErrorCode.EntityNotFound);
             }
 
             _context.Products.Remove(product);
