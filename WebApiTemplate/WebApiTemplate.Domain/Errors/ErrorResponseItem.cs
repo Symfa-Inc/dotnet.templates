@@ -2,6 +2,7 @@
 {
     public class ErrorResponseItem
     {
-        public string Error { get; set; }
+        public string Item { get; set; }
+        public string Value { get; set; }
     }
 }

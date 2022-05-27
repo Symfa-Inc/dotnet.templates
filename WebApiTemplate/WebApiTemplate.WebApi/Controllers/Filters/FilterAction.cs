@@ -27,7 +27,7 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
                 {
                     _logger.LogError(exception);
 
-                    context.Result = new ObjectResult(commonException.ToErrorResponse())
+                    context.Result = new ObjectResult(commonException.ErrorResponse)
                     {
                         StatusCode = StatusCodes.Status400BadRequest
                     };

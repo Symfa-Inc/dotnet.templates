@@ -2,19 +2,16 @@
 {
     public class CommonException : Exception
     {
-        public List<ErrorCode> Errors { get; set; }
+        public ErrorResponse ErrorResponse { get; set; }
 
-        public CommonException(ErrorCode error)
+        public CommonException(ErrorCode errorCode)
         {
-            Errors = new List<ErrorCode>
-            {
-                error
-            };
+            ErrorResponse = new ErrorResponse(errorCode);
         }
 
-        public CommonException(List<ErrorCode> errors)
+        public CommonException(ErrorCode errorCode, List<ErrorResponseItem> details)
         {
-            Errors = new List<ErrorCode>(errors);
+            ErrorResponse = new ErrorResponse(errorCode, details);
         }
     }
 }

@@ -2,29 +2,18 @@
 {
     public class ErrorResponse
     {
-        public List<ErrorResponseItem> Errors { get; set; }
+        public string Error { get; set; }
+        public List<ErrorResponseItem> Details { get; set; }
 
-        public ErrorResponse()
+        public ErrorResponse(ErrorCode errorCode)
         {
-            Errors = new List<ErrorResponseItem>();
+            Error = errorCode.ToString("G");
         }
-    }
 
-    public static class ErrorResponseExtension
-    {
-        public static ErrorResponse ToErrorResponse(this CommonException commonException)
+        public ErrorResponse(ErrorCode errorCode, List<ErrorResponseItem> details)
         {
-            var errorResponse = new ErrorResponse();
-
-            foreach (var error in commonException.Errors)
-            {
-                errorResponse.Errors.Add(new ErrorResponseItem
-                {
-                    Error = error.ToString("G")
-                });
-            }
-
-            return errorResponse;
+            Error = errorCode.ToString("G");
+            Details = new List<ErrorResponseItem>(details);
         }
     }
 }
