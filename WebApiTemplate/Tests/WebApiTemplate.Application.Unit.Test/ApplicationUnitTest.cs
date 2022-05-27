@@ -24,10 +24,9 @@ namespace WebApiTemplate.Application.Unit.Test
                 context.Products.Add(new Entities.Product { Id = 3, Name = "Chair" });
                 await context.SaveChangesAsync();
 
-                // TODO FluentValidation emulate IValidator
-                //IProductService productService = new ProductService(context, null);
-                //var products = await productService.Get();
-                //Assert.True(products != null && products.Any());
+                IProductService productService = new ProductService(context, null, null);
+                var products = await productService.Get();
+                Assert.True(products != null && products.Any());
             }
         }
     }

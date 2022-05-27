@@ -12,8 +12,6 @@ using Microsoft.Extensions.Configuration;
 using WebApiTemplate.Domain.Enums.EmailTemplate;
 using System.Collections.Generic;
 using WebApiTemplate.Domain.Consts.EmailTemplate;
-using FluentValidation;
-using WebApiTemplate.Application.Product.Validators;
 
 namespace WebApiTemplate.Application.Integration.Test
 {
@@ -41,10 +39,9 @@ namespace WebApiTemplate.Application.Integration.Test
 
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
-                // TODO FluentValidation emulate IValidator
-                //IProductService productService = new ProductService(context, null);
-                //var products = await productService.Get();
-                //Assert.True(products != null && products.Any());
+                IProductService productService = new ProductService(context, null, null);
+                var products = await productService.Get();
+                Assert.True(products != null && products.Any());
             }
         }
 
