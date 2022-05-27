@@ -2,7 +2,8 @@
 {
     public enum ErrorCode
     {
-        EntityAlreadyExists = 1,
+        ValidationError = 1,
+        EntityAlreadyExists,
         EntityInvalidColumns,
         EntityNotFound,
         EmailServiceDisabled,

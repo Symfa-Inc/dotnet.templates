@@ -7,10 +7,13 @@ using WebApiTemplate.Application.Email.Interfaces;
 using WebApiTemplate.Application.Email.Services;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Services;
+using WebApiTemplate.Application.Product.Models;
+using WebApiTemplate.Application.Product.Validators;
 using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
 using Serilog;
+using FluentValidation;
 
 const string BaseDirectory = "[BaseDirectory]";
 
@@ -78,6 +81,10 @@ void AddServices()
         .AddScoped<IEmailService, EmailService>()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
         .AddScoped<IUserProfileService, UserProfileService>();
+
+    _builder.Services
+        .AddScoped<IValidator<ProductCreateModel>, ProductCreateModelValidator>()
+        .AddScoped<IValidator<ProductUpdateModel>, ProductUpdateModelValidator>();
 }
 
 void AddLogging()

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace WebApiTemplate.WebApi.Controllers
 {
@@ -27,7 +26,7 @@ namespace WebApiTemplate.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Required] ProductCreateModel productCreateModel)
+        public async Task<IActionResult> Create(ProductCreateModel productCreateModel)
         {
             var vm = await _productService.Create(productCreateModel);
             return Ok(vm);
@@ -35,7 +34,7 @@ namespace WebApiTemplate.WebApi.Controllers
 
         [HttpPut]
         [Route("{productId}")]
-        public async Task<IActionResult> Update([FromRoute] int productId, [Required] ProductUpdateModel productUpdateModel)
+        public async Task<IActionResult> Update([FromRoute] int productId, ProductUpdateModel productUpdateModel)
         {
             var vm = await _productService.Update(productId, productUpdateModel);
             return Ok(vm);
