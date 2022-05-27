@@ -19,7 +19,7 @@ namespace WebApiTemplate.Application.Email.Services
         {
             if (!IsEnabled())
             {
-                throw new CommonException(ErrorCode.EmailServiceDisabled);
+                throw new CustomException(ErrorCode.EmailServiceDisabled);
             }
 
             var websiteEmailName = _configuration["MailSettings:Name"];
@@ -57,7 +57,7 @@ namespace WebApiTemplate.Application.Email.Services
 
             if (!bool.TryParse(isEnabled, out bool value))
             {
-                throw new CommonException(ErrorCode.EmailServiceInvalidConfig);
+                throw new CustomException(ErrorCode.EmailServiceInvalidConfig);
             }
 
             return value;

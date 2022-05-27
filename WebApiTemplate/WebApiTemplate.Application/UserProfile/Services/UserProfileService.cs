@@ -20,12 +20,12 @@ namespace WebApiTemplate.Application.UserProfile.Services
         {
             if (await IsUserProfileExists(userProfileInfoModel))
             {
-                throw new CommonException(ErrorCode.EntityAlreadyExists);
+                throw new CustomException(ErrorCode.EntityAlreadyExists);
             }
 
             if (userProfileInfoModel.UserId == null || userProfileInfoModel.UserName == null || userProfileInfoModel.Email == null)
             {
-                throw new CommonException(ErrorCode.EntityInvalidColumns);
+                throw new CustomException(ErrorCode.EntityInvalidColumns);
             }
 
             var userProfile = new Entities.UserProfile
@@ -57,7 +57,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             if (userProfile == null)
             {
-                throw new CommonException(ErrorCode.UserProfileNotFound);
+                throw new CustomException(ErrorCode.UserProfileNotFound);
             }
 
             return userProfile.ToUserProfileGetView();
@@ -69,7 +69,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             if (userProfile == null)
             {
-                throw new CommonException(ErrorCode.UserProfileNotFound);
+                throw new CustomException(ErrorCode.UserProfileNotFound);
             }
 
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
