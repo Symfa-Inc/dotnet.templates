@@ -35,7 +35,7 @@ public class TwoFactorAuthenticationGrantTypeHandler : BaseUserPrincipalHandler,
         }
 
         var user = await _userManager.FindByIdAsync(userId)
-            ?? throw new InvalidOperationException();
+            ?? throw new InvalidOperationException("User is not found.");
         var isValidCode = await _userManager.VerifyTwoFactorTokenAsync(
             user,
             _userManager.Options.Tokens.AuthenticatorTokenProvider,
