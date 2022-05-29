@@ -1,6 +1,7 @@
 ﻿using AuthorizationServer.Constants;
 using AuthorizationServer.Data;
 using OpenIddict.Abstractions;
+using Microsoft.AspNetCore.Identity;
 
 namespace AuthorizationServer
 {
@@ -21,6 +22,24 @@ namespace AuthorizationServer
             // Register new clients
             var applicationManager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
             await RegisterClientsAsync(applicationManager, cancellationToken);
+
+            // Create roles
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string[] roleNames = { UserRoles.AuthorizationAdmin, UserRoles.ApplicationAdmin, UserRoles.User };
+
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            // Create AuthorizationAdmin and ApplicationAdmin
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

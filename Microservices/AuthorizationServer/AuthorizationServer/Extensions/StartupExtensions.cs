@@ -86,7 +86,7 @@ public static class StartupExtensions
                         // Add a custom code flow to check a verification code entered by user after a credential verification
                         .AllowCustomFlow("2fa_code");
 
-                    options.RegisterScopes(OpenIddictConstants.Scopes.Email);
+                    options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Roles);
 
                     // Setting up URIs
                     options.SetTokenEndpointUris("/connect/token")
