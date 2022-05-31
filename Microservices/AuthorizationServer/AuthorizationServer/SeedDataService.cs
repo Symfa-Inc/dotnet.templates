@@ -40,11 +40,13 @@ namespace AuthorizationServer
                 }
             }
 
-            // Create AuthorizationAdmin and ApplicationAdmin
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            await CreateAuthorizationAdminAsync(userManager);
-            await CreateApplicationAdminAsync(userManager);
+            // Create AuthorizationAdmin
+            await CreateAdminAsync(userManager, AuthorizationAdminUser.UserName, AuthorizationAdminUser.Email, AuthorizationAdminUser.Password, UserRoles.AuthorizationAdmin);
+
+            // Create ApplicationAdmin
+            await CreateAdminAsync(userManager, ApplicationAdminUser.UserName, ApplicationAdminUser.Email, ApplicationAdminUser.Password, UserRoles.ApplicationAdmin);
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
@@ -109,9 +111,9 @@ namespace AuthorizationServer
             }
         }
 
-        private async Task CreateAuthorizationAdminAsync(UserManager<ApplicationUser> userManager)
+        private async Task CreateAdminAsync(UserManager<ApplicationUser> userManager, string userName, string email, string password, string role)
         {
-            var user = await userManager.FindByNameAsync(AuthorizationAdminUser.UserName);
+            var user = await userManager.FindByNameAsync(userName);
 
             if (user != null)
             {
@@ -120,38 +122,15 @@ namespace AuthorizationServer
 
             user = new ApplicationUser
             {
-                UserName = AuthorizationAdminUser.UserName,
-                Email = AuthorizationAdminUser.Email
+                UserName = userName,
+                Email = email
             };
 
-            var result = await userManager.CreateAsync(user, AuthorizationAdminUser.Password);
+            var result = await userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, UserRoles.AuthorizationAdmin);
-            }
-        }
-
-        private async Task CreateApplicationAdminAsync(UserManager<ApplicationUser> userManager)
-        {
-            var user = await userManager.FindByNameAsync(ApplicationAdminUser.UserName);
-
-            if (user != null)
-            {
-                return;
-            }
-
-            user = new ApplicationUser
-            {
-                UserName = ApplicationAdminUser.UserName,
-                Email = ApplicationAdminUser.Email
-            };
-
-            var result = await userManager.CreateAsync(user, ApplicationAdminUser.Password);
-
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(user, UserRoles.ApplicationAdmin);
+                await userManager.AddToRoleAsync(user, role);
             }
         }
     }
