@@ -30,6 +30,7 @@ AddConfig();
 InitServices();
 InitConnectionString();
 AddServices();
+AddFluentValidation();
 ConfigureOpeniddictValidation();
 AddLogging();
 BuildWebApplication();
@@ -83,12 +84,11 @@ void AddServices()
         .AddScoped<IEmailService, EmailService>()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
         .AddScoped<IUserProfileService, UserProfileService>();
+}
 
-    _builder.Services
-        .AddScoped<IValidator<ProductCreateModel>, ProductCreateModelValidator>()
-        .AddScoped<IValidator<ProductUpdateModel>, ProductUpdateModelValidator>()
-        .AddScoped<IValidator<UserProfileCreateModel>, UserProfileCreateModelValidator>()
-        .AddScoped<IValidator<UserProfileUpdateModel>, UserProfileUpdateModelValidator>();
+void AddFluentValidation()
+{
+    _builder.Services.AddValidatorsFromAssemblyContaining<UserProfileCreateModelValidator>();
 }
 
 void AddLogging()
