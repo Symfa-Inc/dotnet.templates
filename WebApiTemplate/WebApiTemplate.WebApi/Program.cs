@@ -1,14 +1,16 @@
 using WebApiTemplate.Persistence;
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Services;
+using WebApiTemplate.Application.Product.Models;
+using WebApiTemplate.Application.Product.Validators;
 using WebApiTemplate.Application.EmailTemplate.Interfaces;
 using WebApiTemplate.Application.EmailTemplate.Services;
 using WebApiTemplate.Application.Email.Interfaces;
 using WebApiTemplate.Application.Email.Services;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Services;
-using WebApiTemplate.Application.Product.Models;
-using WebApiTemplate.Application.Product.Validators;
+using WebApiTemplate.Application.UserProfile.Models;
+using WebApiTemplate.Application.UserProfile.Validators;
 using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
@@ -84,7 +86,9 @@ void AddServices()
 
     _builder.Services
         .AddScoped<IValidator<ProductCreateModel>, ProductCreateModelValidator>()
-        .AddScoped<IValidator<ProductUpdateModel>, ProductUpdateModelValidator>();
+        .AddScoped<IValidator<ProductUpdateModel>, ProductUpdateModelValidator>()
+        .AddScoped<IValidator<UserProfileCreateModel>, UserProfileCreateModelValidator>()
+        .AddScoped<IValidator<UserProfileUpdateModel>, UserProfileUpdateModelValidator>();
 }
 
 void AddLogging()

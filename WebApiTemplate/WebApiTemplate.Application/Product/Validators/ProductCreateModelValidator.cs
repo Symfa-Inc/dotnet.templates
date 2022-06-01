@@ -1,6 +1,7 @@
 ﻿using WebApiTemplate.Application.Product.Models;
 using FluentValidation;
 using FluentValidation.Results;
+using WebApiTemplate.Domain.Errors;
 
 namespace WebApiTemplate.Application.Product.Validators
 {
@@ -18,9 +19,10 @@ namespace WebApiTemplate.Application.Product.Validators
 
         public ProductCreateModelValidator()
         {
-            RuleFor(x => x.Name)
-                .NotNull()
-                .MinimumLength(5);
+            RuleFor(x => x.Name).NotNull()
+                .WithMessage(ErrorCodeValidation.NameNull.ToString());
+            RuleFor(x => x.Name).MinimumLength(5)
+                .WithMessage(ErrorCodeValidation.NameMinimumLength.ToString());
         }
     }
 }

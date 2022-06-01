@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using WebApiTemplate.Application.UserProfile.Models;
+using WebApiTemplate.Domain.Errors;
 
 namespace WebApiTemplate.Application.UserProfile.Validators
 {
@@ -18,7 +19,7 @@ namespace WebApiTemplate.Application.UserProfile.Validators
 
         public UserProfileUpdateModelValidator()
         {
-            RuleFor(x => x.DateOfBirth).NotNull();
+            RuleFor(x => x.DateOfBirth).NotNull().WithMessage(ErrorCodeValidation.DateOfBirthNull.ToString());
         }
     }
 }

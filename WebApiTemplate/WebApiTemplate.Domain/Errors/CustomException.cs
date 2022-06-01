@@ -13,10 +13,5 @@
         {
             ErrorResponse = new ErrorResponse(errorCode);
         }
-
-        public CustomException(ErrorCode errorCode, List<ErrorResponseItem> details)
-        {
-            ErrorResponse = new ErrorResponse(errorCode, details);
-        }
     }
 }

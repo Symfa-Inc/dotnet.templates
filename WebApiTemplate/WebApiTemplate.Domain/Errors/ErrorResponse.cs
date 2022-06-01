@@ -3,17 +3,15 @@
     public class ErrorResponse
     {
         public string Error { get; set; }
-        public List<ErrorResponseItem> Details { get; set; }
 
         public ErrorResponse(ErrorCode errorCode)
         {
-            Error = errorCode.ToString("G");
+            Error = errorCode.ToString();
         }
 
-        public ErrorResponse(ErrorCode errorCode, List<ErrorResponseItem> details)
+        public ErrorResponse(string error)
         {
-            Error = errorCode.ToString("G");
-            Details = new List<ErrorResponseItem>(details);
+            Error = error;
         }
     }
 }
