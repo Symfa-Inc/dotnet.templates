@@ -1,9 +1,6 @@
-﻿
-
-namespace WebApiTemplate.Domain.Errors.Common
+﻿namespace WebApiTemplate.Domain.Errors.Common
 {
     public class EntityInvalidColumnsException : BaseException
     {
-
     }
 }

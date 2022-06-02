@@ -6,7 +6,6 @@
         public EmailServiceException(string message)
             : base(message)
         {
-
         }
     }
 }
