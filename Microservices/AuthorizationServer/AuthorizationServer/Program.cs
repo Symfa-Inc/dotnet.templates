@@ -1,5 +1,6 @@
 using AuthorizationServer;
 using AuthorizationServer.Extensions;
+using AuthorizationServer.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
@@ -24,8 +25,10 @@ app.UseCors(
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseEndpoints(endpoints => endpoints.MapControllers());
 app.Run();

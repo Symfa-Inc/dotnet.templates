@@ -4,6 +4,7 @@ using AuthorizationServer.Handlers.GrantTypes;
 using AuthorizationServer.Interfaces.Handlers.Actions;
 using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using AuthorizationServer.Interfaces.Services;
+using AuthorizationServer.Middlewares;
 using AuthorizationServer.Models;
 using AuthorizationServer.Services;
 using Microsoft.AspNetCore.Identity;
@@ -161,6 +162,7 @@ public static class StartupExtensions
         services.AddScoped<ITokenIssueHandler, TokenIssueHandler>();
         services.AddScoped<IExternalProviderHandler, ExternalProviderHandler>();
         services.AddScoped<IUserCreatorService, UserCreatorService>();
+        services.AddTransient<ExceptionHandlerMiddleware>();
     }
 
     public static void AddExternalProviders(this IServiceCollection services, ConfigurationManager configurationManager)

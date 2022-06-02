@@ -1,10 +1,10 @@
 using AuthorizationServer.Constants;
+using AuthorizationServer.Extensions;
 using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using AuthorizationServer.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
 namespace AuthorizationServer.Handlers.GrantTypes;
@@ -25,7 +25,7 @@ public class PasswordGrantTypeHandler : BaseUserPrincipalHandler, IPasswordGrant
         var user = await _userManager.FindByNameAsync(request!.Username);
         if (user == null)
         {
-            await ForbidAsync(context);
+            await context.BadRequestAsync(ErrorCode.InvalidCredentials);
             return;
         }
 
@@ -33,30 +33,19 @@ public class PasswordGrantTypeHandler : BaseUserPrincipalHandler, IPasswordGrant
         var result = await SignInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: false);
         if (!result.Succeeded)
         {
-            await ForbidAsync(context);
+            await context.BadRequestAsync(ErrorCode.InvalidCredentials);
             return;
         }
 
         if (user.TwoFactorEnabled)
         {
             // Set information about the user id that passed credential verification
-            context.Session.SetString(SessionKeys.TwoFactorAuthentication, user.Id);
-            await context.Response.WriteAsync("Two-factor authentication is required.");
+            context.Session.SetString(SessionKey.TwoFactorAuthentication, user.Id);
+            await context.BadRequestAsync(ErrorCode.TwoFactorAuthenticationRequired);
             return;
         }
 
         var principal = await CreateUserPrincipalAsync(request, user);
         await context.SignInAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, principal);
-    }
-
-    private static async Task ForbidAsync(HttpContext context)
-    {
-        var properties = new AuthenticationProperties(
-            new Dictionary<string, string>
-            {
-                { OpenIddictServerAspNetCoreConstants.Properties.Error, OpenIddictConstants.Errors.InvalidGrant },
-                { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "Invalid credentials." }
-            });
-        await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
     }
 }

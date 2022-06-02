@@ -1,6 +1,8 @@
-﻿using AuthorizationServer.Interfaces.Services;
+﻿using AuthorizationServer.Errors;
+using AuthorizationServer.Interfaces.Services;
 using AuthorizationServer.Models;
 using AuthorizationServer.Models.Account;
+using AuthorizationServer.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +26,11 @@ public class AccountController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegistrationModel model)
     {
-        if (!ModelState.IsValid)
+        var validationResult = new RegistrationValidator().Validate(model);
+        if (!validationResult.IsValid)
         {
-            return BadRequest(model);
+            var validationError = validationResult.Errors.First();
+            return BadRequest(new ResponseError(validationError.ErrorCode, validationError.ErrorMessage));
         }
 
         var result = await _userCreatorService.CreateUserAsync(model.Username, model.Email, model.Password);
@@ -35,7 +39,10 @@ public class AccountController : ControllerBase
             return Ok();
         }
 
-        return BadRequest(result.ToString());
+        // Note: to see all list of the error codes:
+        // typeof(IdentityErrorDescriber).GetProperties().Select(x => x.Name);
+        var error = result.Errors.First();
+        return BadRequest(new ResponseError(error.Code, error.Description));
     }
 
     [HttpGet("userinfo")]
