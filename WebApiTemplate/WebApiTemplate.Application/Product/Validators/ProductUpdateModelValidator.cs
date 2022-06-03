@@ -20,9 +20,9 @@ namespace WebApiTemplate.Application.Product.Validators
         public ProductUpdateModelValidator()
         {
             RuleFor(x => x.Name).NotNull()
-                .WithMessage(nameof(ErrorCodeValidation.NameNull));
+                .WithMessage(ErrorCodeValidation.NameNull);
             RuleFor(x => x.Name).MinimumLength(5)
-                .WithMessage(nameof(ErrorCodeValidation.NameMinimumLength));
+                .WithMessage(ErrorCodeValidation.NameMinimumLength);
         }
     }
 }

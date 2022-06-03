@@ -1,9 +1,9 @@
 ﻿namespace WebApiTemplate.Domain.Errors
 {
-    public enum ErrorCodeValidation
+    public static class ErrorCodeValidation
     {
-        DateOfBirthNull = 1,
-        NameNull,
-        NameMinimumLength,
+        public const string DateOfBirthNull = nameof(DateOfBirthNull);
+        public const string NameNull = nameof(NameNull);
+        public const string NameMinimumLength = nameof(NameMinimumLength);
     }
 }

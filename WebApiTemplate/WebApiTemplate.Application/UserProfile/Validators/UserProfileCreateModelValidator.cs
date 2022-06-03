@@ -19,7 +19,7 @@ namespace WebApiTemplate.Application.UserProfile.Validators
 
         public UserProfileCreateModelValidator()
         {
-            RuleFor(x => x.DateOfBirth).NotNull().WithMessage(nameof(ErrorCodeValidation.DateOfBirthNull));
+            RuleFor(x => x.DateOfBirth).NotNull().WithMessage(ErrorCodeValidation.DateOfBirthNull);
         }
     }
 }
