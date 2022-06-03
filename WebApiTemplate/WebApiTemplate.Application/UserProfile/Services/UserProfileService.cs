@@ -44,11 +44,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
                 throw new CustomException(ErrorCode.EntityInvalidColumns);
             }
 
-            if (await IsUserProfileExists())
-            {
-                throw new EntityAlreadyExistsException();
-            }
-
             var userProfile = new Entities.UserProfile
             {
                 UserId = userProfileInfoModel.UserId,
@@ -118,11 +113,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId 
             || x.UserName == userProfileInfoModel.UserName
             || x.Email == userProfileInfoModel.Email);
-        }
-
-        private async Task<bool> IsUserProfileExists()
-        {
-            return await _context.UserProfiles.AnyAsync(x => x.UserId == _userContext.UserId);
         }
     }
 }
