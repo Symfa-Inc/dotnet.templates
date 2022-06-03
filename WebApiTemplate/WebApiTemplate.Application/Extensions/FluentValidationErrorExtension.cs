@@ -7,7 +7,7 @@ namespace WebApiTemplate.Application.Extensions
     {
         public static ErrorResponse ToErrorResponse(this ValidationResult validationResult)
         {
-            var error = validationResult.Errors.FirstOrDefault();
+            var error = validationResult.Errors.First();
             return new ErrorResponse(error.ErrorMessage);
         }
     }
