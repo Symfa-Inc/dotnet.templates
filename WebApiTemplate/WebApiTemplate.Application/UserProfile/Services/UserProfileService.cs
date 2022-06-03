@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Models;
 using WebApiTemplate.Persistence;
@@ -42,6 +42,11 @@ namespace WebApiTemplate.Application.UserProfile.Services
             if (userProfileInfoModel.UserId == null || userProfileInfoModel.UserName == null || userProfileInfoModel.Email == null)
             {
                 throw new CustomException(ErrorCode.EntityInvalidColumns);
+            }
+
+            if (await IsUserProfileExists())
+            {
+                throw new EntityAlreadyExistsException();
             }
 
             var userProfile = new Entities.UserProfile
@@ -113,6 +118,11 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId 
             || x.UserName == userProfileInfoModel.UserName
             || x.Email == userProfileInfoModel.Email);
+        }
+
+        private async Task<bool> IsUserProfileExists()
+        {
+            return await _context.UserProfiles.AnyAsync(x => x.UserId == _userContext.UserId);
         }
     }
 }

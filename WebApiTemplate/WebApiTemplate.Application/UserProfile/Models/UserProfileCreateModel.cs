@@ -4,6 +4,7 @@ namespace WebApiTemplate.Application.UserProfile.Models
 {
     public class UserProfileCreateModel
     {
+        [Required]
         public DateTime DateOfBirth { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
