@@ -1,6 +1,8 @@
 ﻿using AuthorizationServer.Constants;
 using AuthorizationServer.Data;
 using OpenIddict.Abstractions;
+using Microsoft.AspNetCore.Identity;
+using AuthorizationServer.Models;
 
 namespace AuthorizationServer
 {
@@ -20,17 +22,45 @@ namespace AuthorizationServer
 
             // Register new clients
             var applicationManager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
-            await RegisterClientsAsync(cancellationToken, applicationManager);
+            await RegisterClientsAsync(applicationManager, cancellationToken);
+
+            // Create roles
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            string[] roleNames = { UserRoles.AuthorizationAdmin, UserRoles.ApplicationAdmin, UserRoles.User };
+
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            // Create AuthorizationAdmin
+            await CreateAdminAsync(userManager, AuthorizationAdminUser.UserName, AuthorizationAdminUser.Email, AuthorizationAdminUser.Password, UserRoles.AuthorizationAdmin);
+
+            // Create ApplicationAdmin
+            await CreateAdminAsync(userManager, ApplicationAdminUser.UserName, ApplicationAdminUser.Email, ApplicationAdminUser.Password, UserRoles.ApplicationAdmin);
         }
 
-        private async Task RegisterClientsAsync(CancellationToken cancellationToken, IOpenIddictApplicationManager applicationManager)
+        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+        private static async Task RegisterClientsAsync(
+            IOpenIddictApplicationManager applicationManager,
+            CancellationToken cancellationToken)
         {
             // You can register your own client(s). SPA app, for instance
             await AddSpaClientAsync(applicationManager, cancellationToken);
             await AddBackendClientAsync(applicationManager, cancellationToken);
         }
 
-        private async Task AddSpaClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
+        private static async Task AddSpaClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
         {
             if (await applicationManager.FindByClientIdAsync(ClientNames.SpaClient, cancellationToken) == null)
             {
@@ -38,13 +68,22 @@ namespace AuthorizationServer
                     new OpenIddictApplicationDescriptor
                     {
                         ClientId = ClientNames.SpaClient,
+
+                        // Specify URLs application can redirect to
+                        RedirectUris =
+                        {
+                            new Uri("http://localhost:3000/authCallback")
+                        },
                         Permissions =
                         {
                             OpenIddictConstants.Permissions.Endpoints.Token,
                             OpenIddictConstants.Permissions.Endpoints.Revocation,
+                            OpenIddictConstants.Permissions.Endpoints.Authorization,
+                            OpenIddictConstants.Permissions.ResponseTypes.Code,
+                            OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                             OpenIddictConstants.Permissions.GrantTypes.Password,
                             OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-                            OpenIddictConstants.Permissions.Scopes.Profile,
+                            OpenIddictConstants.Permissions.Prefixes.GrantType + CustomGrantTypes.TwoFactorAuthentication,
                             OpenIddictConstants.Permissions.Scopes.Email
                         }
                     },
@@ -52,7 +91,9 @@ namespace AuthorizationServer
             }
         }
 
-        private async Task AddBackendClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
+        private static async Task AddBackendClientAsync(
+            IOpenIddictApplicationManager applicationManager,
+            CancellationToken cancellationToken)
         {
             if (await applicationManager.FindByClientIdAsync(ClientNames.BackendClient, cancellationToken) == null)
             {
@@ -70,6 +111,27 @@ namespace AuthorizationServer
             }
         }
 
-        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+        private async Task CreateAdminAsync(UserManager<ApplicationUser> userManager, string userName, string email, string password, string role)
+        {
+            var user = await userManager.FindByNameAsync(userName);
+
+            if (user != null)
+            {
+                return;
+            }
+
+            user = new ApplicationUser
+            {
+                UserName = userName,
+                Email = email
+            };
+
+            var result = await userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, role);
+            }
+        }
     }
 }

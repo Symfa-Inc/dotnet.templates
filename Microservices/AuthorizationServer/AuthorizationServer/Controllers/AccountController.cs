@@ -1,6 +1,10 @@
-﻿using AuthorizationServer.Models.Account;
-using AuthorizationServer.Services.Interfaces;
+﻿using AuthorizationServer.Interfaces.Services;
+using AuthorizationServer.Models;
+using AuthorizationServer.Models.Account;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Validation.AspNetCore;
 
 namespace AuthorizationServer.Controllers;
 
@@ -8,15 +12,16 @@ namespace AuthorizationServer.Controllers;
 [Route("account")]
 public class AccountController : ControllerBase
 {
-    private readonly IUserService _userService;
+    private readonly IUserCreatorService _userCreatorService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(IUserService userService)
+    public AccountController(IUserCreatorService userCreatorService, UserManager<ApplicationUser> userManager)
     {
-        _userService = userService;
+        _userCreatorService = userCreatorService;
+        _userManager = userManager;
     }
 
-    [Route("register")]
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegistrationModel model)
     {
         if (!ModelState.IsValid)
@@ -24,12 +29,26 @@ public class AccountController : ControllerBase
             return BadRequest(model);
         }
 
-        var result = await _userService.CreateUserAsync(model.Username, model.Email, model.Password);
+        var result = await _userCreatorService.CreateUserAsync(model.Username, model.Email, model.Password);
         if (result.Succeeded)
         {
             return Ok();
         }
 
         return BadRequest(result.ToString());
+    }
+
+    [HttpGet("userinfo")]
+    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
+    public async Task<IActionResult> GetUserInfo()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        return Ok(
+            new
+            {
+                user.UserName,
+                user.Email,
+                user.TwoFactorEnabled
+            });
     }
 }
