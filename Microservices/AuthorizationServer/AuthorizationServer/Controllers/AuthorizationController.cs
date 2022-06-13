@@ -1,4 +1,4 @@
-﻿using AuthorizationServer.Services.Interfaces;
+﻿using AuthorizationServer.Interfaces.Handlers.Actions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthorizationServer.Controllers;
@@ -7,16 +7,37 @@ namespace AuthorizationServer.Controllers;
 [Route("connect")]
 public class AuthorizationController : ControllerBase
 {
-    private readonly ITokenIssueService _tokenIssueService;
+    private readonly ITokenIssueHandler _tokenIssueHandler;
+    private readonly IExternalProviderHandler _externalProviderHandler;
 
-    public AuthorizationController(ITokenIssueService tokenIssueService)
+    public AuthorizationController(ITokenIssueHandler tokenIssueHandler, IExternalProviderHandler externalProviderHandler)
     {
-        _tokenIssueService = tokenIssueService;
+        _tokenIssueHandler = tokenIssueHandler;
+        _externalProviderHandler = externalProviderHandler;
     }
 
     [HttpPost("token")]
     public async Task Exchange()
     {
-        await _tokenIssueService.IssueAsync(HttpContext);
+        await _tokenIssueHandler.IssueAsync(HttpContext);
+    }
+
+    [HttpGet("authorize")]
+    [HttpPost("authorize")]
+    public async Task Authorize(string provider)
+    {
+        await _externalProviderHandler.SignInAsync(
+            HttpContext,
+            provider,
+            Url.Action("ExternalCallback", new { originalQuery = HttpContext.Request.QueryString }));
+    }
+
+    // External provider redirects to this endpoint after the authorization process
+    [HttpGet("authorize/callback")]
+    [HttpPost("authorize/callback")]
+    public IActionResult ExternalCallback(string originalQuery)
+    {
+        // Redirect back to the authorize endpoint
+        return LocalRedirect($"{Url.Action(nameof(Authorize))}{originalQuery}");
     }
 }

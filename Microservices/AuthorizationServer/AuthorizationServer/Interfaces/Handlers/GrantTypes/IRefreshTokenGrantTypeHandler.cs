@@ -1,4 +1,4 @@
-namespace AuthorizationServer.Handlers.Interfaces;
+namespace AuthorizationServer.Interfaces.Handlers.GrantTypes;
 
 public interface IRefreshTokenGrantTypeHandler : IGrantTypeHandler
 {

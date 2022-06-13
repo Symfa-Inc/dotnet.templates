@@ -10,6 +10,7 @@ builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddIdentity();
 builder.Services.AddOpeniddict(builder.Configuration, builder.Environment.IsDevelopment());
 builder.Services.AddCustomDependencies();
+builder.Services.AddExternalProviders(builder.Configuration);
 
 // Register the service to seeding the data to DB
 builder.Services.AddHostedService<SeedDataService>();
@@ -25,5 +26,6 @@ app.UseCors(
     });
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 app.UseEndpoints(endpoints => endpoints.MapControllers());
 app.Run();
