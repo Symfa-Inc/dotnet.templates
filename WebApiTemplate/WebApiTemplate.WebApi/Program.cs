@@ -77,9 +77,7 @@ void AddServices()
         .AddScoped<IProductService, ProductService>()
         .AddScoped<IEmailService, EmailService>()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
-        .AddScoped<IUserProfileService, UserProfileService>()
-        .AddTransient<IHttpContextAccessor, HttpContextAccessor>()
-        .AddScoped<IUserContext, UserContext>();
+        .AddScoped<IUserProfileService, UserProfileService>();
 }
 
 void AddLogging()

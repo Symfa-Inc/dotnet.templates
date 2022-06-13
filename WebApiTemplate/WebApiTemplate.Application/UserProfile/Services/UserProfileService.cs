@@ -11,17 +11,23 @@ namespace WebApiTemplate.Application.UserProfile.Services
     public class UserProfileService : IUserProfileService
     {
         private readonly DatabaseContext _context;
-        private readonly IUserContext _userContext;
 
-        public UserProfileService(DatabaseContext context, IUserContext userContext)
+        public UserProfileService(DatabaseContext context)
         {
             _context = context;
-            _userContext = userContext;
         }
 
-        public async Task<UserProfileCreateModelView> Create(UserProfileCreateModel userProfileCreateModel) 
+        public async Task<UserProfileCreateModelView> Create(UserProfileInfoModel userProfileInfoModel, UserProfileCreateModel userProfileCreateModel) 
         {
-            CheckUserId(userProfileCreateModel.UserId);
+            if (await IsUserProfileExists(userProfileInfoModel))
+            {
+                throw new EntityAlreadyExistsException();
+            }
+
+            if (userProfileInfoModel.UserId == null || userProfileInfoModel.UserName == null || userProfileInfoModel.Email == null)
+            {
+                throw new EntityInvalidColumnsException();
+            }
 
             if (await IsUserProfileExists())
             {
@@ -30,9 +36,9 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             var userProfile = new Entities.UserProfile
             {
-                UserId = userProfileCreateModel.UserId,
-                Email = userProfileCreateModel.Email,
-                UserName = userProfileCreateModel.UserName,
+                UserId = userProfileInfoModel.UserId,
+                Email = userProfileInfoModel.Email,
+                UserName = userProfileInfoModel.UserName,
                 DateOfBirth = userProfileCreateModel.DateOfBirth,
                 Country = userProfileCreateModel.Country,
                 City = userProfileCreateModel.City,
@@ -51,8 +57,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileGetModelView> Get(string userId)
         {
-            CheckUserId(userId);
-
             var userProfile = await _context.UserProfiles
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.UserId == userId);
@@ -65,18 +69,15 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileGetView();
         }
 
-        public async Task<UserProfileUpdateModelView> Update(UserProfileUpdateModel userProfileUpdateModel)
+        public async Task<UserProfileUpdateModelView> Update(string userId, UserProfileUpdateModel userProfileUpdateModel)
         {
-            CheckUserId(userProfileUpdateModel.UserId);
-
-            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userProfileUpdateModel.UserId);
+            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (userProfile == null)
             {
                 throw new UserProfileNotFoundException();
             }
 
-            userProfile.UserName = userProfileUpdateModel.UserName;
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
             userProfile.Country = userProfileUpdateModel.Country;
             userProfile.City = userProfileUpdateModel.City;
@@ -90,12 +91,11 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return userProfile.ToUserProfileUpdateView();
         }
 
-        private void CheckUserId(string userId)
+        private async Task<bool> IsUserProfileExists(UserProfileInfoModel userProfileInfoModel)
         {
-            if (_userContext.UserId != userId)
-            {
-                throw new UserIdNotMatchException();
-            }
+            return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId 
+                || x.UserName == userProfileInfoModel.UserName
+                || x.Email == userProfileInfoModel.Email);
         }
 
         private async Task<bool> IsUserProfileExists()
