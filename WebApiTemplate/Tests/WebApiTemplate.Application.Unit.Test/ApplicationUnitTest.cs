@@ -24,7 +24,7 @@ namespace WebApiTemplate.Application.Unit.Test
                 context.Products.Add(new Entities.Product { Id = 3, Name = "Chair" });
                 await context.SaveChangesAsync();
 
-                IProductService productService = new ProductService(context);
+                IProductService productService = new ProductService(context, null, null);
                 var products = await productService.Get();
                 Assert.True(products != null && products.Any());
             }

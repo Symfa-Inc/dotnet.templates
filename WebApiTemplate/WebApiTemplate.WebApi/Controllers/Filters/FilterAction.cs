@@ -23,11 +23,11 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
             {
                 string exception = context.Exception.ToString();
 
-                if (context.Exception is BaseException)
+                if (context.Exception is CustomException commonException)
                 {
                     _logger.LogError(exception);
 
-                    context.Result = new ObjectResult(exception)
+                    context.Result = new ObjectResult(commonException.ErrorResponse)
                     {
                         StatusCode = StatusCodes.Status400BadRequest
                     };
@@ -36,7 +36,7 @@ namespace WebApiTemplate.WebApi.Controllers.Filters
                 {
                     _logger.LogCritical(exception);
 
-                    context.Result = new ObjectResult(exception)
+                    context.Result = new ObjectResult(context.Exception)
                     {
                         StatusCode = StatusCodes.Status500InternalServerError
                     };

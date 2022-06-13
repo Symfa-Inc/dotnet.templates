@@ -2,18 +2,26 @@
 using WebApiTemplate.Application.Product.Interfaces;
 using WebApiTemplate.Application.Product.Models;
 using WebApiTemplate.Persistence;
-using WebApiTemplate.Domain.Errors.Common;
+using WebApiTemplate.Domain.Errors;
 using Entities = WebApiTemplate.Domain.Entities;
+using FluentValidation;
+using WebApiTemplate.Application.Extensions;
 
 namespace WebApiTemplate.Application.Product.Services
 {
     public class ProductService : IProductService
     {
         private readonly DatabaseContext _context;
+        private readonly IValidator<ProductCreateModel> _productCreateModelValidator;
+        private readonly IValidator<ProductUpdateModel> _productUpdateModelValidator;
 
-        public ProductService(DatabaseContext context)
+        public ProductService(DatabaseContext context, 
+            IValidator<ProductCreateModel> productCreateModelValidator,
+            IValidator<ProductUpdateModel> productUpdateModelValidator)
         {
             _context = context;
+            _productCreateModelValidator = productCreateModelValidator;
+            _productUpdateModelValidator = productUpdateModelValidator;
         }
 
         public async Task<IReadOnlyCollection<ProductGetModelView>> Get()
@@ -29,6 +37,13 @@ namespace WebApiTemplate.Application.Product.Services
 
         public async Task<ProductCreateModelView> Create(ProductCreateModel productCreateModel)
         {
+            var validation = _productCreateModelValidator.Validate(productCreateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             var product = new Entities.Product { Name = productCreateModel.Name };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -37,11 +52,18 @@ namespace WebApiTemplate.Application.Product.Services
 
         public async Task<ProductUpdateModelView> Update(int productId, ProductUpdateModel productUpdateModel)
         {
+            var validation = _productUpdateModelValidator.Validate(productUpdateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
 
             if (product == null)
             {
-                throw new EntityNotFoundException();
+                throw new CustomException(ErrorCode.EntityNotFound);
             }
 
             product.Name = productUpdateModel.Name;
@@ -55,7 +77,7 @@ namespace WebApiTemplate.Application.Product.Services
 
             if (product == null)
             {
-                throw new EntityNotFoundException();
+                throw new CustomException(ErrorCode.EntityNotFound);
             }
 
             _context.Products.Remove(product);

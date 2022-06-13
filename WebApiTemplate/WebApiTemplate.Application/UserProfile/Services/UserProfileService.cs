@@ -1,37 +1,47 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Models;
 using WebApiTemplate.Persistence;
 using Entities = WebApiTemplate.Domain.Entities;
-using WebApiTemplate.Domain.Errors.Common;
-using WebApiTemplate.Domain.Errors.UserProfile;
+using WebApiTemplate.Domain.Errors;
+using FluentValidation;
+using WebApiTemplate.Application.Extensions;
 
 namespace WebApiTemplate.Application.UserProfile.Services
 {
     public class UserProfileService : IUserProfileService
     {
         private readonly DatabaseContext _context;
+        private readonly IValidator<UserProfileCreateModel> _userProfileCreateModelValidator;
+        private readonly IValidator<UserProfileUpdateModel> _userProfileUpdateModelValidator;
 
-        public UserProfileService(DatabaseContext context)
+        public UserProfileService(
+            DatabaseContext context,
+            IValidator<UserProfileCreateModel> userProfileCreateModelValidator,
+            IValidator<UserProfileUpdateModel> userProfileUpdateModelValidator)
         {
             _context = context;
+            _userProfileCreateModelValidator = userProfileCreateModelValidator;
+            _userProfileUpdateModelValidator = userProfileUpdateModelValidator;
         }
 
         public async Task<UserProfileCreateModelView> Create(UserProfileInfoModel userProfileInfoModel, UserProfileCreateModel userProfileCreateModel) 
         {
+            var validation = _userProfileCreateModelValidator.Validate(userProfileCreateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             if (await IsUserProfileExists(userProfileInfoModel))
             {
-                throw new EntityAlreadyExistsException();
+                throw new CustomException(ErrorCode.EntityAlreadyExists);
             }
 
             if (userProfileInfoModel.UserId == null || userProfileInfoModel.UserName == null || userProfileInfoModel.Email == null)
             {
-                throw new EntityInvalidColumnsException();
-            }
-
-            if (await IsUserProfileExists())
-            {
-                throw new EntityAlreadyExistsException();
+                throw new CustomException(ErrorCode.EntityInvalidColumns);
             }
 
             var userProfile = new Entities.UserProfile
@@ -63,7 +73,7 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
             if (userProfile == null)
             {
-                throw new UserProfileNotFoundException();
+                throw new CustomException(ErrorCode.UserProfileNotFound);
             }
 
             return userProfile.ToUserProfileGetView();
@@ -71,11 +81,18 @@ namespace WebApiTemplate.Application.UserProfile.Services
 
         public async Task<UserProfileUpdateModelView> Update(string userId, UserProfileUpdateModel userProfileUpdateModel)
         {
+            var validation = _userProfileUpdateModelValidator.Validate(userProfileUpdateModel);
+
+            if (!validation.IsValid)
+            {
+                throw new CustomException(validation.ToErrorResponse());
+            }
+
             var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (userProfile == null)
             {
-                throw new UserProfileNotFoundException();
+                throw new CustomException(ErrorCode.UserProfileNotFound);
             }
 
             userProfile.DateOfBirth = userProfileUpdateModel.DateOfBirth;
@@ -96,11 +113,6 @@ namespace WebApiTemplate.Application.UserProfile.Services
             return await _context.UserProfiles.AnyAsync(x => x.UserId == userProfileInfoModel.UserId 
                 || x.UserName == userProfileInfoModel.UserName
                 || x.Email == userProfileInfoModel.Email);
-        }
-
-        private async Task<bool> IsUserProfileExists()
-        {
-            return await _context.UserProfiles.AnyAsync(x => x.UserId == _userContext.UserId);
         }
     }
 }

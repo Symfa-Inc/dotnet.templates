@@ -12,8 +12,6 @@ using Microsoft.Extensions.Configuration;
 using WebApiTemplate.Domain.Enums.EmailTemplate;
 using System.Collections.Generic;
 using WebApiTemplate.Domain.Consts.EmailTemplate;
-using System;
-
 
 namespace WebApiTemplate.Application.Integration.Test
 {
@@ -41,7 +39,7 @@ namespace WebApiTemplate.Application.Integration.Test
 
             using (var context = new DatabaseContext(optionsBuilder.Options))
             {
-                IProductService productService = new ProductService(context);
+                IProductService productService = new ProductService(context, null, null);
                 var products = await productService.Get();
                 Assert.True(products != null && products.Any());
             }

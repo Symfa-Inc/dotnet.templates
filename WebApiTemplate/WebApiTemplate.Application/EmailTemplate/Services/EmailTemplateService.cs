@@ -2,7 +2,7 @@
 using WebApiTemplate.Domain.Enums.EmailTemplate;
 using Microsoft.EntityFrameworkCore;
 using WebApiTemplate.Persistence;
-using WebApiTemplate.Domain.Errors.Common;
+using WebApiTemplate.Domain.Errors;
 using WebApiTemplate.Application.Email.Interfaces;
 using System.Text;
 
@@ -27,7 +27,7 @@ namespace WebApiTemplate.Application.EmailTemplate.Services
 
             if (emailTemplate == null)
             {
-                throw new EntityNotFoundException();
+                throw new CustomException(ErrorCode.EntityNotFound);
             }
 
             var stringBuilderEmailBody = new StringBuilder(emailTemplate.Body);

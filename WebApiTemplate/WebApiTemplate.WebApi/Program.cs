@@ -7,10 +7,12 @@ using WebApiTemplate.Application.Email.Interfaces;
 using WebApiTemplate.Application.Email.Services;
 using WebApiTemplate.Application.UserProfile.Interfaces;
 using WebApiTemplate.Application.UserProfile.Services;
+using WebApiTemplate.Application.UserProfile.Validators;
 using WebApiTemplate.WebApi.Controllers.Filters;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
 using Serilog;
+using FluentValidation;
 
 const string BaseDirectory = "[BaseDirectory]";
 
@@ -25,6 +27,7 @@ AddConfig();
 InitServices();
 InitConnectionString();
 AddServices();
+AddFluentValidation();
 ConfigureOpeniddictValidation();
 AddLogging();
 BuildWebApplication();
@@ -78,6 +81,11 @@ void AddServices()
         .AddScoped<IEmailService, EmailService>()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
         .AddScoped<IUserProfileService, UserProfileService>();
+}
+
+void AddFluentValidation()
+{
+    _builder.Services.AddValidatorsFromAssemblyContaining<UserProfileCreateModelValidator>();
 }
 
 void AddLogging()
