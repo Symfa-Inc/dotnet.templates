@@ -5,7 +5,13 @@ namespace AuthorizationServer.Errors;
 
 public class ResponseError
 {
-    public ResponseError(string error, string description = "")
+    public ResponseError(string error)
+    {
+        Error = error;
+        Description = string.Empty;
+    }
+
+    public ResponseError(string error, string description)
     {
         Error = error;
         Description = description;
