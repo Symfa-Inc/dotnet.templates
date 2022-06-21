@@ -3,7 +3,16 @@ using AuthorizationServer.Extensions;
 using AuthorizationServer.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors();
+builder.Services.AddCors(
+    options =>
+    {
+        options.AddDefaultPolicy(
+            policy => policy.WithOrigins(
+                    "http://localhost:3000",
+                    "https://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod());
+    });
 builder.Services.AddControllers()
     .AddNewtonsoftJson();
 
@@ -18,14 +27,7 @@ builder.Services.AddHostedService<SeedDataService>();
 
 var app = builder.Build();
 app.UseRouting();
-app.UseCors(
-    policyBuilder =>
-    {
-        policyBuilder.WithOrigins("http://localhost:3000")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();

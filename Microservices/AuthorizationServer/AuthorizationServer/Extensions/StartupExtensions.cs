@@ -125,8 +125,10 @@ public static class StartupExtensions
                                 configurationManager["Token:EncryptionCertificate:Password"]);
                     }
 
-                    options.SetAccessTokenLifetime(TimeSpan.FromDays(1));
-                    options.SetRefreshTokenLifetime(TimeSpan.FromDays(30));
+                    options.SetAccessTokenLifetime(
+                        TimeSpan.FromSeconds(int.Parse(configurationManager["Token:ExpirationTime:AccessToken"])));
+                    options.SetRefreshTokenLifetime(
+                        TimeSpan.FromSeconds(int.Parse(configurationManager["Token:ExpirationTime:AccessToken"])));
 
                     // Make refresh token invalid after refresh
                     options.SetRefreshTokenReuseLeeway(TimeSpan.Zero);
@@ -162,6 +164,8 @@ public static class StartupExtensions
         services.AddScoped<ITokenIssueHandler, TokenIssueHandler>();
         services.AddScoped<IExternalProviderHandler, ExternalProviderHandler>();
         services.AddScoped<IUserCreatorService, UserCreatorService>();
+        services.AddScoped<IEmailSender, EmailSender>();
+        services.AddScoped<IUserEmailSender, UserEmailSender>();
         services.AddTransient<ExceptionHandlerMiddleware>();
     }
 
