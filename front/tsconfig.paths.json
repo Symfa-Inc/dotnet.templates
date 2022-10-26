@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@features/*": ["features/*"],
+      "@components/*": ["components/*"],
+      "@router/*": ["router/*"],
+      "@utils/*": ["utils/*"],
+      "@enums/*": ["enums/*"],
+      "@services/*": ["services/*"],
+      "@store/*": ["store/*"]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@mixin btn-icon {
+  // background-position: calc(100% - 10px) center;
+  width: 50px;
+  height: 50px;
+  background-position: center;
+  border-radius: 60px;
+  border: 1px solid transparent;
+}
+
+.g-btn {
+  background: url('../../../public/images/google.png') no-repeat;
+  background-size: 50px;
+  @include btn-icon();
+}
+
+.tw-btn {
+  background: url('../../../public/images/twitter.png') no-repeat;
+  background-size: 40px;
+  @include btn-icon();
+}
+
+.fb-btn {
+  background: url('../../../public/images/fb.png') no-repeat;
+  background-size: 46px;
+  @include btn-icon();
+}
