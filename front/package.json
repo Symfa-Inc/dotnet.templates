@@ -46,7 +46,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "4.5.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.0",
     "mkcert": "^1.5.0",
     "npm-check-updates": "^13.0.1",
     "prettier": "^2.6.2",
@@ -63,7 +63,8 @@
     "lint": "eslint ./src --ext tsx,ts",
     "lint:fix": "eslint ./src --ext tsx,ts --fix",
     "prepare1": "husky install",
-    "prettier": "prettier-eslint 'src/**/*.{ts,tsx}' "
+    "prettier": "prettier-eslint 'src/**/*.{ts,tsx}' ",
+    "prepare": "cd .. && husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
