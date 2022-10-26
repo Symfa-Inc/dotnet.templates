@@ -9,6 +9,8 @@ module.exports = {
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
+    'plugin:react-hooks/recommended', // Uses the recommended rules from @eslint-plugin-react-hooks
+    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors
   ],
   parserOptions: {
     ecmaVersion: 2020,
@@ -17,7 +19,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ['import', '@typescript-eslint'],
+  plugins: ['import', '@typescript-eslint', 'react', 'react-hooks', 'prettier'],
   rules: {
     'lines-between-class-members': 0,
     'react/jsx-props-no-spreading': 0,
@@ -29,11 +31,15 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 1,
     'react/prop-types': 0,
     'import/prefer-default-export': 0,
-    'import/extensions': ['error', 'never', {
-      interface: 'always',
-      enum: 'always',
-      service: 'always',
-    }],
+    'import/extensions': [
+      'error',
+      'never',
+      {
+        interface: 'always',
+        enum: 'always',
+        service: 'always',
+      },
+    ],
     'explicit-module-boundary-types': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'import/no-unresolved': 0,
