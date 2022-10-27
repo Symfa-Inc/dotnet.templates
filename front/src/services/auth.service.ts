@@ -1,4 +1,4 @@
-import { SignIn, Token, User, UserCredentials } from '@features/auth/auth.interface';
+import { SignIn, Token, User, UserCredentials } from '@pages/auth/auth.interface';
 import { toFormUrlEncoded } from '@utils/encoder';
 import { AxiosResponse } from 'axios';
 // import { Sign } from 'crypto';

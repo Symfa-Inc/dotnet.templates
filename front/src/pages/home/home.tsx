@@ -1,7 +1,7 @@
 import { Stack, Button, Container, Typography, Box } from '@mui/material';
 import { PATHS } from '@router/paths';
 import { RouterLink } from '@router/utils';
-import { logout, selectUser } from '@features/auth/authSlice';
+import { logout, selectUser } from '@pages/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 export function Counter() {

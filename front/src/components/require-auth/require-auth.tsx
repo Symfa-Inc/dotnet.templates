@@ -1,4 +1,4 @@
-import { selectUser } from '@features/auth/authSlice';
+import { selectUser } from '@pages/auth/authSlice';
 import { PATHS } from '@router/paths';
 import { useAppSelector } from '@store/hooks';
 import { Navigate, useLocation } from 'react-router-dom';

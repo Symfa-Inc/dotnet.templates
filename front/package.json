@@ -62,9 +62,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src --ext tsx,ts",
     "lint:fix": "eslint ./src --ext tsx,ts --fix",
-    "prepare1": "husky install",
     "prettier": "prettier-eslint 'src/**/*.{ts,tsx}' ",
-    "prepare": "cd .. && husky install"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -88,7 +87,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^@features/(.*)$": "<rootDir>/src/features/$1",
+      "^@pages/(.*)$": "<rootDir>/src/pages/$1",
       "^@components/(.*)$": "<rootDir>/src/components/$1",
       "^@router/(.*)$": "<rootDir>/src/router/$1",
       "^@utils/(.*)$": "<rootDir>/src/utils/$1",

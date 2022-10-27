@@ -1,11 +1,11 @@
-import SignIn from '@features/auth/sign-in';
-import SignUp from '@features/auth/sign-up';
-import { Counter } from '@features/home/home';
+import SignIn from '@pages/auth/sign-in';
+import SignUp from '@pages/auth/sign-up';
+import { Counter } from '@pages/home/home';
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
 import { Container, createTheme, CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-import { Profile } from '@features/profile/profile';
+import { Profile } from '@pages/profile/profile';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { RequireAuth } from '@components/require-auth/require-auth';
@@ -20,7 +20,7 @@ import duration from 'dayjs/plugin/duration';
 import isBetween from 'dayjs/plugin/isBetween';
 import weekday from 'dayjs/plugin/weekday';
 import { Layout } from '@components/layout/layout';
-import { ProviderCallback } from '@features/auth/provider-callback';
+import { ProviderCallback } from '@pages/auth/provider-callback';
 import { PATHS } from './router/paths';
 import './services/api-http-interceptors';
 

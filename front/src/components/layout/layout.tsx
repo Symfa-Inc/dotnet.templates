@@ -1,4 +1,4 @@
-import { restoreSession } from '@features/auth/authSlice';
+import { restoreSession } from '@pages/auth/authSlice';
 import { useAppDispatch } from '@store/hooks';
 import { Outlet } from 'react-router-dom';
 

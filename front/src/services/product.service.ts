@@ -1,4 +1,4 @@
-import { User } from '@features/auth/auth.interface';
+import { User } from '@pages/auth/auth.interface';
 import { AxiosResponse } from 'axios';
 import { apiHttpService } from './api-http.service';
 
