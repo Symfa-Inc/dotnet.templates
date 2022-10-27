@@ -24,8 +24,8 @@ import {
   completeRegistrationAction,
   resetSignUpErrorState,
   selectSignUpError,
-} from './authSlice';
-import { UserAdditionalFields, UserCredentials } from './auth.interface';
+} from '../../../store/reducers/authSlice';
+import { UserAdditionalFields, UserCredentials } from '../../../services/authServices/auth.interface';
 
 function Copyright(props: any) {
   return (

@@ -15,8 +15,13 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { resetSignInErrorState, signinAction, selectSignInError, signinWithProviderAction } from './authSlice';
-import styles from './auth.module.scss';
+import {
+  resetSignInErrorState,
+  signinAction,
+  selectSignInError,
+  signinWithProviderAction,
+} from '@store/reducers/authSlice';
+import styles from './Login.module.scss';
 
 function Copyright(props: any) {
   return (
@@ -30,7 +35,7 @@ function Copyright(props: any) {
   );
 }
 
-export function SignIn() {
+export function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectSignInError);

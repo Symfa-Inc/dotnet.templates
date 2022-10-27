@@ -2,7 +2,7 @@ import { STATUS_CODES } from '@enums/statusCodes.enum';
 import { PATHS } from '@router/paths';
 import { AxiosError } from 'axios';
 import { apiHttpService } from './apiHttp.service';
-import { AuthService } from './auth.service';
+import { AuthService } from './authServices/auth.service';
 import { TokenService } from './token.service';
 
 apiHttpService.interceptors.response.use(

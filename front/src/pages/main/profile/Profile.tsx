@@ -1,6 +1,6 @@
 import { ProfileForm } from '@components/profileForm/profileForm';
-import { UserAdditionalFields } from '@pages/main/auth/auth.interface';
-import { selectUser, updateProfile } from '@pages/main/auth/authSlice';
+import { UserAdditionalFields } from '@services/authServices/auth.interface';
+import { selectUser, updateProfile } from '@store/reducers/authSlice';
 import { Avatar, Card, Box, Typography, Grid, Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import Container from '@mui/material/Container';

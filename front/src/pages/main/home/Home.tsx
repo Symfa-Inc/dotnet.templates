@@ -1,7 +1,7 @@
 import { Stack, Button, Container, Typography, Box } from '@mui/material';
 import { PATHS } from '@router/paths';
 import { RouterLink } from '@router/utils';
-import { logout, selectUser } from '@pages/main/auth/authSlice';
+import { logout, selectUser } from '@store/reducers/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 export function Home() {

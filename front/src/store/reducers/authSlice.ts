@@ -3,13 +3,13 @@ import { ProcessState } from '@enums/progressState.enum';
 import { STATUS_CODES } from '@enums/statusCodes.enum';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PATHS } from '@router/paths';
-import { AuthService } from '@services/auth.service';
+import { AuthService } from '@services/authServices/auth.service';
 import { ProfileService } from '@services/profile.service';
 import { TokenService } from '@services/token.service';
 import { AppThunk, RootState } from '@store/store';
 import { AxiosError } from 'axios';
 import { UserManager, UserManagerSettings } from 'oidc-client-ts';
-import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from './auth.interface';
+import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '../../services/authServices/auth.interface';
 
 const initialState: AuthState = {
   state: ProcessState.Idle,
