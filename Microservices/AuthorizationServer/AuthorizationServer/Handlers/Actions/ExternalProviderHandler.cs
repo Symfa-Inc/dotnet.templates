@@ -1,4 +1,6 @@
 using System.Security.Authentication;
+using AuthorizationServer.Constants;
+using AuthorizationServer.Extensions;
 using AuthorizationServer.Interfaces.Handlers.Actions;
 using AuthorizationServer.Interfaces.Services;
 using AuthorizationServer.Models;
@@ -32,7 +34,7 @@ public class ExternalProviderHandler : BaseUserPrincipalHandler, IExternalProvid
             var existingProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Select(x => x.Name);
             if (!existingProviders.Contains(provider, StringComparer.OrdinalIgnoreCase))
             {
-                await ForbidAsync(context, "Required provider is not specified.");
+                await context.BadRequestAsync(ErrorCode.ProviderIsNotExist);
                 return;
             }
 
@@ -46,16 +48,6 @@ public class ExternalProviderHandler : BaseUserPrincipalHandler, IExternalProvid
         await context.SignInAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, principal);
     }
 
-    private static async Task ForbidAsync(HttpContext context, string message)
-    {
-        var authenticationProperties = new AuthenticationProperties(
-            new Dictionary<string, string>
-            {
-                { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, message }
-            });
-        await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, authenticationProperties);
-    }
-
     private async Task<ApplicationUser> CreateUserIfNotExist(ExternalLoginInfo externalLoginInfo)
     {
         var user = await _userManager.FindByLoginAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey);
@@ -67,7 +59,7 @@ public class ExternalProviderHandler : BaseUserPrincipalHandler, IExternalProvid
         var result = await _userCreatorService.CreateUserByExternalInfoAsync(externalLoginInfo);
         if (!result.Succeeded)
         {
-            throw new AuthenticationException(string.Join("; ", result.Errors));
+            throw new AuthenticationException(result.Errors.FirstOrDefault()?.Description);
         }
 
         return await _userManager.FindByLoginAsync(externalLoginInfo.LoginProvider, externalLoginInfo.ProviderKey);

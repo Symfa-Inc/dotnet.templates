@@ -62,12 +62,12 @@ namespace AuthorizationServer
 
         private static async Task AddSpaClientAsync(IOpenIddictApplicationManager applicationManager, CancellationToken cancellationToken)
         {
-            if (await applicationManager.FindByClientIdAsync(ClientNames.SpaClient, cancellationToken) == null)
+            if (await applicationManager.FindByClientIdAsync(ClientName.SpaClient, cancellationToken) == null)
             {
                 await applicationManager.CreateAsync(
                     new OpenIddictApplicationDescriptor
                     {
-                        ClientId = ClientNames.SpaClient,
+                        ClientId = ClientName.SpaClient,
 
                         // Specify URLs application can redirect to
                         RedirectUris =
@@ -83,7 +83,7 @@ namespace AuthorizationServer
                             OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                             OpenIddictConstants.Permissions.GrantTypes.Password,
                             OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-                            OpenIddictConstants.Permissions.Prefixes.GrantType + CustomGrantTypes.TwoFactorAuthentication,
+                            OpenIddictConstants.Permissions.Prefixes.GrantType + CustomGrantType.TwoFactorAuthentication,
                             OpenIddictConstants.Permissions.Scopes.Email
                         }
                     },
@@ -95,12 +95,12 @@ namespace AuthorizationServer
             IOpenIddictApplicationManager applicationManager,
             CancellationToken cancellationToken)
         {
-            if (await applicationManager.FindByClientIdAsync(ClientNames.BackendClient, cancellationToken) == null)
+            if (await applicationManager.FindByClientIdAsync(ClientName.BackendClient, cancellationToken) == null)
             {
                 await applicationManager.CreateAsync(
                     new OpenIddictApplicationDescriptor
                     {
-                        ClientId = ClientNames.BackendClient,
+                        ClientId = ClientName.BackendClient,
                         ClientSecret = "secret",
                         Permissions =
                         {

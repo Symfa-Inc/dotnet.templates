@@ -21,7 +21,7 @@ public abstract class BaseUserPrincipalHandler
         // Create a new ClaimsPrincipal containing the claims that
         // will be used to create an id_token, a token or a code.
         var principal = await SignInManager.CreateUserPrincipalAsync(user);
-        principal.SetAudiences(ClientNames.BackendClient);
+        principal.SetAudiences(ClientName.BackendClient);
 
         // Set the list of scopes granted to the client application.
         // Note: the offline_access scope must be granted

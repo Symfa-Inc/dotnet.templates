@@ -1,4 +1,5 @@
 using AuthorizationServer.Constants;
+using AuthorizationServer.Extensions;
 using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using AuthorizationServer.Models;
 using Microsoft.AspNetCore;
@@ -23,41 +24,35 @@ public class TwoFactorAuthenticationGrantTypeHandler : BaseUserPrincipalHandler,
         var request = context.GetOpenIddictServerRequest();
         if (string.IsNullOrEmpty(request!.Code))
         {
-            await ForbidAsync(context, "Code is not provided.");
+            await context.BadRequestAsync(ErrorCode.NoCodeProvided);
             return;
         }
 
-        var userId = context.Session.GetString(SessionKeys.TwoFactorAuthentication);
+        var userId = context.Session.GetString(SessionKey.TwoFactorAuthentication);
         if (string.IsNullOrEmpty(userId))
         {
-            await ForbidAsync(context, "Try to log in first.");
+            await context.BadRequestAsync(ErrorCode.UnknownUser);
             return;
         }
 
-        var user = await _userManager.FindByIdAsync(userId)
-            ?? throw new InvalidOperationException("User is not found.");
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            await context.BadRequestAsync(ErrorCode.UserNotFound);
+            return;
+        }
+
         var isValidCode = await _userManager.VerifyTwoFactorTokenAsync(
             user,
             _userManager.Options.Tokens.AuthenticatorTokenProvider,
             request.Code);
         if (!isValidCode)
         {
-            await ForbidAsync(context, "Code is not valid.");
+            await context.BadRequestAsync(ErrorCode.InvalidCode);
             return;
         }
 
         var principal = await CreateUserPrincipalAsync(request, user);
         await context.SignInAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, principal);
-    }
-
-        private static async Task ForbidAsync(HttpContext context, string message)
-    {
-        var properties = new AuthenticationProperties(
-            new Dictionary<string, string>
-            {
-                { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, message }
-            });
-
-        await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
     }
 }

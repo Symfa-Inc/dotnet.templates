@@ -1,6 +1,9 @@
 using System.Text.Encodings.Web;
+using AuthorizationServer.Constants;
+using AuthorizationServer.Errors;
 using AuthorizationServer.Models;
 using AuthorizationServer.Models.TwoFactorAuthentication;
+using AuthorizationServer.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +29,7 @@ public class TwoFactorAuthenticationController : ControllerBase
         var user = await _userManager.GetUserAsync(User);
         if (user.TwoFactorEnabled)
         {
-            BadRequest("Two-factor authentication is already enabled.");
+            return BadRequest(new ResponseError(ErrorCode.TwoFactorAlreadyEnabled));
         }
 
         var authenticatorKey = await _userManager.GetAuthenticatorKeyAsync(user);
@@ -50,9 +53,11 @@ public class TwoFactorAuthenticationController : ControllerBase
     [HttpPost("google-enable")]
     public async Task<IActionResult> EnableGoogleAuthentication(GoogleAuthenticationInfoModel model)
     {
-        if (string.IsNullOrEmpty(model.Code))
+        var validationResult = new GoogleAuthenticationInfoValidator().Validate(model);
+        if (!validationResult.IsValid)
         {
-            return BadRequest("Code is not provided.");
+            var validationError = validationResult.Errors.First();
+            return BadRequest(new ResponseError(validationError.ErrorCode, validationError.ErrorMessage));
         }
 
         var user = await _userManager.GetUserAsync(User);
@@ -66,7 +71,7 @@ public class TwoFactorAuthenticationController : ControllerBase
             return Ok();
         }
 
-        return BadRequest("Code is not valid.");
+        return BadRequest(new ResponseError(ErrorCode.InvalidCode));
     }
 
     [HttpGet("google-disable")]
@@ -75,7 +80,7 @@ public class TwoFactorAuthenticationController : ControllerBase
         var user = await _userManager.GetUserAsync(User);
         if (!user.TwoFactorEnabled)
         {
-            return BadRequest("Two-factor authentication is already disabled.");
+            return BadRequest(new ResponseError(ErrorCode.TwoFactorAlreadyDisabled));
         }
 
         await _userManager.SetTwoFactorEnabledAsync(user, false);

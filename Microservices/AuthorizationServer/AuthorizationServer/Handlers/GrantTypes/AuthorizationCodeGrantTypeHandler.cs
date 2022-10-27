@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using AuthorizationServer.Interfaces.Handlers.GrantTypes;
 using AuthorizationServer.Models;
 using Microsoft.AspNetCore;
@@ -22,13 +23,7 @@ public class AuthorizationCodeGrantTypeHandler : BaseUserPrincipalHandler,  IAut
         var result = await context.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         if (!result.Succeeded)
         {
-            var properties = new AuthenticationProperties(
-                new Dictionary<string, string>
-                {
-                    { OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription, "Authentication failed." }
-                });
-            await context.ForbidAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme, properties);
-            return;
+            throw new AuthenticationException(result.Failure?.Message);
         }
 
         var userName = result.Principal!.Identity!.Name;

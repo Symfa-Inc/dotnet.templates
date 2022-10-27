@@ -18,7 +18,7 @@ public class TokenIssueHandler : ITokenIssueHandler
     public async Task IssueAsync(HttpContext context)
     {
         var request = context.GetOpenIddictServerRequest()
-            ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+            ?? throw new Exception("The OpenID Connect request cannot be retrieved.");
         var handler = GetHandler(request.GrantType);
         await handler.HandleAsync(context);
     }
@@ -30,7 +30,7 @@ public class TokenIssueHandler : ITokenIssueHandler
             OpenIddictConstants.GrantTypes.Password => _serviceProvider.GetService<IPasswordGrantTypeHandler>(),
             OpenIddictConstants.GrantTypes.RefreshToken => _serviceProvider.GetService<IRefreshTokenGrantTypeHandler>(),
             OpenIddictConstants.GrantTypes.AuthorizationCode => _serviceProvider.GetService<IAuthorizationCodeGrantTypeHandler>(),
-            CustomGrantTypes.TwoFactorAuthentication => _serviceProvider.GetService<ITwoFactorAuthenticationGrantTypeHandler>(),
+            CustomGrantType.TwoFactorAuthentication => _serviceProvider.GetService<ITwoFactorAuthenticationGrantTypeHandler>(),
             _ => throw new NotImplementedException("The specified grant is not implemented.")
         };
     }
