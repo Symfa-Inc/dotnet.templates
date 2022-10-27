@@ -22,7 +22,7 @@ export function Home() {
       </Button>
     </>
   ) : (
-    <Button component={RouterLink} to={PATHS.SignIn} variant="contained">
+    <Button component={RouterLink} to={PATHS.Login} variant="contained">
       Sign In
     </Button>
   );

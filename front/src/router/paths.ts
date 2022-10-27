@@ -1,9 +1,10 @@
 export const PATHS = {
   SignUp: '/signup',
-  SignIn: '/signin',
+  Login: '/login',
   Home: '/',
   Profile: '/profile',
   ProviderAuthCallBack: '/authCallback',
+  PasswordReset: '/passwordReset',
   AdminBase: '/admin',
 };
 

@@ -23,9 +23,9 @@ apiHttpService.interceptors.response.use(
           return apiHttpService.request(error.config);
         }
 
-        location.href = PATHS.SignIn;
+        location.href = PATHS.Login;
         // store.dispatch(logout());
-        // window.history.pushState(null, '', PATHS.SignIn);
+        // window.history.pushState(null, '', PATHS.Login);
         // return { data: {} };
       }
     } catch (e) {
@@ -35,9 +35,9 @@ apiHttpService.interceptors.response.use(
 
       if (isAuthServerError === 'The specified refresh token is no longer valid.') {
         // if (innerError.response?.status === STATUS_CODES.UNAUTHORIZED) {
-        location.href = PATHS.SignIn;
+        location.href = PATHS.Login;
         // store.dispatch(logout());
-        // window.history.pushState(null, '', PATHS.SignIn);
+        // window.history.pushState(null, '', PATHS.Login);
         // return { data: {} };
       }
 

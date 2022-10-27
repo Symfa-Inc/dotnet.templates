@@ -133,7 +133,7 @@ export function Login() {
             </Box>
             <Grid container>
               <Grid item xs>
-                <Link component={RouterLink} to={PATHS.Home} variant="body2">
+                <Link component={RouterLink} to={PATHS.PasswordReset} variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
