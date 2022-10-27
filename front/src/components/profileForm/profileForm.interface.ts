@@ -1,4 +1,4 @@
-import { UserAdditionalFields } from '@pages/auth/auth.interface';
+import { UserAdditionalFields } from '@pages/main/auth/auth.interface';
 
 export type ProfileFormProps = {
   profileData: UserAdditionalFields;

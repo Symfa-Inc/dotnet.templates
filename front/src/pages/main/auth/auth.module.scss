@@ -8,19 +8,19 @@
 }
 
 .g-btn {
-  background: url('../../../public/images/google.png') no-repeat;
+  background: url('../../../../public/images/google.png') no-repeat;
   background-size: 50px;
   @include btn-icon();
 }
 
 .tw-btn {
-  background: url('../../../public/images/twitter.png') no-repeat;
+  background: url('../../../../public/images/twitter.png') no-repeat;
   background-size: 40px;
   @include btn-icon();
 }
 
 .fb-btn {
-  background: url('../../../public/images/fb.png') no-repeat;
+  background: url('../../../../public/images/fb.png') no-repeat;
   background-size: 46px;
   @include btn-icon();
 }

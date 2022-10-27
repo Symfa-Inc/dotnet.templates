@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { ProcessState } from '@enums/progress-state.enum';
-import { STATUS_CODES } from '@enums/status-codes.enum';
+import { ProcessState } from '@enums/progressState.enum';
+import { STATUS_CODES } from '@enums/statusCodes.enum';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PATHS } from '@router/paths';
 import { AuthService } from '@services/auth.service';

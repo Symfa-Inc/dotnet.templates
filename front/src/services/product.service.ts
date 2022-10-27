@@ -1,6 +1,6 @@
-import { User } from '@pages/auth/auth.interface';
+import { User } from '@pages/main/auth/auth.interface';
 import { AxiosResponse } from 'axios';
-import { apiHttpService } from './api-http.service';
+import { apiHttpService } from './apiHttp.service';
 
 export class ProductService {
   static async getProduct(): Promise<AxiosResponse<User>> {

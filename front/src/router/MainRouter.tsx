@@ -1,18 +1,17 @@
-import { NoMatch, RequireAuth } from '@components/index';
+import { RequireAuth } from '@components/index';
 import { Layout } from '@components/layout/layout';
-import { ProviderCallback } from '@pages/auth/provider-callback';
-import SignIn from '@pages/auth/sign-in';
-import SignUp from '@pages/auth/sign-up';
-import { Counter } from '@pages/home/home';
-import { Profile } from '@pages/profile/profile';
+import { AdminHome, Edit, Login } from '@pages/admin/index';
+import { SignIn, SignUp, Home, ProviderCallback } from '@pages/main/index';
+import { Profile } from '@pages/main/profile/Profile';
+import { NotFound } from '@pages/notFound/notFound';
 import { Route, Routes } from 'react-router-dom';
-import { PATHS } from './paths';
+import { PATHS, ADMIN_PATHS } from './paths';
 
 export function MainRouter() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path={PATHS.Home} element={<Counter />} />
+        <Route path={PATHS.Home} element={<Home />} />
         <Route path={PATHS.SignIn} element={<SignIn />} />
         <Route path={PATHS.SignUp} element={<SignUp />} />
         <Route path={PATHS.ProviderAuthCallBack} element={<ProviderCallback />} />
@@ -24,7 +23,10 @@ export function MainRouter() {
             </RequireAuth>
           }
         />
-        <Route path="*" element={<NoMatch />} />
+        <Route path={ADMIN_PATHS.Home} element={<AdminHome />} />
+        <Route path={ADMIN_PATHS.Login} element={<Login />} />
+        <Route path={ADMIN_PATHS.Edit} element={<Edit />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

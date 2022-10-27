@@ -30,7 +30,7 @@ function Copyright(props: any) {
   );
 }
 
-export default function SignIn() {
+export function SignIn() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectSignInError);

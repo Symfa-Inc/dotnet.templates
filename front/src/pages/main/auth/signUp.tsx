@@ -11,10 +11,10 @@ import { RouterLink } from '@router/utils';
 import { PATHS } from '@router/paths';
 import { OverlaySpinner } from '@components/index';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { ProcessState } from '@enums/progress-state.enum';
+import { ProcessState } from '@enums/progressState.enum';
 import { Alert, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { ProfileForm } from '@components/profile-form/profile-form';
+import { ProfileForm } from '@components/profileForm/profileForm';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
@@ -39,7 +39,7 @@ function Copyright(props: any) {
   );
 }
 
-export default function SignUp() {
+export function SignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

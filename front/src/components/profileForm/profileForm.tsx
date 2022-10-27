@@ -1,7 +1,7 @@
 import { Grid, TextField, TextFieldProps } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import { ProfileFormProps } from './profile-form.interface';
+import { ProfileFormProps } from './profileForm.interface';
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onChange }) => {
   const { position, postalCode, dateOfBirth, district, country, state } = profileData;

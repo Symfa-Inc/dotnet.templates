@@ -1,5 +1,5 @@
 import { Box, CircularProgress, CircularProgressProps } from '@mui/material';
-import classes from './overlay-spinner.module.scss';
+import classes from './overlaySpinner.module.scss';
 
 export const OverlaySpinner: React.FC<CircularProgressProps> = (props) => (
   <Box className={classes.wrapper} sx={{ borderColor: 'secondary.main', bgcolor: 'action.disabledBackground' }}>

@@ -1,4 +1,4 @@
-import { ProcessState } from '@enums/progress-state.enum';
+import { ProcessState } from '@enums/progressState.enum';
 
 export interface User {
   userId: string;

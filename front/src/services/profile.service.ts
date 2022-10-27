@@ -1,6 +1,6 @@
-import { User, UserAdditionalFields } from '@pages/auth/auth.interface';
+import { User, UserAdditionalFields } from '@pages/main/auth/auth.interface';
 import { AxiosResponse } from 'axios';
-import { apiHttpService } from './api-http.service';
+import { apiHttpService } from './apiHttp.service';
 
 export class ProfileService {
   static async profile(): Promise<AxiosResponse<User>> {

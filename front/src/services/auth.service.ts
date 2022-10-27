@@ -1,8 +1,8 @@
-import { SignIn, Token, User, UserCredentials } from '@pages/auth/auth.interface';
+import { SignIn, Token, User, UserCredentials } from '@pages/main/auth/auth.interface';
 import { toFormUrlEncoded } from '@utils/encoder';
 import { AxiosResponse } from 'axios';
 // import { Sign } from 'crypto';
-import authHttpService from './auth-http.service';
+import authHttpService from './authHttp.service';
 
 export class AuthService {
   static async getToken(credentials: SignIn): Promise<AxiosResponse<Token>> {

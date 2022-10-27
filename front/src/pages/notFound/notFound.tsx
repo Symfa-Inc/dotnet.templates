@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { RouterLink } from '@router/utils';
 
-export function NoMatch() {
+export function NotFound() {
   return (
     <Box>
       <h2>Nothing to see here!</h2>

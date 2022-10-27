@@ -11,7 +11,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import duration from 'dayjs/plugin/duration';
 import isBetween from 'dayjs/plugin/isBetween';
 import weekday from 'dayjs/plugin/weekday';
-import './services/api-http-interceptors';
+import './services/apiHttpInterceptors';
 import { MainRouter } from '@router/MainRouter';
 
 dayjs.extend(utc);
