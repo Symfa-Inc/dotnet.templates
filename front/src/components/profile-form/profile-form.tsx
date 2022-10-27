@@ -4,9 +4,7 @@ import dayjs from 'dayjs';
 import { ProfileFormProps } from './profile-form.interface';
 
 export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onChange }) => {
-  const {
-    position, postalCode, dateOfBirth, district, country, state,
-  } = profileData;
+  const { position, postalCode, dateOfBirth, district, country, state } = profileData;
 
   // console.log('Render form');
 
@@ -44,7 +42,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onChange 
           autoFocus
           onChange={(newValue) => handleChanges<'dateOfBirth'>(newValue, 'dateOfBirth')}
           renderInput={(params: TextFieldProps) => (
-            <TextField {...params} error={!dateValidation.valid} required helperText={dateValidation.message} fullWidth />
+            <TextField
+              {...params}
+              error={!dateValidation.valid}
+              required
+              helperText={dateValidation.message}
+              fullWidth
+            />
           )}
         />
       </Grid>

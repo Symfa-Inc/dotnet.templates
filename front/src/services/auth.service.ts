@@ -1,6 +1,4 @@
-import {
-  SignIn, Token, User, UserCredentials,
-} from '@features/auth/auth.interface';
+import { SignIn, Token, User, UserCredentials } from '@features/auth/auth.interface';
 import { toFormUrlEncoded } from '@utils/encoder';
 import { AxiosResponse } from 'axios';
 // import { Sign } from 'crypto';
@@ -40,7 +38,7 @@ export class AuthService {
     //   'Content-Type': 'application/json',
     // };
     const data = toFormUrlEncoded(params);
-    return authHttpService.post<Token>('/connect/token', data/* , { headers } */);
+    return authHttpService.post<Token>('/connect/token', data /* , { headers } */);
   }
 
   static async revokeToken(token: string) {
@@ -52,6 +50,6 @@ export class AuthService {
     //   'Content-Type': 'application/json',
     // };
     const data = toFormUrlEncoded(params);
-    return authHttpService.post<Token>('/connect/revoke', data/* , { headers } */);
+    return authHttpService.post<Token>('/connect/revoke', data /* , { headers } */);
   }
 }

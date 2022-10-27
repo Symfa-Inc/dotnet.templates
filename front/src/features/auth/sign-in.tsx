@@ -15,9 +15,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import {
-  resetSignInErrorState, signinAction, selectSignInError, signinWithProviderAction,
-} from './authSlice';
+import { resetSignInErrorState, signinAction, selectSignInError, signinWithProviderAction } from './authSlice';
 import styles from './auth.module.scss';
 
 function Copyright(props: any) {
@@ -26,10 +24,8 @@ function Copyright(props: any) {
       {'Copyright © '}
       <Link component={RouterLink} to={PATHS.Home} color="inherit">
         Your Website
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
+      </Link>{' '}
+      {new Date().getFullYear()}.
     </Typography>
   );
 }
@@ -126,18 +122,9 @@ export default function SignIn() {
               Sign In
             </Button>
             <Box alignItems="center" display="flex" justifyContent="center" sx={{ mb: 2 }}>
-              <Button
-                className={`${styles['g-btn']} ${styles.btn}`}
-                onClick={() => signWithProvider('Google')}
-              />
-              <Button
-                className={styles['tw-btn']}
-                onClick={() => signWithProvider('Google')}
-              />
-              <Button
-                className={styles['fb-btn']}
-                onClick={() => signWithProvider('Google')}
-              />
+              <Button className={`${styles['g-btn']} ${styles.btn}`} onClick={() => signWithProvider('Google')} />
+              <Button className={styles['tw-btn']} onClick={() => signWithProvider('Google')} />
+              <Button className={styles['fb-btn']} onClick={() => signWithProvider('Google')} />
             </Box>
             <Grid container>
               <Grid item xs>

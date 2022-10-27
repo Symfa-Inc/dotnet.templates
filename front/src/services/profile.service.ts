@@ -1,6 +1,4 @@
-import {
-  User, UserAdditionalFields,
-} from '@features/auth/auth.interface';
+import { User, UserAdditionalFields } from '@features/auth/auth.interface';
 import { AxiosResponse } from 'axios';
 import { apiHttpService } from './api-http.service';
 

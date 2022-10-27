@@ -33,10 +33,8 @@ function Copyright(props: any) {
       {'Copyright © '}
       <Link component={RouterLink} to={PATHS.Home} color="inherit">
         Your Website
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
+      </Link>{' '}
+      {new Date().getFullYear()}.
     </Typography>
   );
 }

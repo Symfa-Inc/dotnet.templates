@@ -2,7 +2,7 @@ const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
 
 export class TokenService {
-  static saveTokens(tokens: {access_token: string, refresh_token: string}) {
+  static saveTokens(tokens: { access_token: string; refresh_token: string }) {
     localStorage.setItem(ACCESS_TOKEN, tokens.access_token);
     localStorage.setItem(REFRESH_TOKEN, tokens.refresh_token);
   }

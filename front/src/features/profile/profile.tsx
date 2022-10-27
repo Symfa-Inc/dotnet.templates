@@ -1,9 +1,7 @@
 import { ProfileForm } from '@components/profile-form/profile-form';
 import { UserAdditionalFields } from '@features/auth/auth.interface';
 import { selectUser, updateProfile } from '@features/auth/authSlice';
-import {
-  Avatar, Card, Box, Typography, Grid, Button,
-} from '@mui/material';
+import { Avatar, Card, Box, Typography, Grid, Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import Container from '@mui/material/Container';
 import { ProfileService } from '@services/profile.service';
@@ -52,9 +50,7 @@ export function Profile() {
             }}
           />
           <Box sx={{ display: 'flex', flexDirection: 'column', ml: 2 }}>
-            <Typography variant="h4">
-              {user.userName}
-            </Typography>
+            <Typography variant="h4">{user.userName}</Typography>
             <Typography variant="h5">{user.email}</Typography>
           </Box>
         </Box>

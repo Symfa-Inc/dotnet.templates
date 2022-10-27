@@ -3,9 +3,7 @@ import SignUp from '@features/auth/sign-up';
 import { Counter } from '@features/home/home';
 import './App.scss';
 import { Route, Routes } from 'react-router-dom';
-import {
-  Container, createTheme, CssBaseline,
-} from '@mui/material';
+import { Container, createTheme, CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { Profile } from '@features/profile/profile';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -44,7 +42,9 @@ function App() {
           fixed={false}
           maxWidth={false}
           sx={{
-            display: 'flex', bgcolor: 'grey.100', pt: 0.5,
+            display: 'flex',
+            bgcolor: 'grey.100',
+            pt: 0.5,
           }}
         >
           <CssBaseline />
@@ -56,11 +56,11 @@ function App() {
               <Route path={PATHS.ProviderAuthCallBack} element={<ProviderCallback />} />
               <Route
                 path={PATHS.Profile}
-                element={(
+                element={
                   <RequireAuth>
                     <Profile />
                   </RequireAuth>
-              )}
+                }
               />
               <Route path="*" element={<NoMatch />} />
             </Route>

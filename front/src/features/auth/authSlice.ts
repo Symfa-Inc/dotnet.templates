@@ -9,12 +9,7 @@ import { TokenService } from '@services/token.service';
 import { AppThunk, RootState } from '@store/store';
 import { AxiosError } from 'axios';
 import { UserManager, UserManagerSettings } from 'oidc-client-ts';
-import {
-  AuthState,
-  SignIn,
-  UserAdditionalFields,
-  UserCredentials,
-} from './auth.interface';
+import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from './auth.interface';
 
 const initialState: AuthState = {
   state: ProcessState.Idle,
@@ -66,17 +61,20 @@ export const signinAction = createAsyncThunk('auth/signin', async (credentials: 
   }
 });
 
-export const signupAction = createAsyncThunk('auth/signup', async (credentials: UserCredentials, { rejectWithValue }) => {
-  try {
-    const response = await AuthService.signup(credentials);
-    const tokenResponse = await AuthService.getToken(credentials);
-    TokenService.saveTokens(tokenResponse.data);
+export const signupAction = createAsyncThunk(
+  'auth/signup',
+  async (credentials: UserCredentials, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.signup(credentials);
+      const tokenResponse = await AuthService.getToken(credentials);
+      TokenService.saveTokens(tokenResponse.data);
 
-    return response.data;
-  } catch (err) {
-    return handleError(err, rejectWithValue);
-  }
-});
+      return response.data;
+    } catch (err) {
+      return handleError(err, rejectWithValue);
+    }
+  },
+);
 
 export const completeRegistrationAction = createAsyncThunk(
   'auth/complete_registration',
@@ -90,19 +88,20 @@ export const completeRegistrationAction = createAsyncThunk(
   },
 );
 
-export const signinWithProviderAction = createAsyncThunk('auth/signin_with_provider', async (provider: string, { rejectWithValue }) => {
-  try {
-    const data = await userManager.signinPopup({ extraQueryParams: { provider } });
-    const {
-      access_token, refresh_token = '',
-    } = data;
-    TokenService.saveTokens({ access_token, refresh_token });
-    const userResponse = await ProfileService.profile();
-    return userResponse.data;
-  } catch (err) {
-    return handleError(err, rejectWithValue);
-  }
-});
+export const signinWithProviderAction = createAsyncThunk(
+  'auth/signin_with_provider',
+  async (provider: string, { rejectWithValue }) => {
+    try {
+      const data = await userManager.signinPopup({ extraQueryParams: { provider } });
+      const { access_token, refresh_token = '' } = data;
+      TokenService.saveTokens({ access_token, refresh_token });
+      const userResponse = await ProfileService.profile();
+      return userResponse.data;
+    } catch (err) {
+      return handleError(err, rejectWithValue);
+    }
+  },
+);
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -136,7 +135,7 @@ export const authSlice = createSlice({
       })
       .addCase(signinAction.rejected, (state, action) => {
         if ((action.payload as string).includes('UserProfileNotFoundException')) {
-        // if (action.error.code === 'UserProfileNotFoundException') {
+          // if (action.error.code === 'UserProfileNotFoundException') {
           state.signInError = 'User profile not found, please complete registration';
           state.partlyRegistered = true;
           state.state = ProcessState.Idle;
@@ -156,7 +155,7 @@ export const authSlice = createSlice({
       })
       .addCase(signupAction.rejected, (state, data) => {
         state.state = ProcessState.Error;
-        state.signUpError = data.payload as string ?? '';
+        state.signUpError = (data.payload as string) ?? '';
       })
 
       .addCase(completeRegistrationAction.pending, (state) => {
@@ -169,7 +168,7 @@ export const authSlice = createSlice({
       })
       .addCase(completeRegistrationAction.rejected, (state, data) => {
         state.state = ProcessState.Error;
-        state.signUpError = data.payload as string ?? '';
+        state.signUpError = (data.payload as string) ?? '';
       })
 
       .addCase(signinWithProviderAction.fulfilled, (state, action: PayloadAction<typeof initialState['user']>) => {
@@ -177,27 +176,21 @@ export const authSlice = createSlice({
       })
       .addCase(signinWithProviderAction.rejected, (state, data) => {
         state.state = ProcessState.Error;
-        state.signUpError = data.payload as string ?? '';
+        state.signUpError = (data.payload as string) ?? '';
       });
   },
 });
 
 export const { resetSignInErrorState, resetSignUpErrorState, updateProfile } = authSlice.actions;
 
-export const logout = (): AppThunk => async (
-  dispatch,
-  _getState,
-) => {
+export const logout = (): AppThunk => async (dispatch, _getState) => {
   dispatch(updateProfile(initialState.user));
   const accessToken = TokenService.getAccess();
   TokenService.clearTokens();
   if (accessToken) await AuthService.revokeToken(accessToken);
 };
 
-export const restoreSession = (): AppThunk => async (
-  dispatch,
-  _getState,
-) => {
+export const restoreSession = (): AppThunk => async (dispatch, _getState) => {
   const accessToken = TokenService.getAccess();
   if (accessToken) {
     const { data } = await ProfileService.profile();
