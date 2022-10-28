@@ -23,7 +23,6 @@ WebApplication _app;
 string _connectionString;
 
 InitBuilder();
-AddConfig();
 InitServices();
 InitConnectionString();
 AddServices();
@@ -39,15 +38,6 @@ void InitBuilder()
     _builder = WebApplication.CreateBuilder(args);
     _configuration = _builder.Configuration;
     _environment = _builder.Environment;
-}
-
-void AddConfig()
-{
-    _configuration.SetBasePath(_environment.ContentRootPath)
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .AddJsonFile($"appsettings.{_environment.EnvironmentName}.json", optional: true)
-        .AddEnvironmentVariables()
-        .Build();
 }
 
 void InitServices()
