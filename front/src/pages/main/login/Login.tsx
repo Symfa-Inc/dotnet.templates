@@ -21,19 +21,8 @@ import {
   selectSignInError,
   signinWithProviderAction,
 } from '@store/reducers/authSlice';
+import { Copyright } from '@components/index';
 import styles from './Login.module.scss';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link component={RouterLink} to={PATHS.Home} color="inherit">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-}
 
 export function Login() {
   const navigate = useNavigate();

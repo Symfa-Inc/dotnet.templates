@@ -9,7 +9,7 @@ import { TokenService } from '@services/token.service';
 import { AppThunk, RootState } from '@store/store';
 import { AxiosError } from 'axios';
 import { UserManager, UserManagerSettings } from 'oidc-client-ts';
-import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '../../services/authServices/auth.interface';
+import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '@services/authServices/auth.interface';
 
 const initialState: AuthState = {
   state: ProcessState.Idle,
@@ -167,6 +167,7 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(completeRegistrationAction.rejected, (state, data) => {
+        console.log('data.payload', data.payload);
         state.state = ProcessState.Error;
         state.signUpError = (data.payload as string) ?? '';
       })

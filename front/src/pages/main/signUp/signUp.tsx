@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { ProcessState } from '@enums/progressState.enum';
 import { Alert, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { ProfileForm } from '@components/profileForm/profileForm';
+import { ProfileForm } from '@pages/main/profile/profileForm/profileForm';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
@@ -24,8 +24,8 @@ import {
   completeRegistrationAction,
   resetSignUpErrorState,
   selectSignUpError,
-} from '../../../store/reducers/authSlice';
-import { UserAdditionalFields, UserCredentials } from '../../../services/authServices/auth.interface';
+} from '@store/reducers/authSlice';
+import { UserAdditionalFields, UserCredentials } from '@services/authServices/auth.interface';
 
 function Copyright(props: any) {
   return (
@@ -89,6 +89,7 @@ export function SignUp() {
       await dispatch(completeRegistrationAction(data)).unwrap();
       navigate(PATHS.Home);
     } catch (e) {
+      dispatch(resetSignUpErrorState());
       console.error(e);
     }
   };

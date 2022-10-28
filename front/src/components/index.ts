@@ -1,3 +1,3 @@
 export * from './overlaySpinner/overlaySpinner';
-export * from './profileForm/profileForm';
+export * from './copyright/Copyright';
 export * from './requireAuth/requireAuth';

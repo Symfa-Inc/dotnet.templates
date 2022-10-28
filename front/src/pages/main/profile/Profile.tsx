@@ -1,4 +1,3 @@
-import { ProfileForm } from '@components/profileForm/profileForm';
 import { UserAdditionalFields } from '@services/authServices/auth.interface';
 import { selectUser, updateProfile } from '@store/reducers/authSlice';
 import { Avatar, Card, Box, Typography, Grid, Button } from '@mui/material';
@@ -9,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { useState } from 'react';
+import { ProfileForm } from './profileForm/profileForm';
 
 export function Profile() {
   const user = useAppSelector(selectUser);

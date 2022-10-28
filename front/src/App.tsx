@@ -34,7 +34,7 @@ function App() {
           sx={{
             display: 'flex',
             bgcolor: 'grey.100',
-            pt: 0.5,
+            pt: 1,
           }}
         >
           <CssBaseline />
