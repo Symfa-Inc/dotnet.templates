@@ -1,13 +1,24 @@
-import { Box } from '@mui/material';
+import { Container, Link, Typography } from '@mui/material';
 import { RouterLink } from '@router/utils';
 
 export function NotFound() {
   return (
-    <Box>
-      <h2>Nothing to see here!</h2>
-      <p>
-        <RouterLink to="/">Go to the home page</RouterLink>
-      </p>
-    </Box>
+    <Container
+      maxWidth="xl"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        height: '100vh',
+        alignItems: 'center',
+        gap: '1rem',
+      }}
+    >
+      <Typography variant="h1">404</Typography>
+      <Typography variant="h4">Oops ... page not found</Typography>
+      <Link component={RouterLink} to="/">
+        Go to home page
+      </Link>
+    </Container>
   );
 }

@@ -42,7 +42,7 @@ export const userManager = new UserManager(clientSettings);
 
 function handleError(err: unknown, handler: (error: any) => any) {
   if (err instanceof AxiosError && err.response?.data && STATUS_CODES.BAD_REQUEST === err.response.status) {
-    const error = err.response?.data;
+    const error = err.response?.data?.description;
     const errorText = typeof error === 'string' ? error : error?.error_description || '';
     return handler(errorText);
   }
@@ -68,7 +68,6 @@ export const signupAction = createAsyncThunk(
       const response = await AuthService.signup(credentials);
       const tokenResponse = await AuthService.getToken(credentials);
       TokenService.saveTokens(tokenResponse.data);
-
       return response.data;
     } catch (err) {
       return handleError(err, rejectWithValue);

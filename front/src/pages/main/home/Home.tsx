@@ -5,6 +5,7 @@ import { logout, selectUser } from '@store/reducers/authSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { ItemCard } from '@components/itemCard/ItemCard';
 import { items } from '@utils/mockDatabase';
+import { Header } from '@components/header/Header';
 
 export function Home() {
   const dispatch = useAppDispatch();
@@ -31,10 +32,10 @@ export function Home() {
 
   return (
     <Container maxWidth="lg">
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
+      <Header>
         {user?.userId && <Typography variant="h5">Welcome, {user.userName}</Typography>}
         {availableButtons}
-      </Box>
+      </Header>
 
       <Typography variant="h2" textAlign="center" mt="1rem" mb="2rem">
         Home Page

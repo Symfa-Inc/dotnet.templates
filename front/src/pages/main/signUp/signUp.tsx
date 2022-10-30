@@ -26,6 +26,7 @@ import {
   selectSignUpError,
 } from '@store/reducers/authSlice';
 import { UserAdditionalFields, UserCredentials } from '@services/authServices/auth.interface';
+import { Header } from '@components/header/Header';
 
 function Copyright(props: any) {
   return (
@@ -62,14 +63,11 @@ export function SignUp() {
   const validAdditionalForm = profileData.dateOfBirth && dayjs(profileData.dateOfBirth).isValid();
 
   useEffect(() => {
-    if (!message || !error) return;
+    if (!message && !error) return;
     setTimeout(() => {
-      if (message) {
-        setMessage('');
-      } else if (error) {
-        dispatch(resetSignUpErrorState());
-      }
-    }, 3000);
+      setMessage('');
+      dispatch(resetSignUpErrorState());
+    }, 4000);
   }, [dispatch, message, error]);
 
   // The sign up
@@ -111,7 +109,12 @@ export function SignUp() {
   };
 
   return (
-    <>
+    <Container maxWidth="xl">
+      <Header>
+        <Link component={RouterLink} to={PATHS.Home} variant="h5" underline="none">
+          HOME
+        </Link>
+      </Header>
       <Container
         component="div"
         maxWidth="xs"
@@ -120,6 +123,7 @@ export function SignUp() {
           mt: 4,
           borderRadius: 2,
           boxShadow: 1,
+          p: 1,
         }}
       >
         <Box
@@ -198,15 +202,16 @@ export function SignUp() {
         <Snackbar
           open={!!message || !!error}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'center',
           }}
+          message={message || error}
         >
-          <Alert severity={error ? 'warning' : 'success'} sx={{ width: '100%' }}>
+          <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
             {error || message}
           </Alert>
         </Snackbar>
       )}
-    </>
+    </Container>
   );
 }

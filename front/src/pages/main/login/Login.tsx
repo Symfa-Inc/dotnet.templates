@@ -22,6 +22,7 @@ import {
   signinWithProviderAction,
 } from '@store/reducers/authSlice';
 import { Copyright } from '@components/index';
+import { Header } from '@components/header/Header';
 import styles from './Login.module.scss';
 
 export function Login() {
@@ -56,16 +57,20 @@ export function Login() {
 
   useEffect(() => {
     if (!error) return;
-
-    setTimeout(() => {
-      if (error) {
+    if (error) {
+      setTimeout(() => {
         dispatch(resetSignInErrorState());
-      }
-    }, 3000);
+      }, 3000);
+    }
   }, [dispatch, error]);
 
   return (
-    <>
+    <Container maxWidth="xl">
+      <Header>
+        <Link component={RouterLink} to={PATHS.Home} variant="h5" underline="none">
+          HOME
+        </Link>
+      </Header>
       <Container
         component="div"
         maxWidth="xs"
@@ -74,6 +79,7 @@ export function Login() {
           mt: 4,
           borderRadius: 2,
           boxShadow: 1,
+          p: 1,
         }}
       >
         <Box
@@ -140,15 +146,15 @@ export function Login() {
         <Snackbar
           open={!!error}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'center',
           }}
         >
-          <Alert severity="warning" sx={{ width: '100%' }}>
+          <Alert severity="error" sx={{ width: '100%' }}>
             {error}
           </Alert>
         </Snackbar>
       )}
-    </>
+    </Container>
   );
 }

@@ -33,8 +33,8 @@ function App() {
           maxWidth={false}
           sx={{
             display: 'flex',
-            bgcolor: 'grey.100',
-            pt: 1,
+            bgcolor: '#FFFAFA',
+            pt: 1.5,
           }}
         >
           <CssBaseline />
