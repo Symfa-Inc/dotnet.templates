@@ -65,12 +65,9 @@ export function Login() {
   }, [dispatch, error]);
 
   return (
-    <Container maxWidth="xl">
-      <Header>
-        <Link component={RouterLink} to={PATHS.Home} variant="h5" underline="none">
-          HOME
-        </Link>
-      </Header>
+    <>
+      <Header />
+
       <Container
         component="div"
         maxWidth="xs"
@@ -155,6 +152,6 @@ export function Login() {
           </Alert>
         </Snackbar>
       )}
-    </Container>
+    </>
   );
 }

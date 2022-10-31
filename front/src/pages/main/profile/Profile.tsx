@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { useState } from 'react';
+import { Header } from '@components/index';
 import { ProfileForm } from './profileForm/profileForm';
 
 export function Profile() {
@@ -27,36 +28,38 @@ export function Profile() {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h2" textAlign="center">
-        Profile
-      </Typography>
-      <Card
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          mt: 2,
-          p: 2,
-          borderRadius: 2,
-        }}
-      >
-        <Box display="flex" sx={{ p: 2 }}>
-          <Avatar
-            alt={user.userName}
-            sx={{
-              width: '100px',
-              height: '100px',
-              bgcolor: blue[500],
-            }}
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', ml: 2 }}>
-            <Typography variant="h4">{user.userName}</Typography>
-            <Typography variant="h5">{user.email}</Typography>
+    <>
+      <Header />
+      <Container maxWidth="sm">
+        <Typography variant="h2" textAlign="center">
+          Profile
+        </Typography>
+        <Card
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            mt: 2,
+            p: 2,
+            borderRadius: 2,
+          }}
+        >
+          <Box display="flex" sx={{ p: 2 }}>
+            <Avatar
+              alt={user.userName}
+              sx={{
+                width: '100px',
+                height: '100px',
+                bgcolor: blue[500],
+              }}
+            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', ml: 2 }}>
+              <Typography variant="h4">{user.userName}</Typography>
+              <Typography variant="h5">{user.email}</Typography>
+            </Box>
           </Box>
-        </Box>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            {/* <Grid item xs={12}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              {/* <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
                 name="username"
@@ -68,7 +71,7 @@ export function Profile() {
                 defaultValue={user.username}
               />
             </Grid> */}
-            {/* <Grid item xs={12}>
+              {/* <Grid item xs={12}>
               <DatePicker
                 openTo="year"
                 views={['year', 'month', 'day']}
@@ -80,7 +83,7 @@ export function Profile() {
                 renderInput={(params: TextFieldProps) => <TextField {...params} helperText={null} fullWidth />}
               />
             </Grid> */}
-            {/* <Grid item xs={12}>
+              {/* <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
@@ -113,17 +116,18 @@ export function Profile() {
                 autoComplete="new-password"
               />
             </Grid> */}
-            <Box sx={{ mt: 2, pl: 2 }}>
-              <ProfileForm profileData={profileForm} onChange={updateProfileForm} />
+              <Box sx={{ mt: 2, pl: 2 }}>
+                <ProfileForm profileData={profileForm} onChange={updateProfileForm} />
+              </Box>
+            </Grid>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!validAdditionalForm}>
+                Edit Profile
+              </Button>
             </Box>
-          </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!validAdditionalForm}>
-              Edit Profile
-            </Button>
           </Box>
-        </Box>
-      </Card>
-    </Container>
+        </Card>
+      </Container>
+    </>
   );
 }

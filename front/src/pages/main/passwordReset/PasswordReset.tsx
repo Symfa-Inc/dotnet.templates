@@ -1,16 +1,11 @@
 import { Header } from '@components/header/Header';
-import { Container, Grid, TextField, Typography, Box, Button, Link } from '@mui/material';
-import { PATHS } from '@router/paths';
-import { RouterLink } from '@router/utils';
+import { Container, Grid, TextField, Typography, Box, Button } from '@mui/material';
 
 export function PasswordReset() {
   return (
-    <Container maxWidth="xl">
-      <Header>
-        <Link component={RouterLink} to={PATHS.Home} variant="h5" underline="none">
-          HOME
-        </Link>
-      </Header>
+    <>
+      <Header />
+
       <Container
         maxWidth="xl"
         sx={{
@@ -50,6 +45,6 @@ export function PasswordReset() {
           </Button>
         </Container>
       </Container>
-    </Container>
+    </>
   );
 }

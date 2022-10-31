@@ -14,9 +14,9 @@ import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '@servi
 const initialState: AuthState = {
   state: ProcessState.Idle,
   user: {
-    userId: '',
-    userName: '',
-    email: '',
+    userId: 'Rodrigo',
+    userName: 'rodrigo test',
+    email: 'rodrigo@gmail.com',
   },
   signInError: null,
   signUpError: null,
@@ -184,7 +184,14 @@ export const authSlice = createSlice({
 export const { resetSignInErrorState, resetSignUpErrorState, updateProfile } = authSlice.actions;
 
 export const logout = (): AppThunk => async (dispatch, _getState) => {
-  dispatch(updateProfile(initialState.user));
+  dispatch(
+    updateProfile({
+      userId: '',
+      userName: '',
+      email: 'rodrigo@gmail.com',
+    }),
+  );
+
   const accessToken = TokenService.getAccess();
   TokenService.clearTokens();
   if (accessToken) await AuthService.revokeToken(accessToken);

@@ -16,7 +16,7 @@ import { Alert, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { resetSignInErrorState, signinAction, selectSignInError } from '@store/reducers/authSlice';
-import { Copyright } from '@components/index';
+import { Copyright, Header } from '@components/index';
 
 export function AdminLogin() {
   const navigate = useNavigate();
@@ -56,6 +56,7 @@ export function AdminLogin() {
 
   return (
     <>
+      <Header />
       <Typography variant="h2">Admin</Typography>
       <Container
         component="div"

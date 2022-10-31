@@ -1,5 +1,5 @@
-import './App.scss';
-import { Container, createTheme, CssBaseline } from '@mui/material';
+// import './App.scss';
+import { createTheme, CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -13,6 +13,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import weekday from 'dayjs/plugin/weekday';
 import './services/apiHttpInterceptors';
 import { MainRouter } from '@router/MainRouter';
+import { MainContainer, InnerContainer } from '@components/index';
 
 dayjs.extend(utc);
 dayjs.extend(duration);
@@ -23,23 +24,20 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(weekday);
 
 function App() {
-  const theme = createTheme({});
+  const theme = createTheme({
+    palette: {
+      mode: 'light',
+    },
+  });
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Container
-          component="main"
-          fixed={false}
-          maxWidth={false}
-          sx={{
-            display: 'flex',
-            bgcolor: '#FFFAFA',
-            pt: 1.5,
-          }}
-        >
-          <CssBaseline />
-          <MainRouter />
-        </Container>
+        <CssBaseline />
+        <MainContainer>
+          <InnerContainer>
+            <MainRouter />
+          </InnerContainer>
+        </MainContainer>
       </LocalizationProvider>
     </ThemeProvider>
   );

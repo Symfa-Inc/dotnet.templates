@@ -1,10 +1,10 @@
-import { Button, Typography, Grid, Container, Box } from '@mui/material';
+import { Button, Typography, Grid, Box } from '@mui/material';
 import { PATHS } from '@router/paths';
 import { RouterLink } from '@router/utils';
 import { logout, selectUser } from '@store/reducers/authSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { ItemCard } from '@components/itemCard/ItemCard';
-import { items } from '@utils/mockDatabase';
+import { productItems } from '@utils/mockDatabase';
 import { Header } from '@components/header/Header';
 
 export function Home() {
@@ -31,7 +31,7 @@ export function Home() {
   );
 
   return (
-    <Container maxWidth="lg">
+    <>
       <Header>
         {user?.userId && <Typography variant="h5">Welcome, {user.userName}</Typography>}
         {availableButtons}
@@ -41,13 +41,13 @@ export function Home() {
         Home Page
       </Typography>
 
-      <Grid container spacing={2} maxWidth="1200px">
-        {items.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.title} display="flex" justifyContent="center">
-            <ItemCard key={item.title} {...item} />
+      <Grid container spacing={2}>
+        {productItems.map((item) => (
+          <Grid item xs={12} sm={6} md={4} key={item.name} display="flex" justifyContent="center">
+            <ItemCard key={item.name} {...item} />
           </Grid>
         ))}
       </Grid>
-    </Container>
+    </>
   );
 }
