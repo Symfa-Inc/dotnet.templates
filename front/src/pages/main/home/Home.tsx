@@ -1,21 +1,11 @@
-import { Button, Typography, Grid, Box } from '@mui/material';
-import { PATHS } from '@router/paths';
-import { RouterLink } from '@router/utils';
-import { logout, selectUser } from '@store/reducers/authSlice';
-import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { Typography, Grid } from '@mui/material';
 import { productItems } from '@utils/mockDatabase';
 import { GlobalModal, ItemCard, Header } from '@components/index';
 import { useState } from 'react';
 
 export function Home() {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectUser);
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState({});
-
-  const handleLogout = () => {
-    dispatch(logout());
-  };
 
   const showDetail = (item: any) => {
     setOpen(true);
@@ -26,27 +16,9 @@ export function Home() {
     setOpen(false);
   };
 
-  const availableButtons = user?.userId ? (
-    <Box>
-      <Button component={RouterLink} to={PATHS.Profile} variant="contained">
-        Profile
-      </Button>
-      <Button sx={{ ml: 2 }} onClick={handleLogout} variant="contained">
-        Log out
-      </Button>
-    </Box>
-  ) : (
-    <Button component={RouterLink} to={PATHS.Login} variant="contained" sx={{ marginLeft: 'auto' }}>
-      Login
-    </Button>
-  );
-
   return (
     <>
-      <Header>
-        {user?.userId && <Typography variant="h5">Welcome, {user.userName}</Typography>}
-        {availableButtons}
-      </Header>
+      <Header />
 
       <Typography variant="h2" textAlign="center" mt="1rem" mb="2rem">
         Home Page

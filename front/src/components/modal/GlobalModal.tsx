@@ -20,7 +20,7 @@ const style = {
   p: 6,
 };
 
-export function GlobalModal({ open, handleClose, product, mode }: any) {
+export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: any) {
   const [newProduct, setNewProduct] = useState({
     ...product,
   });
@@ -46,6 +46,7 @@ export function GlobalModal({ open, handleClose, product, mode }: any) {
   };
 
   const sendChanges = () => {
+    handleSubmit(newProduct);
     handleClose();
   };
 
