@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import { Button, Stack, Typography } from '@mui/material';
 
 export function ProductsTable({ list, openModal }: any) {
-  console.log('list', list);
   return (
     <Stack sx={{ gap: '1rem' }}>
       <Typography component="h2" variant="h4" textAlign="center">

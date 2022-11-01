@@ -20,10 +20,23 @@ const style = {
   p: 6,
 };
 
-export default function GlobalModal({ open, handleClose, product }: any) {
+export function GlobalModal({ open, handleClose, product, mode }: any) {
   const [newProduct, setNewProduct] = useState({
     ...product,
   });
+
+  const modeMapper = {
+    title: {
+      add: 'Add Product',
+      edit: 'Edit Product',
+      show: 'Product Detail',
+    },
+    button: {
+      add: 'Add',
+      edit: 'Save',
+      show: 'Close',
+    },
+  };
 
   const handleInputChange = (e: any) => {
     setNewProduct({
@@ -49,38 +62,48 @@ export default function GlobalModal({ open, handleClose, product }: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} component="form">
-          <Typography variant="h4">{product.id ? 'Edit Product' : 'Add Product'}</Typography>
-          <TextField
-            name="name"
-            fullWidth
-            id="name"
-            label="Name"
-            autoFocus
-            value={newProduct.name || ''}
-            onChange={(event) => handleInputChange(event)}
-          />
-          <TextField
-            name="category"
-            fullWidth
-            id="category"
-            label="Category"
-            autoFocus
-            value={newProduct.category || ''}
-            onChange={(event) => handleInputChange(event)}
-          />
-          <TextField
-            multiline
-            name="description"
-            fullWidth
-            id="description"
-            label="Description"
-            autoFocus
-            value={newProduct.description || ''}
-            onChange={(event) => handleInputChange(event)}
-          />
+          <Typography variant="h4">{modeMapper.title[mode as keyof typeof modeMapper.title]}</Typography>
+          {mode !== 'show' ? (
+            <>
+              <TextField
+                name="name"
+                fullWidth
+                id="name"
+                label="Name"
+                autoFocus
+                value={newProduct.name || ''}
+                onChange={(event) => handleInputChange(event)}
+              />
+              <TextField
+                name="category"
+                fullWidth
+                id="category"
+                label="Category"
+                autoFocus
+                value={newProduct.category || ''}
+                onChange={(event) => handleInputChange(event)}
+              />
+              <TextField
+                multiline
+                name="description"
+                fullWidth
+                id="description"
+                label="Description"
+                autoFocus
+                value={newProduct.description || ''}
+                onChange={(event) => handleInputChange(event)}
+              />
+            </>
+          ) : (
+            <>
+              <Typography variant="h6"> {newProduct.name}</Typography>
 
-          <Button onClick={sendChanges} variant="contained">
-            {product.id ? 'Edit' : 'Add'}
+              <Typography variant="body2">{newProduct.description}</Typography>
+            </>
+          )}
+
+          <Button onClick={() => (mode === 'show' ? handleClose() : sendChanges())} variant="contained">
+            {modeMapper.button[mode as keyof typeof modeMapper.button]}
           </Button>
         </Box>
       </Modal>
