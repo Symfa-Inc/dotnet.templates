@@ -44,7 +44,14 @@ void InitServices()
 {
     _builder.Services.AddControllers();
     _builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
-    _builder.Services.AddCors();
+    _builder.Services.AddCors(
+        options =>
+        {
+            options.AddDefaultPolicy(
+                policy => policy.WithOrigins(_builder.Configuration.GetSection("UrlPath:AllowedCors").Get<string[]>())
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+        });
     _builder.Services.AddEndpointsApiExplorer();
     _builder.Services.AddSwaggerGen();
     _builder.Services.AddMvc(options =>
@@ -115,13 +122,13 @@ void ConfigureWebApplication()
         {
             x.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
         });
-        _app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
     }
     else
     {
         _app.UseHsts();
     }
 
+    _app.UseCors();
     _app.UseHttpsRedirection();
     _app.UseAuthentication();
     _app.UseAuthorization();

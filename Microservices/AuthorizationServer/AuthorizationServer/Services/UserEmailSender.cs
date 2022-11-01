@@ -18,7 +18,7 @@ public class UserEmailSender : IUserEmailSender
         => await _emailSender.SendEmailAsync(userEmail, "Forgot password", GetRecoveryLinkHtml(userEmail, recoveryToken));
 
     private string GetRecoveryLinkHtml(string userEmail, string recoveryToken)
-        => $"<a href='{_configuration["Urls:RecoveryLinkBasePath"]}"
+        => $"<a href='{_configuration["UrlPath:RecoveryLink"]}"
             + $"?userEmail={UrlEncoder.Default.Encode(userEmail)}"
             + $"&token={UrlEncoder.Default.Encode(recoveryToken)}'>"
             + "Your password recovery link."
