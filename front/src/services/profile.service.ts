@@ -1,11 +1,10 @@
 import { User, UserAdditionalFields } from '@services/authServices/auth.interface';
 import { AxiosResponse } from 'axios';
 import { apiHttpService } from './apiHttp.service';
-import authHttpService from './authServices/authHttp.service';
 
 export class ProfileService {
   static async profile(): Promise<AxiosResponse<User>> {
-    return authHttpService.get('/userinfo');
+    return apiHttpService.get('/userprofile');
   }
 
   static async updateProfile(profileData: UserAdditionalFields): Promise<AxiosResponse<User>> {

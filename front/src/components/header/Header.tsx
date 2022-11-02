@@ -34,7 +34,7 @@ export function Header({ children }: any) {
   };
 
   const availableButtons = user?.userId ? (
-    <Box sx={{ display: 'flex', gap: '1rem' }}>
+    <Box sx={{ display: 'flex', gap: '1rem', marginLeft: 'auto' }}>
       <Stack direction="row" spacing={1} alignItems="center">
         <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center' }}>
           {user?.userName}
@@ -48,7 +48,7 @@ export function Header({ children }: any) {
       </IconButton>
     </Box>
   ) : (
-    <Link component={RouterLink} to={loginPath}>
+    <Link component={RouterLink} to={loginPath} sx={{ marginLeft: 'auto' }}>
       <LoginIcon fontSize="large" />
     </Link>
   );
@@ -66,15 +66,17 @@ export function Header({ children }: any) {
         height: '5rem',
       }}
     >
-      <Link
-        component={RouterLink}
-        to={homePath}
-        variant="h5"
-        underline="none"
-        sx={{ display: 'flex', alignItems: 'center' }}
-      >
-        <HomeIcon fontSize="large" />
-      </Link>
+      {pathname !== ADMIN_PATHS.Login && (
+        <Link
+          component={RouterLink}
+          to={homePath}
+          variant="h5"
+          underline="none"
+          sx={{ display: 'flex', alignItems: 'center' }}
+        >
+          <HomeIcon fontSize="large" />
+        </Link>
+      )}
       {children}
       {availableButtons}
     </Box>

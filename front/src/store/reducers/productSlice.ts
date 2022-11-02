@@ -51,8 +51,9 @@ export const productSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(addProduct.fulfilled, (state, action) => {
+        console.log('action', action);
         state.status = 'idle';
-        state.products = action.payload;
+        state.products.push(action.payload);
       })
       .addCase(addProduct.rejected, (state, action) => {
         state.status = 'failed';

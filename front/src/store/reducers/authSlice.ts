@@ -44,7 +44,10 @@ export const userManager = new UserManager(clientSettings);
 function handleError(err: unknown, handler: (error: any) => any) {
   if (err instanceof AxiosError && err.response?.data && STATUS_CODES.BAD_REQUEST === err.response.status) {
     const error = err.response?.data?.description;
-    const errorText = typeof error === 'string' ? error : error?.error_description || '';
+    const errorDescription = err.response?.data?.error_description;
+
+    const errorText =
+      typeof error === 'string' || typeof errorDescription === 'string' ? error || errorDescription : '';
     return handler(errorText);
   }
   throw err;

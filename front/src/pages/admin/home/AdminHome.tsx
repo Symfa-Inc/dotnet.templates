@@ -1,6 +1,6 @@
 import { Header, GlobalModal } from '@components/index';
 import { Box } from '@mui/material';
-import { productCategories, productItems } from '@utils/mockDatabase';
+import { productCategories } from '@utils/mockDatabase';
 import { useEffect, useState } from 'react';
 import { addProduct, fetchProducts } from '@store/reducers/productSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -17,9 +17,14 @@ export function AdminHome() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const productList = productCategories.map((category) => {
-    const products = productItems.filter((item) => item.category === category.id);
-    return products;
+  const productList = store?.products.map((item) => {
+    const product = {
+      id: item.id,
+      name: item.name,
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.',
+    };
+    return product;
   });
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState({});
@@ -51,7 +56,7 @@ export function AdminHome() {
       <Header />
       <Box sx={{ display: 'flex', gap: '2rem', width: '100%' }}>
         <SideBar items={productCategories} openAddProductModal={openAddProductModal} />
-        <ProductsTable list={productList[0]} openModal={openModal} />
+        <ProductsTable list={productList} openModal={openModal} />
       </Box>
       <GlobalModal
         open={open}
