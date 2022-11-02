@@ -2,6 +2,7 @@ import { Typography, Grid } from '@mui/material';
 import { productItems } from '@utils/mockDatabase';
 import { GlobalModal, ItemCard, Header } from '@components/index';
 import { useState } from 'react';
+import { Mode } from '@enums/index';
 
 export function Home() {
   const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ export function Home() {
           </Grid>
         ))}
       </Grid>
-      <GlobalModal open={open} handleClose={handleClose} product={product} mode="show" />
+      <GlobalModal open={open} handleClose={handleClose} product={product} mode={Mode.Show} />
     </>
   );
 }

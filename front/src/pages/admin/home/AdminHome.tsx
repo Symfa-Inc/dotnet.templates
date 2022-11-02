@@ -4,6 +4,7 @@ import { productCategories, productItems } from '@utils/mockDatabase';
 import { useEffect, useState } from 'react';
 import { addProduct, fetchProducts } from '@store/reducers/productSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { Mode } from '@enums/index';
 import { ProductsTable } from './components/table/ProductsTable';
 import { SideBar } from './components/sideBar/SideBar';
 
@@ -26,7 +27,7 @@ export function AdminHome() {
 
   const openModal = (item: any) => {
     setOpen(true);
-    setMode('edit');
+    setMode(Mode.Edit);
     setProduct(item);
   };
 
@@ -36,7 +37,7 @@ export function AdminHome() {
 
   const openAddProductModal = () => {
     setOpen(true);
-    setMode('add');
+    setMode(Mode.Add);
     setProduct({});
   };
 

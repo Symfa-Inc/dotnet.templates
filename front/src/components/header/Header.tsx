@@ -15,14 +15,17 @@ export function Header({ children }: any) {
   const { pathname } = useLocation();
   const [homePath, setHomePath] = useState(PATHS.Home);
   const [loginPath, setLoginPath] = useState(PATHS.Login);
+  const [profilePath, setProfilePath] = useState(PATHS.Profile);
 
   useEffect(() => {
     if (pathname.includes('admin')) {
       setHomePath(ADMIN_PATHS.Home);
       setLoginPath(ADMIN_PATHS.Login);
+      setProfilePath(ADMIN_PATHS.Profile);
     } else {
       setHomePath(PATHS.Home);
       setLoginPath(PATHS.Login);
+      setProfilePath(PATHS.Profile);
     }
   }, [pathname]);
 
@@ -36,8 +39,8 @@ export function Header({ children }: any) {
         <Typography variant="body1" sx={{ display: 'flex', alignItems: 'center' }}>
           {user?.userName}
         </Typography>
-        <Link component={RouterLink} to={PATHS.Profile}>
-          <Avatar alt={user?.userName} src="" />
+        <Link component={RouterLink} to={profilePath} underline="none">
+          <Avatar alt={user?.userName} src={user.avatar} />
         </Link>
       </Stack>
       <IconButton onClick={handleLogout}>

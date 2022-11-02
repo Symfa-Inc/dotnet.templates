@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { PATHS } from '@router/paths';
+import { ADMIN_PATHS } from '@router/paths';
 import { RouterLink } from '@router/utils';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Alert, Snackbar } from '@mui/material';
@@ -34,11 +34,12 @@ export function AdminLogin() {
 
     try {
       await dispatch(signinAction(params)).unwrap();
-      navigate(PATHS.Home);
+      navigate(ADMIN_PATHS.Home);
     } catch (e) {
       if (typeof e === 'string') {
         if (e.includes('UserProfileNotFoundException')) {
-          navigate(PATHS.SignUp);
+          console.log(e);
+          // navigate(PATHS.SignUp);
         }
       }
     }
@@ -110,7 +111,7 @@ export function AdminLogin() {
 
             <Grid container>
               <Grid item xs>
-                <Link component={RouterLink} to={PATHS.PasswordReset} variant="body2">
+                <Link component={RouterLink} to={ADMIN_PATHS.PasswordReset} variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

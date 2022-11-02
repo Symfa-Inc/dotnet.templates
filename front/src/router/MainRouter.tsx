@@ -28,6 +28,8 @@ export function MainRouter() {
         <Route path={ADMIN_PATHS.Home} element={<AdminHome />} />
         <Route path={ADMIN_PATHS.Login} element={<AdminLogin />} />
         <Route path={ADMIN_PATHS.Edit} element={<Edit />} />
+        <Route path={ADMIN_PATHS.Profile} element={<Profile />} />
+        <Route path={ADMIN_PATHS.PasswordReset} element={<PasswordReset />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

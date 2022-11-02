@@ -10,6 +10,7 @@ export interface User {
   district?: string;
   postalCode?: string;
   position?: string;
+  avatar?: string;
 }
 
 export type UserAdditionalFields = Omit<User, 'email' | 'userId' | 'userName'>;

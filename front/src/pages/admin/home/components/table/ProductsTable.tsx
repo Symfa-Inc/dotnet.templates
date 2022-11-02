@@ -8,8 +8,8 @@ import { Button, Stack, Typography } from '@mui/material';
 
 export function ProductsTable({ list, openModal }: any) {
   return (
-    <Stack sx={{ gap: '1rem' }}>
-      <Typography component="h2" variant="h4" textAlign="center">
+    <Stack sx={{ gap: '1rem', width: '100%' }}>
+      <Typography component="h2" variant="h3" textAlign="center">
         Products List
       </Typography>
 
@@ -18,9 +18,6 @@ export function ProductsTable({ list, openModal }: any) {
           <TableBody>
             {list.map((item: any) => (
               <TableRow key={item.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="item">
-                  {item.name}
-                </TableCell>
                 <TableCell align="left">
                   <Typography variant="h6">{item.name}</Typography>
                 </TableCell>

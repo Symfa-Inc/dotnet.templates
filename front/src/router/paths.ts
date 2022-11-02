@@ -13,4 +13,5 @@ export const ADMIN_PATHS = {
   Login: `${PATHS.AdminBase}/login`,
   Profile: `${PATHS.AdminBase}/profile`,
   Edit: `${PATHS.AdminBase}/edit`,
+  PasswordReset: `${PATHS.AdminBase}/passwordReset`,
 };

@@ -1,24 +1,9 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
 import Modal from '@mui/material/Modal';
 import { TextField, Typography } from '@mui/material';
-
-const style = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  borderRadius: 2,
-  boxShadow: 24,
-  p: 6,
-};
+import { modalBaseStyle } from '@styles/modalStyles';
 
 export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: any) {
   const [newProduct, setNewProduct] = useState({
@@ -62,7 +47,7 @@ export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: 
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} component="form">
+        <Box sx={modalBaseStyle} component="form">
           <Typography variant="h4">{modeMapper.title[mode as keyof typeof modeMapper.title]}</Typography>
           {mode !== 'show' ? (
             <>

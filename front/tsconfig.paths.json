@@ -8,7 +8,8 @@
       "@utils/*": ["utils/*"],
       "@enums/*": ["enums/*"],
       "@services/*": ["services/*"],
-      "@store/*": ["store/*"]
+      "@store/*": ["store/*"],
+      "@styles/*": ["styles/*"]
     }
   }
 }

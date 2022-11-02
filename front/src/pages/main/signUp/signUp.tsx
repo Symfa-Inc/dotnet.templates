@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { ProcessState } from '@enums/progressState.enum';
 import { Alert, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { ProfileForm } from '@pages/main/profile/profileForm/profileForm';
+import { ProfileForm } from '@pages/main/profile/components/profileForm/profileForm';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {

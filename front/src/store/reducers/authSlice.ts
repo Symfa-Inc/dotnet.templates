@@ -14,9 +14,10 @@ import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '@servi
 const initialState: AuthState = {
   state: ProcessState.Idle,
   user: {
-    userId: 'Rodrigo',
-    userName: 'rodrigo test',
+    userId: '1',
+    userName: 'Rodrigo',
     email: 'rodrigo@gmail.com',
+    avatar: 'no-avatar.png',
   },
   signInError: null,
   signUpError: null,

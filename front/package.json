@@ -93,7 +93,8 @@
       "^@utils/(.*)$": "<rootDir>/src/utils/$1",
       "^@enums/(.*)$": "<rootDir>/src/enums/$1",
       "^@services/(.*)$": "<rootDir>/src/services/$1",
-      "^@store/(.*)$": "<rootDir>/src/store/$1"
+      "^@store/(.*)$": "<rootDir>/src/store/$1",
+      "^@styles/(.*)$": "<rootDir>/src/styles/$1"
     }
   }
 }
