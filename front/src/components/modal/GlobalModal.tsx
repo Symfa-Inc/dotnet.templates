@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { TextField, Typography } from '@mui/material';
 import { modalBaseStyle } from '@styles/modalStyles';
+import { Mode } from '@enums/globalModalMode.enum';
 
 export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: any) {
   const [newProduct, setNewProduct] = useState({
@@ -49,7 +50,7 @@ export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: 
       >
         <Box sx={modalBaseStyle} component="form">
           <Typography variant="h4">{modeMapper.title[mode as keyof typeof modeMapper.title]}</Typography>
-          {mode !== 'show' ? (
+          {mode !== Mode.Show ? (
             <>
               <TextField
                 name="name"
@@ -88,7 +89,7 @@ export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: 
             </>
           )}
 
-          <Button onClick={() => (mode === 'show' ? handleClose() : sendChanges())} variant="contained">
+          <Button onClick={() => (mode === Mode.Show ? handleClose() : sendChanges())} variant="contained">
             {modeMapper.button[mode as keyof typeof modeMapper.button]}
           </Button>
         </Box>

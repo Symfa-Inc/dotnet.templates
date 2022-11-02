@@ -2,7 +2,7 @@ import { Header, GlobalModal } from '@components/index';
 import { Box } from '@mui/material';
 import { productCategories } from '@utils/mockDatabase';
 import { useEffect, useState } from 'react';
-import { addProduct, fetchProducts } from '@store/reducers/productSlice';
+import { addProduct, fetchProducts, editProduct } from '@store/reducers/productSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Mode } from '@enums/index';
 import { ProductsTable } from './components/table/ProductsTable';
@@ -36,6 +36,12 @@ export function AdminHome() {
     setProduct(item);
   };
 
+  const openDeleteModal = (item: any) => {
+    setOpen(true);
+    setMode(Mode.Edit);
+    setProduct(item);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -46,8 +52,13 @@ export function AdminHome() {
     setProduct({});
   };
 
-  const handleAddProduct = (newProduct: any) => {
-    dispatch(addProduct(newProduct));
+  const handleSubmit = (newProduct: any) => {
+    if (mode === Mode.Add) {
+      dispatch(addProduct(newProduct));
+    }
+    if (mode === Mode.Edit) {
+      dispatch(editProduct(newProduct));
+    }
     setOpen(false);
   };
 
@@ -56,15 +67,9 @@ export function AdminHome() {
       <Header />
       <Box sx={{ display: 'flex', gap: '2rem', width: '100%' }}>
         <SideBar items={productCategories} openAddProductModal={openAddProductModal} />
-        <ProductsTable list={productList} openModal={openModal} />
+        <ProductsTable list={productList} openModal={openModal} openDeleteModal={openDeleteModal} />
       </Box>
-      <GlobalModal
-        open={open}
-        handleClose={handleClose}
-        product={product}
-        mode={mode}
-        handleSubmit={handleAddProduct}
-      />
+      <GlobalModal open={open} handleClose={handleClose} product={product} mode={mode} handleSubmit={handleSubmit} />
     </>
   );
 }
