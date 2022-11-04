@@ -1,6 +1,6 @@
 import { UserAdditionalFields } from '@services/authServices/auth.interface';
-import { selectUser, updateProfile } from '@store/reducers/authSlice';
-import { Avatar, Card, Box, Typography, Grid, Button } from '@mui/material';
+import { selectSignUpError, selectUser, updateProfile } from '@store/reducers/authSlice';
+import { Avatar, Card, Box, Typography, Grid, Button, Snackbar, Alert } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import Container from '@mui/material/Container';
 import { ProfileService } from '@services/profile.service';
@@ -16,6 +16,7 @@ export function Profile() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
+  const error = useAppSelector(selectSignUpError);
 
   const profileFormData: UserAdditionalFields = _.omit(user, ['userId', 'userName', 'email']);
   const [profileForm, updateProfileForm] = useState(profileFormData);
@@ -32,7 +33,7 @@ export function Profile() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  console.log('Error in profile', error);
   return (
     <>
       <ProfileModal open={open} handleClose={handleClose} />
@@ -69,63 +70,6 @@ export function Profile() {
           </Box>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              {/* <Grid item xs={12}>
-              <TextField
-                autoComplete="given-name"
-                name="username"
-                required
-                fullWidth
-                id="username"
-                label="User Name"
-                autoFocus
-                defaultValue={user.username}
-              />
-            </Grid> */}
-              {/* <Grid item xs={12}>
-              <DatePicker
-                openTo="year"
-                views={['year', 'month', 'day']}
-                label="Year, month and date"
-                value={dateOfBirth}
-                onChange={(newValue) => {
-                  setDateOfBirth(newValue as Date);
-                }}
-                renderInput={(params: TextFieldProps) => <TextField {...params} helperText={null} fullWidth />}
-              />
-            </Grid> */}
-              {/* <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                defaultValue={user.email}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password_confirm"
-                label="Confirm Password"
-                type="password"
-                id="password_confirm"
-                autoComplete="new-password"
-              />
-            </Grid> */}
               <Box sx={{ mt: 2, pl: 2 }}>
                 <ProfileForm profileData={profileForm} onChange={updateProfileForm} />
               </Box>
@@ -138,6 +82,20 @@ export function Profile() {
           </Box>
         </Card>
       </Container>
+      {!!error && (
+        <Snackbar
+          open={!!error}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          message={error}
+        >
+          <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
+            {error}
+          </Alert>
+        </Snackbar>
+      )}
     </>
   );
 }

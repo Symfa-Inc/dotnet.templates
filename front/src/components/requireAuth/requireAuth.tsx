@@ -8,8 +8,12 @@ export function RequireAuth({ children }: { children: JSX.Element }) {
   const user = useAppSelector(selectUser);
   const [path, setPath] = useState(PATHS.Login);
   const location = useLocation();
+  console.log('user is', user);
+  console.log('location', location);
+  console.log('path', path);
   useEffect(() => {
     if (location.pathname.includes('admin')) {
+      console.log('first if');
       setPath(ADMIN_PATHS.Login);
     } else {
       setPath(PATHS.Login);

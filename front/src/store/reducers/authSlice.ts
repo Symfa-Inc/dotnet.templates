@@ -14,9 +14,9 @@ import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '@servi
 const initialState: AuthState = {
   state: ProcessState.Idle,
   user: {
-    userId: '1',
-    userName: 'Rodrigo',
-    email: 'rodrigo@gmail.com',
+    userId: '',
+    userName: '',
+    email: '',
     avatar: 'no-avatar.png',
   },
   signInError: null,
@@ -43,11 +43,14 @@ export const userManager = new UserManager(clientSettings);
 
 function handleError(err: unknown, handler: (error: any) => any) {
   if (err instanceof AxiosError && err.response?.data && STATUS_CODES.BAD_REQUEST === err.response.status) {
-    const error = err.response?.data?.description;
+    console.log(err.response.data);
+    const { error } = err.response.data;
+    console.log('error', error);
+    const errorWithDescription = err.response?.data?.description;
     const errorDescription = err.response?.data?.error_description;
-
-    const errorText =
-      typeof error === 'string' || typeof errorDescription === 'string' ? error || errorDescription : '';
+    const finalError = errorWithDescription || errorDescription || error;
+    console.log('finalError', finalError);
+    const errorText = typeof finalError === 'string' ? finalError : '';
     return handler(errorText);
   }
   throw err;
@@ -84,6 +87,32 @@ export const completeRegistrationAction = createAsyncThunk(
   async (profile: UserAdditionalFields, { rejectWithValue }) => {
     try {
       const response = await ProfileService.createProfile(profile);
+      return response.data;
+    } catch (err) {
+      return handleError(err, rejectWithValue);
+    }
+  },
+);
+
+export const forgotPasswordAction = createAsyncThunk(
+  'auth/forgot_password',
+  async (email: string, { rejectWithValue }) => {
+    console.log('forgotPasswordAction', email);
+    try {
+      const response = await AuthService.forgotPassword(email);
+      console.log('response', response);
+      return response.data;
+    } catch (err) {
+      return handleError(err, rejectWithValue);
+    }
+  },
+);
+
+export const resetPasswordAction = createAsyncThunk(
+  'auth/reset_password',
+  async ({ email, password, token }: any, { rejectWithValue }) => {
+    try {
+      const response = await AuthService.resetPassword(email, password, token);
       return response.data;
     } catch (err) {
       return handleError(err, rejectWithValue);
@@ -179,6 +208,23 @@ export const authSlice = createSlice({
         state.user = action.payload!;
       })
       .addCase(signinWithProviderAction.rejected, (state, data) => {
+        state.state = ProcessState.Error;
+        state.signUpError = (data.payload as string) ?? '';
+      })
+      .addCase(forgotPasswordAction.pending, (state) => {
+        state.state = ProcessState.Loading;
+      })
+      .addCase(forgotPasswordAction.fulfilled, (state) => {
+        state.state = ProcessState.Idle;
+      })
+      .addCase(forgotPasswordAction.rejected, (state, data) => {
+        state.state = ProcessState.Error;
+        state.signUpError = (data.payload as string) ?? '';
+      })
+      .addCase(resetPasswordAction.fulfilled, (state) => {
+        state.state = ProcessState.Idle;
+      })
+      .addCase(resetPasswordAction.rejected, (state, data) => {
         state.state = ProcessState.Error;
         state.signUpError = (data.payload as string) ?? '';
       });

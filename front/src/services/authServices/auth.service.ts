@@ -2,7 +2,7 @@ import { SignIn, Token, User, UserCredentials } from '@services/authServices/aut
 import { toFormUrlEncoded } from '@utils/encoder';
 import { AxiosResponse } from 'axios';
 // import { Sign } from 'crypto';
-import authHttpService from './authHttp.service';
+import authHttpService, { authHttpServiceJson } from './authHttp.service';
 
 export class AuthService {
   static async getToken(credentials: SignIn): Promise<AxiosResponse<Token>> {
@@ -51,5 +51,19 @@ export class AuthService {
     // };
     const data = toFormUrlEncoded(params);
     return authHttpService.post<Token>('/connect/revoke', data /* , { headers } */);
+  }
+
+  static async forgotPassword(email: string) {
+    return authHttpServiceJson.post('/account/forgot-password', {
+      email,
+    });
+  }
+
+  static async resetPassword(email: string, password: string, token: string) {
+    return authHttpServiceJson.post('/account/reset-password', {
+      email,
+      password,
+      token,
+    });
   }
 }

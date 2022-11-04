@@ -6,6 +6,7 @@ export const PATHS = {
   ProviderAuthCallBack: '/authCallback',
   PasswordReset: '/passwordReset',
   AdminBase: '/admin',
+  Recovery: '/recovery',
 };
 
 export const ADMIN_PATHS = {

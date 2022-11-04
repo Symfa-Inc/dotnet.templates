@@ -6,6 +6,7 @@ import { Profile } from '@pages/main/profile/Profile';
 import { NotFound } from '@pages/notFound/notFound';
 import { ProviderCallback } from '@services/authServices/providerCallback';
 import { Route, Routes } from 'react-router-dom';
+import { PasswordRecovey } from '@pages/main/passwordRecovery/PasswordRecovery';
 import { PATHS, ADMIN_PATHS } from './paths';
 
 export function MainRouter() {
@@ -25,6 +26,7 @@ export function MainRouter() {
           }
         />
         <Route path={PATHS.PasswordReset} element={<PasswordReset />} />
+        <Route path={PATHS.Recovery} element={<PasswordRecovey />} />
         <Route
           path={ADMIN_PATHS.Home}
           element={

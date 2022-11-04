@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { RouterLink } from '@router/utils';
 import { PATHS } from '@router/paths';
-import { OverlaySpinner } from '@components/index';
+import { Copyright, OverlaySpinner } from '@components/index';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { ProcessState } from '@enums/progressState.enum';
 import { Alert, Snackbar } from '@mui/material';
@@ -28,18 +28,6 @@ import {
 import { UserAdditionalFields, UserCredentials } from '@services/authServices/auth.interface';
 import { Header } from '@components/header/Header';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link component={RouterLink} to={PATHS.Home} color="inherit">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-}
-
 export function SignUp() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -47,8 +35,6 @@ export function SignUp() {
   const state = useAppSelector(selectLoadingState);
   const error = useAppSelector(selectSignUpError);
   const partlyRegistered = useAppSelector(selectPartlyRegistered);
-
-  // console.log('Render SignUP');
 
   const [message, setMessage] = useState('');
   const [profileData, updateProfileData] = useState<UserAdditionalFields>({
@@ -82,7 +68,6 @@ export function SignUp() {
 
   // Create the user profile
   const finishRegistration = async (data: UserAdditionalFields) => {
-    // console.log('Complete reg/dispatch');
     try {
       await dispatch(completeRegistrationAction(data)).unwrap();
       navigate(PATHS.Home);

@@ -8,5 +8,11 @@ const authHttpService = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
+export const authHttpServiceJson = axios.create({
+  baseURL: process.env.REACT_APP_AUTH_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export default authHttpService;
