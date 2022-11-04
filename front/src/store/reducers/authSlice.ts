@@ -1,15 +1,14 @@
 /* eslint-disable camelcase */
 import { ProcessState } from '@enums/progressState.enum';
-import { STATUS_CODES } from '@enums/statusCodes.enum';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PATHS } from '@router/paths';
 import { AuthService } from '@services/authServices/auth.service';
 import { ProfileService } from '@services/profile.service';
 import { TokenService } from '@services/token.service';
 import { AppThunk, RootState } from '@store/store';
-import { AxiosError } from 'axios';
 import { UserManager, UserManagerSettings } from 'oidc-client-ts';
 import { AuthState, SignIn, UserAdditionalFields, UserCredentials } from '@services/authServices/auth.interface';
+import { handleError } from '@services/errorParser';
 
 const initialState: AuthState = {
   state: ProcessState.Idle,
@@ -40,21 +39,6 @@ const clientSettings: UserManagerSettings = {
 };
 
 export const userManager = new UserManager(clientSettings);
-
-function handleError(err: unknown, handler: (error: any) => any) {
-  if (err instanceof AxiosError && err.response?.data && STATUS_CODES.BAD_REQUEST === err.response.status) {
-    console.log(err.response.data);
-    const { error } = err.response.data;
-    console.log('error', error);
-    const errorWithDescription = err.response?.data?.description;
-    const errorDescription = err.response?.data?.error_description;
-    const finalError = errorWithDescription || errorDescription || error;
-    console.log('finalError', finalError);
-    const errorText = typeof finalError === 'string' ? finalError : '';
-    return handler(errorText);
-  }
-  throw err;
-}
 
 export const signinAction = createAsyncThunk('auth/signin', async (credentials: SignIn, { rejectWithValue }) => {
   try {
@@ -97,10 +81,8 @@ export const completeRegistrationAction = createAsyncThunk(
 export const forgotPasswordAction = createAsyncThunk(
   'auth/forgot_password',
   async (email: string, { rejectWithValue }) => {
-    console.log('forgotPasswordAction', email);
     try {
       const response = await AuthService.forgotPassword(email);
-      console.log('response', response);
       return response.data;
     } catch (err) {
       return handleError(err, rejectWithValue);
@@ -126,9 +108,11 @@ export const signinWithProviderAction = createAsyncThunk(
     try {
       const data = await userManager.signinPopup({ extraQueryParams: { provider } });
       const { access_token, refresh_token = '' } = data;
+      console.log('signinWithProviderAction', data);
       TokenService.saveTokens({ access_token, refresh_token });
-      const userResponse = await ProfileService.profile();
-      return userResponse.data;
+      // const userResponse = await ProfileService.profile();
+      // console.log('paso 4', userResponse);
+      // return userResponse.data;
     } catch (err) {
       return handleError(err, rejectWithValue);
     }
@@ -199,7 +183,6 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(completeRegistrationAction.rejected, (state, data) => {
-        console.log('data.payload', data.payload);
         state.state = ProcessState.Error;
         state.signUpError = (data.payload as string) ?? '';
       })
@@ -238,7 +221,7 @@ export const logout = (): AppThunk => async (dispatch, _getState) => {
     updateProfile({
       userId: '',
       userName: '',
-      email: 'rodrigo@gmail.com',
+      email: '',
     }),
   );
 

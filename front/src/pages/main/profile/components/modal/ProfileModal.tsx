@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { modalBaseStyle } from '@styles/modalStyles';
+import { modalBaseStyle } from '@styles/globalStyles';
 
 export function ProfileModal({ open, handleClose }: any) {
   return (

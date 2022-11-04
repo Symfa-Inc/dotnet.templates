@@ -11,7 +11,6 @@ import { SideBar } from './components/sideBar/SideBar';
 export function AdminHome() {
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state.product);
-  console.log('store', store);
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -29,6 +28,7 @@ export function AdminHome() {
   const [open, setOpen] = useState(false);
   const [product, setProduct] = useState({});
   const [mode, setMode] = useState('');
+  const [error, setError] = useState('');
 
   const openModal = (item: any) => {
     setOpen(true);
@@ -43,6 +43,7 @@ export function AdminHome() {
   };
 
   const handleClose = () => {
+    setError('');
     setOpen(false);
   };
 
@@ -52,14 +53,25 @@ export function AdminHome() {
     setProduct({});
   };
 
-  const handleSubmit = (newProduct: any) => {
+  const handleSubmit = async (newProduct: any) => {
     if (mode === Mode.Add) {
-      dispatch(addProduct(newProduct));
+      try {
+        await dispatch(addProduct(newProduct)).unwrap();
+        setError('');
+        setOpen(false);
+      } catch (err: any) {
+        return setError(err);
+      }
     }
     if (mode === Mode.Edit) {
-      dispatch(editProduct(newProduct));
+      try {
+        await dispatch(editProduct(newProduct)).unwrap();
+        setError('');
+        setOpen(false);
+      } catch (err: any) {
+        return setError(err);
+      }
     }
-    setOpen(false);
   };
 
   return (
@@ -69,7 +81,14 @@ export function AdminHome() {
         <SideBar items={productCategories} openAddProductModal={openAddProductModal} />
         <ProductsTable list={productList} openModal={openModal} openDeleteModal={openDeleteModal} />
       </Box>
-      <GlobalModal open={open} handleClose={handleClose} product={product} mode={mode} handleSubmit={handleSubmit} />
+      <GlobalModal
+        open={open}
+        handleClose={handleClose}
+        product={product}
+        mode={mode}
+        handleSubmit={handleSubmit}
+        error={error}
+      />
     </>
   );
 }

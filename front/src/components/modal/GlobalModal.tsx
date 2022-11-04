@@ -3,13 +3,18 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { TextField, Typography } from '@mui/material';
-import { modalBaseStyle } from '@styles/modalStyles';
+import { modalBaseStyle } from '@styles/globalStyles';
 import { Mode } from '@enums/globalModalMode.enum';
+// import { useAppSelector } from '@store/hooks';
+// import { selectAddProductError } from '@store/reducers/productSlice';
 
-export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: any) {
+export function GlobalModal({ open, handleClose, product, mode, handleSubmit, error }: any) {
   const [newProduct, setNewProduct] = useState({
     ...product,
   });
+
+  // const state = useAppSelector(selectAddProductStatus);
+  // const error = useAppSelector(selectAddProductError);
 
   const modeMapper = {
     title: {
@@ -33,7 +38,6 @@ export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: 
 
   const sendChanges = () => {
     handleSubmit(newProduct);
-    handleClose();
   };
 
   useEffect(() => {
@@ -53,6 +57,7 @@ export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: 
           {mode !== Mode.Show ? (
             <>
               <TextField
+                error={!!error}
                 name="name"
                 fullWidth
                 id="name"
@@ -60,6 +65,7 @@ export function GlobalModal({ open, handleClose, product, mode, handleSubmit }: 
                 autoFocus
                 value={newProduct.name || ''}
                 onChange={(event) => handleInputChange(event)}
+                helperText={error}
               />
               <TextField
                 name="category"

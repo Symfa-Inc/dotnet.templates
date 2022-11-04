@@ -27,14 +27,7 @@ export function MainRouter() {
         />
         <Route path={PATHS.PasswordReset} element={<PasswordReset />} />
         <Route path={PATHS.Recovery} element={<PasswordRecovey />} />
-        <Route
-          path={ADMIN_PATHS.Home}
-          element={
-            <RequireAuth>
-              <AdminHome />
-            </RequireAuth>
-          }
-        />
+        <Route path={ADMIN_PATHS.Home} element={<AdminHome />} />
         <Route path={ADMIN_PATHS.Login} element={<AdminLogin />} />
         <Route path={ADMIN_PATHS.Edit} element={<Edit />} />
         <Route

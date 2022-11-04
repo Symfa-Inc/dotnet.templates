@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import { modalBaseStyle } from '@styles/modalStyles';
+import { modalBaseStyle } from '@styles/globalStyles';
 
 export function BaseModal({ open, handleClose, title, btnText, body, bodyContainerStyle, deleteAction }: any) {
   return (

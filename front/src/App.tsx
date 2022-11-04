@@ -1,5 +1,5 @@
 // import './App.scss';
-import { createTheme, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -14,6 +14,7 @@ import weekday from 'dayjs/plugin/weekday';
 import './services/apiHttpInterceptors';
 import { MainRouter } from '@router/MainRouter';
 import { MainContainer, InnerContainer } from '@components/index';
+import { theme } from '@styles/colorPalette';
 
 dayjs.extend(utc);
 dayjs.extend(duration);
@@ -24,11 +25,6 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(weekday);
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      mode: 'light',
-    },
-  });
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

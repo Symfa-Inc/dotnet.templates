@@ -16,6 +16,7 @@ export function Profile() {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
   const error = useAppSelector(selectSignUpError);
 
   const profileFormData: UserAdditionalFields = _.omit(user, ['userId', 'userName', 'email']);
@@ -25,15 +26,23 @@ export function Profile() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const profile = await ProfileService.updateProfile(profileForm);
-    dispatch(updateProfile(profile.data));
+    try {
+      const profile = await ProfileService.updateProfile(profileForm);
+      dispatch(updateProfile(profile.data));
+      setMessage('Profile updated successfully');
+      setTimeout(() => {
+        setMessage('');
+      }, 4000);
+    } catch (err) {
+      setMessage('');
+      return err;
+    }
   };
 
   const handleClose = () => {
     setOpen(false);
   };
-  console.log('Error in profile', error);
+
   return (
     <>
       <ProfileModal open={open} handleClose={handleClose} />
@@ -82,20 +91,22 @@ export function Profile() {
           </Box>
         </Card>
       </Container>
-      {!!error && (
-        <Snackbar
-          open={!!error}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          message={error}
-        >
-          <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
-            {error}
-          </Alert>
-        </Snackbar>
-      )}
+      {!!error ||
+        (!!message && (
+          <Snackbar
+            open={!!error || !!message}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            message={error}
+            autoHideDuration={5000}
+          >
+            <Alert severity={error ? 'error' : 'success'} sx={{ width: '100%' }}>
+              {error || message}
+            </Alert>
+          </Snackbar>
+        ))}
     </>
   );
 }

@@ -53,6 +53,7 @@ export function Login() {
 
   const signWithProvider = (provider: string) => {
     dispatch(signinWithProviderAction(provider));
+    navigate(PATHS.SignUp);
   };
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export function Login() {
         component="div"
         maxWidth="xs"
         sx={{
-          bgcolor: 'white',
+          bgcolor: 'background.paper',
           mt: 4,
           borderRadius: 2,
           boxShadow: 1,
@@ -87,7 +88,7 @@ export function Login() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
