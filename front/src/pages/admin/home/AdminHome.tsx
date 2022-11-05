@@ -1,5 +1,5 @@
-import { Header, GlobalModal } from '@components/index';
-import { Box } from '@mui/material';
+import { Header, BaseModal } from '@components/index';
+import { Alert, Box, Snackbar } from '@mui/material';
 import { productCategories } from '@utils/mockDatabase';
 import { useEffect, useState } from 'react';
 import { addProduct, fetchProducts, editProduct } from '@store/reducers/productSlice';
@@ -7,15 +7,18 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Mode } from '@enums/index';
 import { ProductsTable } from './components/table/ProductsTable';
 import { SideBar } from './components/sideBar/SideBar';
+import { ProductForm } from './components/productsForm/ProductsForm';
 
 export function AdminHome() {
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state.product);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState('');
+  const [modalOptions, setModalOptions] = useState({ title: '', btnText: '' });
+  const [errorText, setErrorText] = useState('');
+  const [newProduct, setNewProduct] = useState({});
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
+  // This is just to show more data in the table, you can delete or adapt in production
   const productList = store?.products.map((item) => {
     const product = {
       id: item.id,
@@ -25,70 +28,100 @@ export function AdminHome() {
     };
     return product;
   });
-  const [open, setOpen] = useState(false);
-  const [product, setProduct] = useState({});
-  const [mode, setMode] = useState('');
-  const [error, setError] = useState('');
 
-  const openModal = (item: any) => {
+  const handleInputChange = (e: any) => {
+    setNewProduct({
+      ...newProduct,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const openEditModal = (item: any) => {
     setOpen(true);
     setMode(Mode.Edit);
-    setProduct(item);
+    setModalOptions({ title: 'Edit Product', btnText: 'Edit' });
+    setNewProduct(item);
   };
 
   const openDeleteModal = (item: any) => {
     setOpen(true);
     setMode(Mode.Edit);
-    setProduct(item);
+    setNewProduct(item);
   };
 
   const handleClose = () => {
-    setError('');
+    setErrorText('');
     setOpen(false);
   };
 
   const openAddProductModal = () => {
     setOpen(true);
     setMode(Mode.Add);
-    setProduct({});
+    setModalOptions({ title: 'Add Product', btnText: 'Add' });
+    setNewProduct({});
   };
 
-  const handleSubmit = async (newProduct: any) => {
+  function handleError(error: any) {
+    setErrorText(error);
+    setTimeout(() => {
+      setErrorText('');
+    }, 5000);
+  }
+
+  const handleSubmit = async () => {
     if (mode === Mode.Add) {
       try {
         await dispatch(addProduct(newProduct)).unwrap();
-        setError('');
+        setErrorText('');
         setOpen(false);
       } catch (err: any) {
-        return setError(err);
+        return handleError(err);
       }
     }
     if (mode === Mode.Edit) {
       try {
         await dispatch(editProduct(newProduct)).unwrap();
-        setError('');
+        setErrorText('');
         setOpen(false);
       } catch (err: any) {
-        return setError(err);
+        return handleError(err);
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <>
       <Header />
       <Box sx={{ display: 'flex', gap: '2rem', width: '100%' }}>
         <SideBar items={productCategories} openAddProductModal={openAddProductModal} />
-        <ProductsTable list={productList} openModal={openModal} openDeleteModal={openDeleteModal} />
+        <ProductsTable list={productList} openModal={openEditModal} openDeleteModal={openDeleteModal} />
       </Box>
-      <GlobalModal
+      <BaseModal
         open={open}
         handleClose={handleClose}
-        product={product}
-        mode={mode}
-        handleSubmit={handleSubmit}
-        error={error}
+        body={<ProductForm handleInputChange={handleInputChange} newProduct={newProduct} />}
+        btnAction={handleSubmit}
+        btnText={modalOptions.btnText}
+        title={modalOptions.title}
+        bodyContainerStyle={{ flexDirection: 'column', gap: '1rem' }}
       />
+      {!!errorText && (
+        <Snackbar
+          open={!!errorText}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <Alert severity="error" sx={{ width: '100%' }}>
+            {errorText}
+          </Alert>
+        </Snackbar>
+      )}
     </>
   );
 }

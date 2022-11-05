@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { modalBaseStyle } from '@styles/globalStyles';
 
-export function BaseModal({ open, handleClose, title, btnText, body, bodyContainerStyle, deleteAction }: any) {
+export function BaseModal({ open, handleClose, title, btnText, body, bodyContainerStyle, btnAction }: any) {
   return (
     <Box>
       <Modal
@@ -28,11 +28,13 @@ export function BaseModal({ open, handleClose, title, btnText, body, bodyContain
             {body}
           </Box>
           <Stack direction="row" justifyContent="center" spacing={2} sx={{ width: '100%' }}>
-            <Button onClick={deleteAction} variant="contained" color="error">
-              {btnText}
-            </Button>
-            <Button onClick={handleClose} variant="contained">
-              Cancel
+            {btnText && (
+              <Button onClick={btnAction} variant="contained" color="error" fullWidth>
+                {btnText}
+              </Button>
+            )}
+            <Button onClick={handleClose} variant="contained" fullWidth>
+              Close
             </Button>
           </Stack>
         </Box>

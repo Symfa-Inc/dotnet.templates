@@ -4,17 +4,12 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { TextField, Typography } from '@mui/material';
 import { modalBaseStyle } from '@styles/globalStyles';
-import { Mode } from '@enums/globalModalMode.enum';
-// import { useAppSelector } from '@store/hooks';
-// import { selectAddProductError } from '@store/reducers/productSlice';
+import { Mode } from '@enums/mode.enum';
 
 export function GlobalModal({ open, handleClose, product, mode, handleSubmit, error }: any) {
   const [newProduct, setNewProduct] = useState({
     ...product,
   });
-
-  // const state = useAppSelector(selectAddProductStatus);
-  // const error = useAppSelector(selectAddProductError);
 
   const modeMapper = {
     title: {

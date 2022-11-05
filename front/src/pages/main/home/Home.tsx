@@ -1,15 +1,14 @@
 import { Typography, Grid } from '@mui/material';
 import { productItems } from '@utils/mockDatabase';
-import { GlobalModal, ItemCard, Header } from '@components/index';
+import { ItemCard, Header, BaseModal } from '@components/index';
 import { useEffect, useState } from 'react';
-import { Mode } from '@enums/index';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectUser } from '@store/reducers/authSlice';
 import { fetchProducts } from '@store/reducers/productSlice';
 
 export function Home() {
   const [open, setOpen] = useState(false);
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState({ description: '', name: '' });
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const store = useAppSelector((state) => state.product);
@@ -65,8 +64,12 @@ export function Home() {
           </>
         )}
       </Grid>
-
-      <GlobalModal open={open} handleClose={handleClose} product={product} mode={Mode.Show} />
+      <BaseModal
+        open={open}
+        handleClose={handleClose}
+        body={<Typography variant="body2">Description provided for this product </Typography>}
+        title={product.name}
+      />
     </>
   );
 }

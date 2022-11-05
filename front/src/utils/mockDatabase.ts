@@ -1,3 +1,5 @@
+// Hardoced data for template, you can delete this file if you don't need it
+
 export const productItems = [
   {
     id: 1,
@@ -16,6 +18,7 @@ export const productItems = [
     category: 1,
   },
   {
+    id: 3,
     image: 'https://source.unsplash.com/random',
     name: 'Title 3',
     description:
@@ -49,10 +52,7 @@ export const productItems = [
 ];
 
 export const productCategories = [
-  {
-    id: 1,
-    name: 'Category 1',
-  },
+  { id: 1, name: 'Category 1' },
   { id: 2, name: 'Category 2' },
   { id: 3, name: 'Category 3' },
 ];

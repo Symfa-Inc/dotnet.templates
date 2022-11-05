@@ -33,7 +33,7 @@ export function ProductsTable({ list, openModal }: any) {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableBody>
                 {list.map((item: any) => (
-                  <TableRow key={item.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableRow key={item.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                     <TableCell align="left">
                       <Typography variant="h6">{item.name}</Typography>
                     </TableCell>
@@ -73,7 +73,7 @@ export function ProductsTable({ list, openModal }: any) {
       <BaseModal
         open={open}
         handleClose={() => setOpen(false)}
-        deleteAction={deleteProductHandler}
+        btnAction={deleteProductHandler}
         title="Delete Product"
         btnText="Delete"
         body={

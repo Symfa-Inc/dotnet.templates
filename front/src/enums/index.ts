@@ -1,2 +1,2 @@
 export * from './statusCodes.enum';
-export * from './globalModalMode.enum';
+export * from './mode.enum';
