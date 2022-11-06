@@ -3,7 +3,7 @@ import { useState } from 'react';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export function SideBar({ items, openAddProductModal }: any) {
-  const [selectedCategory, setSelectedCategory] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<null | number>(null);
 
   return (
     <Box sx={{ width: '100%', maxWidth: 360 }}>
