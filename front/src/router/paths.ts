@@ -10,9 +10,8 @@ export const PATHS = {
 };
 
 export const ADMIN_PATHS = {
-  Home: PATHS.AdminBase,
   Login: `${PATHS.AdminBase}/login`,
+  Home: `${PATHS.AdminBase}/home`,
   Profile: `${PATHS.AdminBase}/profile`,
-  Edit: `${PATHS.AdminBase}/edit`,
   PasswordReset: `${PATHS.AdminBase}/passwordReset`,
 };

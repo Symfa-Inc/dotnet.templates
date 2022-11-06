@@ -1,12 +1,11 @@
 import { RequireAuth } from '@components/index';
 import { Layout } from '@components/layout/layout';
-import { AdminHome, Edit, AdminLogin } from '@pages/admin/index';
-import { Login, SignUp, Home, PasswordReset } from '@pages/main/index';
+import { AdminHome, AdminLogin } from '@pages/admin/index';
+import { Login, SignUp, Home, PasswordReset, PasswordRecovey } from '@pages/main/index';
 import { Profile } from '@pages/main/profile/Profile';
 import { NotFound } from '@pages/notFound/notFound';
 import { ProviderCallback } from '@services/authServices/providerCallback';
 import { Route, Routes } from 'react-router-dom';
-import { PasswordRecovey } from '@pages/main/passwordRecovery/PasswordRecovery';
 import { PATHS, ADMIN_PATHS } from './paths';
 
 export function MainRouter() {
@@ -29,7 +28,6 @@ export function MainRouter() {
         <Route path={PATHS.Recovery} element={<PasswordRecovey />} />
         <Route path={ADMIN_PATHS.Home} element={<AdminHome />} />
         <Route path={ADMIN_PATHS.Login} element={<AdminLogin />} />
-        <Route path={ADMIN_PATHS.Edit} element={<Edit />} />
         <Route
           path={ADMIN_PATHS.Profile}
           element={
