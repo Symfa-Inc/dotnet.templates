@@ -1,4 +1,3 @@
-// import './App.scss';
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
