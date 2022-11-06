@@ -7,10 +7,9 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import { useState } from 'react';
-import { Header } from '@components/index';
+import { BaseModal, Header } from '@components/index';
 import { COLORS } from '@styles/colorPalette';
 import { ProfileForm } from './components/profileForm/profileForm';
-import { ProfileModal } from './components/modal/ProfileModal';
 
 export function Profile() {
   const user = useAppSelector(selectUser);
@@ -45,7 +44,7 @@ export function Profile() {
 
   return (
     <>
-      <ProfileModal open={open} handleClose={handleClose} />
+      <BaseModal open={open} handleClose={handleClose} title="Upload Picture" btnText="Upload" />
       <Header />
       <Container maxWidth="sm">
         <Typography variant="h2" textAlign="center">
