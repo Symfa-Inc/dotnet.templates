@@ -8,6 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { logout, selectUser } from '@store/reducers/authSlice';
+import { COLORS } from '@styles/colorPalette';
 
 export function Header({ children }: any) {
   const dispatch = useAppDispatch();
@@ -40,16 +41,16 @@ export function Header({ children }: any) {
           {user?.userName}
         </Typography>
         <Link component={RouterLink} to={profilePath} underline="none">
-          <Avatar alt={user?.userName} src={user.avatar} />
+          <Avatar alt={user?.userName} src={user.avatar} sx={{ bgcolor: COLORS.link }} />
         </Link>
       </Stack>
       <IconButton onClick={handleLogout}>
-        <LogoutIcon sx={{ color: '#1976d2' }} fontSize="large" />
+        <LogoutIcon fontSize="large" sx={{ color: COLORS.link }} />
       </IconButton>
     </Box>
   ) : (
     <Link component={RouterLink} to={loginPath} sx={{ marginLeft: 'auto' }}>
-      <LoginIcon fontSize="large" />
+      <LoginIcon fontSize="large" sx={{ color: COLORS.link }} />
     </Link>
   );
 
@@ -74,7 +75,7 @@ export function Header({ children }: any) {
           underline="none"
           sx={{ display: 'flex', alignItems: 'center' }}
         >
-          <HomeIcon fontSize="large" />
+          <HomeIcon fontSize="large" sx={{ color: COLORS.link }} />
         </Link>
       )}
       {children}

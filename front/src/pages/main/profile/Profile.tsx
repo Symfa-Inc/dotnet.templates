@@ -1,7 +1,6 @@
 import { UserAdditionalFields } from '@services/authServices/auth.interface';
 import { selectSignUpError, selectUser, updateProfile } from '@store/reducers/authSlice';
 import { Avatar, Card, Box, Typography, Grid, Button, Snackbar, Alert } from '@mui/material';
-import { blue } from '@mui/material/colors';
 import Container from '@mui/material/Container';
 import { ProfileService } from '@services/profile.service';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
@@ -9,6 +8,7 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { useState } from 'react';
 import { Header } from '@components/index';
+import { COLORS } from '@styles/colorPalette';
 import { ProfileForm } from './components/profileForm/profileForm';
 import { ProfileModal } from './components/modal/ProfileModal';
 
@@ -67,7 +67,7 @@ export function Profile() {
                 sx={{
                   width: '100px',
                   height: '100px',
-                  bgcolor: blue[500],
+                  bgcolor: COLORS.link,
                 }}
                 src={user.avatar}
               />

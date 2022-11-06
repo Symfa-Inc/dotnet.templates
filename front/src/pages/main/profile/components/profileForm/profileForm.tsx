@@ -6,8 +6,6 @@ import { ProfileFormProps } from './profileForm.interface';
 export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onChange }) => {
   const { position, postalCode, dateOfBirth, district, country, state } = profileData;
 
-  // console.log('Render form');
-
   const dateValidation = {
     valid: dateOfBirth === undefined || dayjs(dateOfBirth).isValid(),
     message: '',
@@ -25,9 +23,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profileData, onChange 
       ...profileData,
       [field]: value,
     };
-
-    // console.log('Update form / setState');
-
     onChange(updatedUser);
   };
 

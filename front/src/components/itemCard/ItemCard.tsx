@@ -1,6 +1,7 @@
 import { Button, CardActions, CardContent, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
+import { COLORS } from '@styles/colorPalette';
 
 export function ItemCard({ name, description, image, showDetail }: any) {
   return (
@@ -15,7 +16,7 @@ export function ItemCard({ name, description, image, showDetail }: any) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => showDetail({ image, name, description })}>
+        <Button size="small" sx={{ color: COLORS.link }} onClick={() => showDetail({ image, name, description })}>
           Details
         </Button>
       </CardActions>

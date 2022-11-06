@@ -14,7 +14,7 @@ import weekday from 'dayjs/plugin/weekday';
 import './services/apiHttpInterceptors';
 import { MainRouter } from '@router/MainRouter';
 import { MainContainer, InnerContainer } from '@components/index';
-import { theme } from '@styles/colorPalette';
+import { theme } from '@styles/theme';
 
 dayjs.extend(utc);
 dayjs.extend(duration);
