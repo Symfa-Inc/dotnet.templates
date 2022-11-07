@@ -13,7 +13,7 @@ import { PATHS } from '@router/paths';
 import { RouterLink } from '@router/utils';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Alert, Snackbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import {
   resetSignInErrorState,
@@ -27,8 +27,11 @@ import styles from './Login.module.scss';
 
 export function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectSignInError);
+
+  const from = location.state?.from?.pathname || PATHS.Home;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,7 +44,7 @@ export function Login() {
 
     try {
       await dispatch(signinAction(params)).unwrap();
-      navigate(PATHS.Home);
+      navigate(from, { replace: true });
     } catch (e) {
       if (typeof e === 'string') {
         if (e.includes('UserProfileNotFoundException')) {

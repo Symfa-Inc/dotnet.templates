@@ -12,6 +12,7 @@ export function MainRouter() {
   return (
     <Routes>
       <Route element={<Layout />}>
+        {/* Main Paths */}
         <Route path={PATHS.Home} element={<Home />} />
         <Route path={PATHS.Login} element={<Login />} />
         <Route path={PATHS.SignUp} element={<SignUp />} />
@@ -26,7 +27,17 @@ export function MainRouter() {
         />
         <Route path={PATHS.PasswordReset} element={<PasswordReset />} />
         <Route path={PATHS.Recovery} element={<PasswordRecovey />} />
-        <Route path={ADMIN_PATHS.Home} element={<AdminHome />} />
+
+        {/* Admin Paths */}
+
+        <Route
+          path={ADMIN_PATHS.Home}
+          element={
+            <RequireAuth>
+              <AdminHome />
+            </RequireAuth>
+          }
+        />
         <Route path={ADMIN_PATHS.Login} element={<AdminLogin />} />
         <Route
           path={ADMIN_PATHS.Profile}
@@ -37,6 +48,8 @@ export function MainRouter() {
           }
         />
         <Route path={ADMIN_PATHS.PasswordReset} element={<PasswordReset />} />
+
+        {/* Shared Paths */}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

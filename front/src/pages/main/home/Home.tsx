@@ -13,8 +13,6 @@ export function Home() {
   const user = useAppSelector(selectUser);
   const store = useAppSelector((state) => state.product);
   const productListing = store.products;
-  console.log('store', store);
-  console.log('user', user);
 
   useEffect(() => {
     dispatch(fetchProducts());

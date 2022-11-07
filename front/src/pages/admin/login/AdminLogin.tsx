@@ -13,15 +13,18 @@ import { ADMIN_PATHS } from '@router/paths';
 import { RouterLink } from '@router/utils';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { Alert, Snackbar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { resetSignInErrorState, signinAction, selectSignInError } from '@store/reducers/authSlice';
 import { Copyright, Header } from '@components/index';
 
 export function AdminLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectSignInError);
+
+  const from = location.state?.from?.pathname || ADMIN_PATHS.Home;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,7 +37,7 @@ export function AdminLogin() {
 
     try {
       await dispatch(signinAction(params)).unwrap();
-      navigate(ADMIN_PATHS.Home);
+      navigate(from, { replace: true });
     } catch (e) {
       if (typeof e === 'string') {
         if (e.includes('UserProfileNotFoundException')) {
@@ -77,7 +80,7 @@ export function AdminLogin() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -124,11 +127,11 @@ export function AdminLogin() {
         <Snackbar
           open={!!error}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'center',
           }}
         >
-          <Alert severity="warning" sx={{ width: '100%' }}>
+          <Alert severity="error" sx={{ width: '100%' }}>
             {error}
           </Alert>
         </Snackbar>

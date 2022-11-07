@@ -151,7 +151,6 @@ export const authSlice = createSlice({
       })
       .addCase(signinAction.rejected, (state, action) => {
         if ((action.payload as string).includes('UserProfileNotFoundException')) {
-          // if (action.error.code === 'UserProfileNotFoundException') {
           state.signInError = 'User profile not found, please complete registration';
           state.partlyRegistered = true;
           state.state = ProcessState.Idle;

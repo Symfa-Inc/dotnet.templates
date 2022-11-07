@@ -49,9 +49,13 @@ export function Header({ children }: any) {
       </IconButton>
     </Box>
   ) : (
-    <Link component={RouterLink} to={loginPath} sx={{ marginLeft: 'auto' }}>
-      <LoginIcon fontSize="large" sx={{ color: COLORS.link }} />
-    </Link>
+    <>
+      {!pathname.includes('login') && (
+        <Link component={RouterLink} to={loginPath} sx={{ marginLeft: 'auto' }}>
+          <LoginIcon fontSize="large" sx={{ color: COLORS.link }} />
+        </Link>
+      )}
+    </>
   );
 
   return (
@@ -67,7 +71,7 @@ export function Header({ children }: any) {
         height: '5rem',
       }}
     >
-      {pathname !== ADMIN_PATHS.Login && (
+      {pathname !== ADMIN_PATHS.Login && !pathname.includes('password') && (
         <Link
           component={RouterLink}
           to={homePath}

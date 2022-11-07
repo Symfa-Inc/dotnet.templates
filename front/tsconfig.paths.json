@@ -9,7 +9,8 @@
       "@enums/*": ["enums/*"],
       "@services/*": ["services/*"],
       "@store/*": ["store/*"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@hooks/*": ["hooks/*"]
     }
   }
 }
