@@ -72,7 +72,6 @@ export function SignUp() {
       await dispatch(completeRegistrationAction(data)).unwrap();
       navigate(PATHS.Home);
     } catch (e) {
-      dispatch(resetSignUpErrorState());
       console.error(e);
     }
   };
