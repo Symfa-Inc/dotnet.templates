@@ -80,6 +80,15 @@ public static class StartupExtensions
             .AddServer(
                 options =>
                 {
+                    options.Configure(
+                        serverOptions =>
+                        {
+                            serverOptions.TokenValidationParameters.ValidIssuers = new List<string>
+                                {
+                                    "http://localhost:5001/"
+                                };
+                        });
+
                     options.AllowAuthorizationCodeFlow()
                         .RequireProofKeyForCodeExchange()
                         .AllowPasswordFlow()
