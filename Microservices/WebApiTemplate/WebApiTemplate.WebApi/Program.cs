@@ -93,8 +93,7 @@ void AddLogging()
 
     _builder.Host.UseSerilog((context, config) =>
     {
-        config.WriteTo.Console();
-        //config.WriteTo.File(logPathFull, rollingInterval: RollingInterval.Day);
+        config.WriteTo.File(logPathFull, rollingInterval: RollingInterval.Day);
     });
 }
 
@@ -130,7 +129,7 @@ void ConfigureWebApplication()
     }
 
     _app.UseCors();
-    // _app.UseHttpsRedirection();
+    _app.UseHttpsRedirection();
     _app.UseAuthentication();
     _app.UseAuthorization();
     _app.MapControllers();
