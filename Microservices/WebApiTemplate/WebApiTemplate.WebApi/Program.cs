@@ -73,7 +73,7 @@ void InitConnectionString()
 void AddServices()
 {
     _builder.Services
-        .AddDbContext<DatabaseContext>(options => options.UseSqlServer(_connectionString))
+        .AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase(_connectionString))
         .AddScoped<IProductService, ProductService>()
         .AddScoped<IEmailService, EmailService>()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()
@@ -93,7 +93,8 @@ void AddLogging()
 
     _builder.Host.UseSerilog((context, config) =>
     {
-        config.WriteTo.File(logPathFull, rollingInterval: RollingInterval.Day);
+        config.WriteTo.Console();
+        //config.WriteTo.File(logPathFull, rollingInterval: RollingInterval.Day);
     });
 }
 
@@ -129,7 +130,7 @@ void ConfigureWebApplication()
     }
 
     _app.UseCors();
-    _app.UseHttpsRedirection();
+    // _app.UseHttpsRedirection();
     _app.UseAuthentication();
     _app.UseAuthorization();
     _app.MapControllers();
