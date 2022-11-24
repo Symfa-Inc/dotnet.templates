@@ -25,4 +25,13 @@
     <ItemGroup>
       <Folder Include="Interfaces" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Certificates\encryption-certificate.pfx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Certificates\AuthorizationServer.pfx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 </Project>
