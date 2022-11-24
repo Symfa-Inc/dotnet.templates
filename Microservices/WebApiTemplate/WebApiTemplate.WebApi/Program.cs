@@ -73,7 +73,7 @@ void InitConnectionString()
 void AddServices()
 {
     _builder.Services
-        .AddDbContext<DatabaseContext>(options => options.UseSqlServer(_connectionString))
+        .AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase(_connectionString))
         .AddScoped<IProductService, ProductService>()
         .AddScoped<IEmailService, EmailService>()
         .AddScoped<IEmailTemplateService, EmailTemplateService>()

@@ -22,7 +22,7 @@ namespace WebApiTemplate.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(UserProfileCreateModel userProfileCreateModel)
         {
-            var userProfileInfoModel = new UserProfileInfoModel 
+            var userProfileInfoModel = new UserProfileInfoModel
             {
                 UserId = User.GetId(),
                 UserName = User.GetUserName(),

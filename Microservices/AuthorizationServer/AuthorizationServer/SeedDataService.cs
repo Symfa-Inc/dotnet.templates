@@ -26,17 +26,13 @@ namespace AuthorizationServer
 
             // Create roles
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-            string[] roleNames = { UserRoles.AuthorizationAdmin, UserRoles.ApplicationAdmin, UserRoles.User };
-
-            IdentityResult roleResult;
-
+            var roleNames = new[] { UserRoles.AuthorizationAdmin, UserRoles.ApplicationAdmin, UserRoles.User };
             foreach (var roleName in roleNames)
             {
                 var roleExist = await roleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
-                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 

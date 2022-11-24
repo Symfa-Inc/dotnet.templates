@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  authorization-server:
+    build: "./AuthorizationServer/AuthorizationServer"
+    ports:
+      - "6000:6000"
+      - "6001:6001"
+    environment:
+      - ASPNETCORE_URLS=https://+:5000;http://+:5001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=certp@sswrd!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=Certificates/AuthorizationServer.pfx
+
+  web-api:
+    build: "./WebApiTemplate"
+    ports:
+      - "5010:5010"
+      - "5011:5011"
+    environment:
+      - ASPNETCORE_URLS=https://+:5010;http://+:5011
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=certp@sswrd!
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=Certificates/WebApiTemplate.WebApi.pfx
